@@ -1,0 +1,1 @@
+/Users/juantobon/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/AndroidConstants.class:/Users/juantobon/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/Dependencies.class:/Users/juantobon/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/DependenciesKt.class
