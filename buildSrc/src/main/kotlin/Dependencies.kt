@@ -8,9 +8,14 @@ private const val LIFECYCLE_KTX_VERSION = "2.4.1"
 
 private const val HILT_VERSION = "2.40.5"
 
+private const val MOCKK_VERSION = "1.12.3"
+private const val KOTLINX_COROUTINES_TEST_VERSION = "1.6.0"
+private const val CORE_TESTING_VERSION = "2.1.0"
 private const val JUNIT_VERSION = "4.13.2"
 private const val TEST_JUNIT_VERSION = "1.1.3"
 private const val ESPRESSO_VERSION = "3.4.0"
+
+private const val HILT_TESTING_VERSION = "2.40.5"
 
 object Dependencies {
 
@@ -35,5 +40,15 @@ object Dependencies {
     const val LIFECYCLE_VIEWMODEL_KTX =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:$LIFECYCLE_KTX_VERSION"
 
-    const val LIFECYCLE_RUNTIME_KTX = "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_KTX_VERSION"
+    const val LIFECYCLE_RUNTIME_KTX =
+        "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_KTX_VERSION"
+
+    const val MOCKK = "io.mockk:mockk:$MOCKK_VERSION"
+    const val KOTLINX_COROUTINES_TEST =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:$KOTLINX_COROUTINES_TEST_VERSION"
+    const val CORE_TESTING = "androidx.arch.core:core-testing:$CORE_TESTING_VERSION"
+
+    const val HILT_ANDROID_TESTING = "com.google.dagger:hilt-android-testing:$HILT_TESTING_VERSION"
+    const val HILT_ANDROID_COMPILER =
+        "com.google.dagger:hilt-android-compiler:$HILT_TESTING_VERSION"
 }
