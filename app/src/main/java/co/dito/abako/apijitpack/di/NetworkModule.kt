@@ -1,43 +1,71 @@
 package co.dito.abako.apijitpack.di
 
-import co.dito.abako.apijitpack.data.network.DeliveryApiService
-import co.dito.abako.apijitpack.data.network.GeneralApiService
-import co.dito.abako.apijitpack.data.network.OrderApiService
-import co.dito.abako.apijitpack.data.network.SupervisorApiService
-import co.dito.abako.apijitpack.data.network.WorkShopApiService
+import android.content.Context
+import co.dito.abako.apijitpack.BuildConfig
+import co.dito.abako.apijitpack.data.common.HostSelectionInterceptor
+import co.dito.abako.apijitpack.data.network.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 private const val URL_FIREBASE_DEFAULT = "https://us-central1-codi-abako.cloudfunctions.net/"
+private const val TIME_OUT_SECONDS: Long = 200
+
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context,
+        hostSelectionInterceptor: HostSelectionInterceptor
+    ): OkHttpClient {
+        return if (BuildConfig.DEBUG) {
+            OkHttpClient().newBuilder()
+                .cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
+                .retryOnConnectionFailure(false)
+                .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .addInterceptor(hostSelectionInterceptor)
+                .followRedirects(true)
+                .followSslRedirects(true)
+                /*.addInterceptor {
+                    val response = it.proceed(it.request())
+                    if (response.code() >= 400 || !response.isSuccessful)
+                        throw DitoException("No se pudo conectar al servidor, revise su conexión a Internet.")
+                    return@addInterceptor response
+                }*/
+                .build()
+        } else {
+            OkHttpClient().newBuilder()
+                .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(false)
+                .followRedirects(true)
+                .followSslRedirects(true)
+                .addInterceptor(hostSelectionInterceptor)
+                .build()
+        }
+    }
+
     @Singleton
     @Provides
-    fun providerRetrofit(): Retrofit {
+    fun providerRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(URL_FIREBASE_DEFAULT)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
-
-    @Singleton
-    @Provides
-    fun providerDeliveryApiService(retrofit: Retrofit): DeliveryApiService {
-        return retrofit.create(DeliveryApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providerGeneralApiService(retrofit: Retrofit): GeneralApiService {
-        return retrofit.create(GeneralApiService::class.java)
     }
 
     @Singleton

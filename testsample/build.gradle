@@ -31,6 +31,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -47,4 +50,10 @@ dependencies {
     //Dagger Hilt
     implementation(Dependencies.DAGGER_HILT)
     kapt(Dependencies.KAPT_DAGGER_HILT)
+
+    implementation(Dependencies.KOTLINX_COROUTINES_CORE)
+
+    implementation(Dependencies.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(Dependencies.LIFECYCLE_RUNTIME_KTX)
+    implementation project(path: ':app')
 }

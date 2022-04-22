@@ -51,4 +51,6 @@ dependencies {
     //Dagger Hilt
     implementation(Dependencies.DAGGER_HILT)
     kapt(Dependencies.KAPT_DAGGER_HILT)
+
+    implementation(Dependencies.KOTLINX_COROUTINES_CORE)
 }
