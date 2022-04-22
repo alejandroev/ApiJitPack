@@ -21,7 +21,6 @@ class MainActivityViewModel @Inject constructor(
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
     val mState: StateFlow<MainActivityState> get() = state
 
-
     private fun setLoading() {
         state.value = MainActivityState.IsLoading(true)
     }

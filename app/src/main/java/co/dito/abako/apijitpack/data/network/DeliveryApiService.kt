@@ -8,6 +8,7 @@ import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailRespo
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -18,44 +19,44 @@ interface DeliveryApiService {
     /**
      * @param url URL of services
      * @param deliveryRequest Body of request
-     * @return [DeliveryResponse]
+     * @return [JsonCompress]
      */
     @POST
     suspend fun getDeliveryResponse(
         @Url url: String,
         @Body deliveryRequest: DeliveryRequest
-    ): Response<DeliveryResponse>
+    ): Response<JsonCompress>
 
     /**
      * @param url URL of services
      * @param deliveryDetailRequest Body of request
-     * @return [DeliveryDetailResponse]
+     * @return [JsonCompress]
      */
     @POST
     suspend fun getDeliveryDetailResponse(
         @Url url: String,
         @Body deliveryDetailRequest: DeliveryDetailRequest
-    ): Response<DeliveryDetailResponse>
+    ): Response<JsonCompress>
 
     /**
      * @param url URL of services
      * @param masterDeliveryRequest Body of request
-     * @return [MasterDeliveryResponse]
+     * @return [JsonCompress]
      */
     @POST
     suspend fun getMasterDeliveryResponse(
         @Url url: String,
         @Body masterDeliveryRequest: MasterDeliveryRequest
-    ): Response<MasterDeliveryResponse>
+    ): Response<JsonCompress>
 
     /**
      * @param url URL of services
      * @param reasonReturnDeliveryRequest Body of request
-     * @return [ReasonReturnDeliveryResponse]
+     * @return [JsonCompress]
      */
     @POST
     suspend fun getReasonReturnDeliveryResponse(
         @Url url: String,
         @Body reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest
-    ): Response<ReasonReturnDeliveryResponse>
+    ): Response<JsonCompress>
 }

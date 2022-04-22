@@ -1,6 +1,7 @@
 package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.common.WrappedResponse
+import co.dito.abako.apijitpack.data.common.utils.ZipUtils
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.network.DeliveryApiService
@@ -22,7 +23,11 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         return flow {
             val response = deliveryApiService.getDeliveryResponse(url, deliveryRequest)
             if (response.isSuccessful && response.body() != null) {
-                emit(BaseResult.Success(response.body()!!))
+                val deliveryResponse = Gson().fromJson(
+                    ZipUtils.decompress(response.body()!!.content),
+                    DeliveryResponse::class.java
+                )
+                emit(BaseResult.Success(deliveryResponse))
             } else {
                 val type = object : TypeToken<WrappedResponse<DeliveryResponse>>() {}.type
                 val err: WrappedResponse<DeliveryResponse> =

@@ -1,10 +1,7 @@
 package co.dito.abako.apijitpack.di
 
-import co.dito.abako.apijitpack.data.network.DeliveryApiService
 import co.dito.abako.apijitpack.data.network.GeneralApiService
-import co.dito.abako.apijitpack.data.repository.DeliveryRepositoryImp
 import co.dito.abako.apijitpack.data.repository.GeneralRepositoryImp
-import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
 import co.dito.abako.apijitpack.domain.general.GeneralRepository
 import dagger.Module
 import dagger.Provides
