@@ -3,7 +3,7 @@ package co.dito.abako.apijitpack.data.model.response.general
 import com.google.gson.annotations.SerializedName
 
 /**
- * @Deprecated Solo usar para los servicios viejos, luego de que se migren a API Deprecar y posterior eliminar clases
+ * @Deprecated Only use for the old services, after to migrate to the new API send to Deprecated and later delete the classes
  * @param msgId = Id of message
  * @param msgStr = Message
  */

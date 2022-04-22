@@ -8,6 +8,10 @@ import java.util.zip.GZIPInputStream
 
 object ZipUtils {
 
+    /**
+     * @Deprecated Only use for the old services, after to migrate to the new API send to Deprecated and later delete the classes
+     * @param zipText = info compressed
+     */
     @JvmStatic
     @Throws(IOException::class)
     fun decompress(zipText: String?): String {
