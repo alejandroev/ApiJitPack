@@ -1,19 +1,21 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+    id("com.android.application")
+    id("kotlin-android")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
 }
 
 android {
-    compileSdk 32
+    compileSdk AndroidConstants.COMPILE_SDK_VERSION
 
     defaultConfig {
         applicationId "co.dito.abako.testsample"
-        minSdk 21
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        minSdk AndroidConstants.MIN_SDK_VERSION
+        targetSdk AndroidConstants.TARGET_SDK_VERSION
+        versionCode AndroidConstants.VERSION_CODE
+        versionName AndroidConstants.VERSION_NAME
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner AndroidConstants.TEST_RUNNER
     }
 
     buildTypes {
@@ -29,15 +31,29 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation(Dependencies.ANDROID_X_CORE)
+    implementation(Dependencies.APP_COMPAT)
+    implementation(Dependencies.GOOGLE_MATERIAL)
+    implementation(Dependencies.CONSTRAINT_LAYOUT)
+    testImplementation(Dependencies.JUNIT)
+
+    androidTestImplementation(Dependencies.JUNIT_EXT)
+    androidTestImplementation(Dependencies.ESPRESSO_CORE)
+
+    //Dagger Hilt
+    implementation(Dependencies.DAGGER_HILT)
+    kapt(Dependencies.KAPT_DAGGER_HILT)
+
+    implementation(Dependencies.KOTLINX_COROUTINES_CORE)
+
+    implementation(Dependencies.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(Dependencies.LIFECYCLE_RUNTIME_KTX)
+    implementation project(path: ':app')
 }
