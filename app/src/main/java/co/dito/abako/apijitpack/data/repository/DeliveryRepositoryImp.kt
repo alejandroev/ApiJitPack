@@ -26,8 +26,8 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         deliveryRequest: DeliveryRequest
     ): Flow<BaseResult<DeliveryResponse, WrappedResponse<DeliveryResponse>>> {
+        val response = deliveryApiService.getDeliveryResponse(url, deliveryRequest)
         return flow {
-            val response = deliveryApiService.getDeliveryResponse(url, deliveryRequest)
             if (response.isSuccessful && response.body() != null) {
                 val deliveryResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
@@ -48,8 +48,8 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         deliveryDetailRequest: DeliveryDetailRequest
     ): Flow<BaseResult<DeliveryDetailResponse, WrappedResponse<DeliveryDetailResponse>>> {
+        val response = deliveryApiService.getDeliveryDetailResponse(url, deliveryDetailRequest)
         return flow {
-            val response = deliveryApiService.getDeliveryDetailResponse(url, deliveryDetailRequest)
             if (response.isSuccessful && response.body() != null){
                 val deliveryDetailResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
@@ -70,8 +70,8 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         masterDeliveryRequest: MasterDeliveryRequest
     ): Flow<BaseResult<MasterDeliveryResponse, WrappedResponse<MasterDeliveryResponse>>> {
+        val response = deliveryApiService.getMasterDeliveryResponse(url, masterDeliveryRequest)
         return flow {
-            val response = deliveryApiService.getMasterDeliveryResponse(url, masterDeliveryRequest)
             if (response.isSuccessful && response.body() != null){
                 val masterDeliveryResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
@@ -92,8 +92,8 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest
     ): Flow<BaseResult<ReasonReturnDeliveryResponse, WrappedResponse<ReasonReturnDeliveryResponse>>> {
+        val response = deliveryApiService.getReasonReturnDeliveryResponse(url, reasonReturnDeliveryRequest)
         return flow {
-            val response = deliveryApiService.getReasonReturnDeliveryResponse(url, reasonReturnDeliveryRequest)
             if (response.isSuccessful && response.body() != null){
                 val reasonReturnDeliveryResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),

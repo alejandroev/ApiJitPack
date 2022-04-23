@@ -15,7 +15,7 @@ private const val JUNIT_VERSION = "4.13.2"
 private const val TEST_JUNIT_VERSION = "1.1.3"
 private const val ESPRESSO_VERSION = "3.4.0"
 
-private const val HILT_TESTING_VERSION = "2.40.5"
+private const val HILT_TESTING_VERSION = "2.35"
 
 object Dependencies {
 

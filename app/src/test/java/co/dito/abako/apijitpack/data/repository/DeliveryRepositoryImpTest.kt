@@ -4,22 +4,19 @@ import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import co.dito.abako.apijitpack.data.network.DeliveryApiService
 import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
-import dagger.hilt.android.testing.HiltAndroidRule
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import retrofit2.Response
-import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class DeliveryRepositoryImpTest {
 
-    /*@Rule
-    val hiltRule = HiltAndroidRule(this)
-
-    @Inject
-    lateinit var deliveryApiServices: DeliveryApiService
+    private val deliveryApiServices: DeliveryApiService = mockk()
 
     private lateinit var deliveryRepository: DeliveryRepository
 
@@ -29,9 +26,9 @@ class DeliveryRepositoryImpTest {
     }
 
     @Test
-    fun `when getDeliveryResponse is called return a BaseResultResponse`() {
+    fun `when getDeliveryResponse is called return a BaseResultResponse`() = runTest {
         val deliveryResponse = mockk<Response<JsonCompress>>(relaxed = true)
-        val deliveryRequest = mockk<DeliveryRequest>()
+        val deliveryRequest = mockk<DeliveryRequest>(relaxed = true)
 
         coEvery {
             deliveryApiServices.getDeliveryResponse(URL_FAKE, deliveryRequest)
@@ -39,7 +36,11 @@ class DeliveryRepositoryImpTest {
             deliveryResponse
         }
 
+        deliveryRepository.getDeliveryResponse(URL_FAKE, deliveryRequest)
 
+        coVerify(exactly = 1) {
+            deliveryApiServices.getDeliveryResponse(URL_FAKE, deliveryRequest)
+        }
     }
 
     @Test
@@ -52,7 +53,7 @@ class DeliveryRepositoryImpTest {
 
     @Test
     fun getReasonReturnDeliveryResponse() {
-    }*/
+    }
 }
 
 private const val URL_FAKE = "http:api.com.co"

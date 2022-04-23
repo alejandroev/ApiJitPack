@@ -15,7 +15,7 @@ object ZipUtils {
     @JvmStatic
     @Throws(IOException::class)
     fun decompress(zipText: String?): String {
-        var size = 0
+        var size: Int
         val gzipBuff = Base64.decode(zipText)
         val memstream = ByteArrayInputStream(gzipBuff, 4, gzipBuff.size - 4)
         val gzin = GZIPInputStream(memstream)
