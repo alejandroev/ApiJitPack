@@ -26,8 +26,8 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         deliveryRequest: DeliveryRequest
     ): Flow<BaseResult<DeliveryResponse, WrappedResponse<DeliveryResponse>>> {
-        val response = deliveryApiService.getDeliveryResponse(url, deliveryRequest)
         return flow {
+            val response = deliveryApiService.getDeliveryResponse(url, deliveryRequest)
             if (response.isSuccessful && response.body() != null) {
                 val deliveryResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
@@ -48,15 +48,15 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         deliveryDetailRequest: DeliveryDetailRequest
     ): Flow<BaseResult<DeliveryDetailResponse, WrappedResponse<DeliveryDetailResponse>>> {
-        val response = deliveryApiService.getDeliveryDetailResponse(url, deliveryDetailRequest)
         return flow {
-            if (response.isSuccessful && response.body() != null){
+            val response = deliveryApiService.getDeliveryDetailResponse(url, deliveryDetailRequest)
+            if (response.isSuccessful && response.body() != null) {
                 val deliveryDetailResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
                     DeliveryDetailResponse::class.java
                 )
                 emit(BaseResult.Success(deliveryDetailResponse))
-            }else{
+            } else {
                 val type = object : TypeToken<WrappedResponse<DeliveryDetailResponse>>() {}.type
                 val err: WrappedResponse<DeliveryDetailResponse> =
                     Gson().fromJson(response.errorBody()!!.charStream(), type)
@@ -70,15 +70,15 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         masterDeliveryRequest: MasterDeliveryRequest
     ): Flow<BaseResult<MasterDeliveryResponse, WrappedResponse<MasterDeliveryResponse>>> {
-        val response = deliveryApiService.getMasterDeliveryResponse(url, masterDeliveryRequest)
         return flow {
-            if (response.isSuccessful && response.body() != null){
+            val response = deliveryApiService.getMasterDeliveryResponse(url, masterDeliveryRequest)
+            if (response.isSuccessful && response.body() != null) {
                 val masterDeliveryResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
                     MasterDeliveryResponse::class.java
                 )
                 emit(BaseResult.Success(masterDeliveryResponse))
-            }else{
+            } else {
                 val type = object : TypeToken<WrappedResponse<MasterDeliveryResponse>>() {}.type
                 val err: WrappedResponse<MasterDeliveryResponse> =
                     Gson().fromJson(response.errorBody()!!.charStream(), type)
@@ -92,15 +92,16 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
         url: String,
         reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest
     ): Flow<BaseResult<ReasonReturnDeliveryResponse, WrappedResponse<ReasonReturnDeliveryResponse>>> {
-        val response = deliveryApiService.getReasonReturnDeliveryResponse(url, reasonReturnDeliveryRequest)
         return flow {
-            if (response.isSuccessful && response.body() != null){
+            val response =
+                deliveryApiService.getReasonReturnDeliveryResponse(url, reasonReturnDeliveryRequest)
+            if (response.isSuccessful && response.body() != null) {
                 val reasonReturnDeliveryResponse = Gson().fromJson(
                     ZipUtils.decompress(response.body()!!.content),
                     ReasonReturnDeliveryResponse::class.java
                 )
                 emit(BaseResult.Success(reasonReturnDeliveryResponse))
-            }else{
+            } else {
                 val type = object : TypeToken<WrappedResponse<MasterDeliveryResponse>>() {}.type
                 val err: WrappedResponse<ReasonReturnDeliveryResponse> =
                     Gson().fromJson(response.errorBody()!!.charStream(), type)
