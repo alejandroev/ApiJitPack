@@ -5,69 +5,31 @@ import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 
+/**
+ * @param idPed = Sales order id
+ * @param IdVnt = Sales id
+ * @param Fctr = Sales number
+ * @param fc = Invoice creation date
+ * @param IdEmp = Company id
+ * @param IdAssr = Advisor id
+ * @param FP = Payment method id
+ * @param OtrosValores = Other values
+ * @param IdArt = Article id
+ * @param Cant = Sales quantity
+ * @param Precio = Price
+ * @param Subtotal = subtotal
+ */
 data class InvoiceSyncResponse(
-    @SerializedName("IdPedidoVenta") val idPed: Int,
+    @SerializedName("IdPed") val idPed: Int,
+    @SerializedName("IdVnt") val IdVnt: Int,
+    @SerializedName("Fctr") val Fctr: Int,
     @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("Fc") val fc: Date,
-) {
-}
-
-/*  /// <summary>
-        /// IdPedidoVenta
-        /// </summary>
-        [DataMember]
-        public decimal IdPed { get; set; }
-        /// <summary>
-        /// IdVenta
-        /// </summary>
-        [DataMember]
-        public decimal IdVnt { get; set; }
-        /// <summary>
-        /// NumeroVenta
-        /// </summary>
-        [DataMember]
-        public decimal Fctr { get; set; }
-        /// <summary>
-        /// FechaCreacion de la factura
-        /// </summary>
-        [DataMember]
-        public DateTime Fc { get; set; }
-        /// <summary>
-        /// Id Empresa
-        /// </summary>
-        [DataMember]
-        public decimal IdEmp { get; set; }
-        /// <summary>
-        /// Id Asesor
-        /// </summary>
-        [DataMember]
-        public decimal IdAssr { get; set; }
-        /// <summary>
-        /// IdFormaPago
-        /// </summary>
-        [DataMember]
-        public decimal FP { get; set; }
-        /// <summary>
-        /// OtrosValores
-        /// </summary>
-        [DataMember]
-        public decimal OtrosValores { get; set; }
-        /// <summary>
-        /// IdArticulos
-        /// </summary>
-        [DataMember]
-        public decimal IdArt { get; set; }
-        /// <summary>
-        /// CantidadVenta
-        /// </summary>
-        [DataMember]
-        public decimal Cant { get; set; }
-        /// <summary>
-        /// Precio
-        /// </summary>
-        [DataMember]
-        public decimal Precio { get; set; }
-        /// <summary>
-        /// Subtotal
-        /// </summary>
-        [DataMember]
-        public decimal Subtotal { get; set; }*/
+    @SerializedName("IdEmp") val IdEmp: Int,
+    @SerializedName("IdAssr") val IdAssr: Int,
+    @SerializedName("FP") val FP: Int,
+    @SerializedName("OtrosValores") val OtrosValores: Int,
+    @SerializedName("IdArt") val IdArt: Int,
+    @SerializedName("Cant") val Cant: Int,
+    @SerializedName("Precio") val Precio: Int,
+    @SerializedName("Subtotal") val Subtotal: Int
+)
