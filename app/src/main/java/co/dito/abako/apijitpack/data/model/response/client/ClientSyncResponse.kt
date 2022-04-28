@@ -50,16 +50,3 @@ data class ClientSyncResponse(
     @SerializedName("ultmpg") val ultmpg: Double,
     @SerializedName("Prcs") val prcs: String,
 )
-
-/*
-        
-        /// Valor Último Pago
-        /// </summary>
-        [DataMember]
-        public decimal ultmpg { get; set; }
-        /// <summary>
-        /// Proceso
-        /// </summary>
-        [DataMember]
-        public string Prcs { get; set; }
-    }*/

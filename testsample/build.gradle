@@ -47,6 +47,8 @@ dependencies {
     androidTestImplementation(Dependencies.JUNIT_EXT)
     androidTestImplementation(Dependencies.ESPRESSO_CORE)
 
+    implementation(Dependencies.RETROFIT_GSON)
+
     //Dagger Hilt
     implementation(Dependencies.DAGGER_HILT)
     kapt(Dependencies.KAPT_DAGGER_HILT)

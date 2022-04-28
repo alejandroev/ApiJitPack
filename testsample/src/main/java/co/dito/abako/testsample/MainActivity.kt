@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleStateChange(state: MainActivityState) {
-        when (state) {
+        /*when (state) {
             is MainActivityState.Init -> Unit
             is MainActivityState.ErrorMain -> Toast.makeText(
                 this,
@@ -61,6 +61,6 @@ class MainActivity : AppCompatActivity() {
                 if(state.isLoading) "Cargando" else "Ya no" ,
                 Toast.LENGTH_LONG
             ).show()
-        }
+        }*/
     }
 }

@@ -8,7 +8,7 @@ import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetMasterDeliveryResponse @Inject constructor(private val deliveryRepository: DeliveryRepository) {
+class GetMasterDeliveryResponseUseCase @Inject constructor(private val deliveryRepository: DeliveryRepository) {
 
     suspend operator fun invoke(
         url: String,

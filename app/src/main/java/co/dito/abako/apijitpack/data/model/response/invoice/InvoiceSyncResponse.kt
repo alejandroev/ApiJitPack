@@ -1,6 +1,14 @@
 package co.dito.abako.apijitpack.data.model.response.invoice
 
-class InvoiceSyncResponse {
+import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserializeOld
+import com.google.gson.annotations.JsonAdapter
+import com.google.gson.annotations.SerializedName
+import java.util.Date
+
+data class InvoiceSyncResponse(
+    @SerializedName("IdPedidoVenta") val idPed: Int,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("Fc") val fc: Date,
+) {
 }
 
 /*  /// <summary>

@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.data.model.response.delivery
 
+import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserializeOld
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -25,11 +27,11 @@ data class DeliverySyncResponse(
     @SerializedName("Id") val id: Int,
     @SerializedName("Doc") val doc: String,
     @SerializedName("Obs") val obs: String,
-    @SerializedName("FcEnt") val fcEnt: Date,
-    @SerializedName("FcCre") val fcCre: Date,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("FcEnt") val fcEnt: Date,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("FcCre") val fcCre: Date,
     @SerializedName("Facts") val facts: Int,
-    @SerializedName("Ctd") val ctd: Int,
-    @SerializedName("Crdt") val crdt: Int,
+    @SerializedName("Ctd") val ctd: Double,
+    @SerializedName("Crdt") val crdt: Double,
     @SerializedName("Rms") val rms: Int,
     @SerializedName("Ttl") val ttl: Double,
     @SerializedName("Nts") val nts: Double,

@@ -14,14 +14,14 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class GetDeliveryResponseTest {
+class GetDeliveryResponseUseCaseTest {
 
     private val deliveryRepository: DeliveryRepository = mockk(relaxed = true)
-    private lateinit var getDeliveryResponse: GetDeliveryResponse
+    private lateinit var getDeliveryResponseUseCase: GetDeliveryResponseUseCase
 
     @Before
     fun setUp() {
-        getDeliveryResponse = GetDeliveryResponse(deliveryRepository)
+        getDeliveryResponseUseCase = GetDeliveryResponseUseCase(deliveryRepository)
     }
 
     @Test
@@ -37,7 +37,7 @@ class GetDeliveryResponseTest {
         }
 
         val responseRepository =
-            runBlocking { getDeliveryResponse(URL_FAKE, request) }
+            runBlocking { getDeliveryResponseUseCase(URL_FAKE, request) }
 
         coVerify(exactly = 1) {
             deliveryRepository.getDeliveryResponse(URL_FAKE, request)
