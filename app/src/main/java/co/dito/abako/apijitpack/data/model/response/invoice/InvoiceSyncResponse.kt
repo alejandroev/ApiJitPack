@@ -27,9 +27,9 @@ data class InvoiceSyncResponse(
     @SerializedName("IdEmp") val idEmp: Int,
     @SerializedName("IdAssr") val idAssr: Int,
     @SerializedName("FP") val fp: Int,
-    @SerializedName("OtrosValores") val otrosValores: Int,
+    @SerializedName("OtrosValores") val otrosValores: Double,
     @SerializedName("IdArt") val idArt: Int,
-    @SerializedName("Cant") val cant: Int,
-    @SerializedName("Precio") val price: Int,
-    @SerializedName("Subtotal") val subtotal: Int
+    @SerializedName("Cant") val cant: Double,
+    @SerializedName("Precio") val price: Double,
+    @SerializedName("Subtotal") val subtotal: Double
 )
