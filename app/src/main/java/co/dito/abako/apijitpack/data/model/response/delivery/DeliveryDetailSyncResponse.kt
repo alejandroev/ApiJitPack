@@ -22,9 +22,9 @@ import com.google.gson.annotations.SerializedName
 data class DeliveryDetailSyncResponse(
     @SerializedName("Facturas") val invoices: List<InvoiceSyncResponse>,
     @SerializedName("Clientes") val clients: List<ClientSyncResponse>,
-    @SerializedName("Contactos") val contacts: List<ContactSyncResponse>,
+    /*@SerializedName("Contactos") val contacts: List<ContactSyncResponse>,
     @SerializedName("Canales") val channels: List<ChannelSyncResponse>,
     @SerializedName("Zonas") val zones: List<ZoneSyncResponse>,
     @SerializedName("Asesores") val advisers: List<AdviserSyncResponse>,
-    @SerializedName("Articulos") val articles: List<ArticleSyncResponse>,
+    @SerializedName("Articulos") val articles: List<ArticleSyncResponse>,*/
 )

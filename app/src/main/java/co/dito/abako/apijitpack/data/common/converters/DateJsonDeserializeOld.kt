@@ -11,5 +11,5 @@ class DateJsonDeserializeOld : JsonDeserializer<Date> {
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): Date = Date(json?.asString.stringToTimeOld())
+    ): Date = Date(if(!json?.asString.isNullOrEmpty()) json?.asString.stringToTimeOld() else 0)
 }
