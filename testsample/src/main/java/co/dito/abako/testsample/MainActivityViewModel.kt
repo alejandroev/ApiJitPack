@@ -3,12 +3,10 @@ package co.dito.abako.testsample
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
 import co.dito.abako.apijitpack.domain.BaseResult
-import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryDetailResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetMasterDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReasonReturnDeliveryResponseUseCase
@@ -24,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val getDeliveryDetailResponseUseCase: GetDeliveryDetailResponseUseCase
+    private val getMasterDeliveryResponseUseCase: GetMasterDeliveryResponseUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -48,10 +46,10 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            val request = DeliveryDetailRequest(34, Date(), 209)
+            val request = MasterDeliveryRequest(Date(), 34, "S")
 
-            getDeliveryDetailResponseUseCase(
-                "http://abako.ditosas.com/ServicioMovilDITO/ServicioMovilDITO.svc/GetEntregaDetalle",
+            getMasterDeliveryResponseUseCase(
+                "http://abako.ditosas.com/ServicioMovilDITO/ServicioMovilDITO.svc/GetEntregasMaestros",
                 request
             ).onStart {
                 setLoading()
