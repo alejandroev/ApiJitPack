@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.data.model.response.client
 
+import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserializeOld
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -44,9 +46,9 @@ data class ClientSyncResponse(
     @SerializedName("Vncmnt") val vncmnt: Int,
     @SerializedName("Frc") val frc: Int,
     @SerializedName("Ini") val ini: Int,
-    @SerializedName("FcIni") val fcIni: Date?,
-    @SerializedName("UltVt") val ultVt: Date?,
-    @SerializedName("Fchltmpg") val fchltmpg: Date?,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("FcIni") val fcIni: Date,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("UltVt") val ultVt: Date,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("Fchltmpg") val fchltmpg: Date,
     @SerializedName("ultmpg") val ultmpg: Double,
     @SerializedName("Prcs") val prcs: String,
 )
