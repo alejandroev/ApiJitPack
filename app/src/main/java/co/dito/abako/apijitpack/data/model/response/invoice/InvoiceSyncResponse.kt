@@ -7,29 +7,29 @@ import java.util.Date
 
 /**
  * @param idPed = Sales order id
- * @param IdVnt = Sales id
- * @param Fctr = Sales number
+ * @param idVnt = Sales id
+ * @param fctr = Sales number
  * @param fc = Invoice creation date
- * @param IdEmp = Company id
- * @param IdAssr = Advisor id
- * @param FP = Payment method id
- * @param OtrosValores = Other values
- * @param IdArt = Article id
- * @param Cant = Sales quantity
- * @param Precio = Price
- * @param Subtotal = subtotal
+ * @param idEmp = Company id
+ * @param idAssr = Advisor id
+ * @param fp = Payment method id
+ * @param otrosValores = Other values
+ * @param idArt = Article id
+ * @param cant = Sales quantity
+ * @param price = Price
+ * @param subtotal = subtotal
  */
 data class InvoiceSyncResponse(
     @SerializedName("IdPed") val idPed: Int,
-    @SerializedName("IdVnt") val IdVnt: Int,
-    @SerializedName("Fctr") val Fctr: Int,
+    @SerializedName("IdVnt") val idVnt: Int,
+    @SerializedName("Fctr") val fctr: Int,
     @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("Fc") val fc: Date,
-    @SerializedName("IdEmp") val IdEmp: Int,
-    @SerializedName("IdAssr") val IdAssr: Int,
-    @SerializedName("FP") val FP: Int,
-    @SerializedName("OtrosValores") val OtrosValores: Int,
-    @SerializedName("IdArt") val IdArt: Int,
-    @SerializedName("Cant") val Cant: Int,
-    @SerializedName("Precio") val Precio: Int,
-    @SerializedName("Subtotal") val Subtotal: Int
+    @SerializedName("IdEmp") val idEmp: Int,
+    @SerializedName("IdAssr") val idAssr: Int,
+    @SerializedName("FP") val fp: Int,
+    @SerializedName("OtrosValores") val otrosValores: Int,
+    @SerializedName("IdArt") val idArt: Int,
+    @SerializedName("Cant") val cant: Int,
+    @SerializedName("Precio") val price: Int,
+    @SerializedName("Subtotal") val subtotal: Int
 )
