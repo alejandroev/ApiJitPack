@@ -6,6 +6,9 @@ import co.dito.abako.apijitpack.data.common.HostSelectionInterceptor
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelper
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelperImp
 import co.dito.abako.apijitpack.data.network.*
+import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
+import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessorImp
+import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.MOBILE_OK_HTTP_CLIENT_API_JITPACK
 import co.dito.abako.apijitpack.domain.MOBILE_RETROFIT_API_JITPACK
 import dagger.Module
@@ -92,5 +95,12 @@ object NetworkModule {
     @Provides
     fun providerWorkShopApiService(retrofit: Retrofit): WorkShopApiService {
         return retrofit.create(WorkShopApiService::class.java)
+    }
+
+    @Named(ERROR_PROCESSOR_API)
+    @Singleton
+    @Provides
+    fun providerErrorProcessor(): ErrorProcessor {
+        return ErrorProcessorImp()
     }
 }
