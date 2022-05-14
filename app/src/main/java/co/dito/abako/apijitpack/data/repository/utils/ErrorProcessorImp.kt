@@ -10,7 +10,9 @@ class ErrorProcessorImp : ErrorProcessor {
     override fun handlerError(error: Throwable): String {
         return when (error) {
             is SocketTimeoutException,
-            is ConnectException -> {
+            is NetworkException.TimeOut,
+            is ConnectException,
+            is NetworkException.NoInternet -> {
                 if (NO_INTERNET_CONNECTION == error.message) {
                     WHOOPS_LOST_INTERNET_CONNECTION
                 } else {
