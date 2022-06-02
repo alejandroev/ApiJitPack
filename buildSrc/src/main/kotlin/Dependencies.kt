@@ -16,6 +16,7 @@ private const val TEST_JUNIT_VERSION = "1.1.3"
 private const val ESPRESSO_VERSION = "3.4.0"
 
 private const val HILT_TESTING_VERSION = "2.35"
+private const val LOGGING_INTERCEPTOR_VERSION = "5.0.0-alpha.3"
 
 object Dependencies {
 
@@ -26,6 +27,8 @@ object Dependencies {
         "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    const val LOGGING_INTERCEPTOR =
+        "com.squareup.okhttp3:logging-interceptor:$LOGGING_INTERCEPTOR_VERSION"
 
     const val DAGGER_HILT = "com.google.dagger:hilt-android:$HILT_VERSION"
     const val KAPT_DAGGER_HILT = "com.google.dagger:hilt-android-compiler:$HILT_VERSION"

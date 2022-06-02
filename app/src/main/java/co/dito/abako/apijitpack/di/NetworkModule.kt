@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
-private const val URL_FIREBASE_DEFAULT = "https://us-central1-codi-abako.cloudfunctions.net/"
+const val URL_FIREBASE_DEFAULT = "https://us-central1-codi-abako.cloudfunctions.net/"
 private const val TIME_OUT_SECONDS: Long = 200
 
 @Module
@@ -37,7 +37,7 @@ object NetworkModule {
     fun provideOkHttpClient(
         @ApplicationContext context: Context,
         hostSelectionInterceptor: HostSelectionInterceptor,
-        networkHelper: NetworkHelper
+        networkHelper: NetworkHelper,
     ): OkHttpClient {
         return if (BuildConfig.DEBUG) {
             OkHttpClient().newBuilder()
@@ -45,9 +45,9 @@ object NetworkModule {
                 .retryOnConnectionFailure(false)
                 .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
-                .addInterceptor(hostSelectionInterceptor)
                 .followRedirects(true)
                 .followSslRedirects(true)
+                .addInterceptor(hostSelectionInterceptor)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .build()
         } else {

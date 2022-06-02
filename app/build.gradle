@@ -59,6 +59,7 @@ dependencies {
 
     implementation(Dependencies.RETROFIT)
     implementation(Dependencies.RETROFIT_GSON)
+    implementation(Dependencies.LOGGING_INTERCEPTOR)
 
     testImplementation(Dependencies.JUNIT)
     testImplementation(Dependencies.CORE_TESTING)

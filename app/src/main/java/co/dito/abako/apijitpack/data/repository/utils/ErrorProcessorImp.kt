@@ -1,6 +1,10 @@
 package co.dito.abako.apijitpack.data.repository.utils
 
-import co.dito.abako.apijitpack.data.common.utils.NetworkException
+import co.dito.abako.apijitpack.data.common.utils.BadRequest
+import co.dito.abako.apijitpack.data.common.utils.NoInternet
+import co.dito.abako.apijitpack.data.common.utils.ServerError
+import co.dito.abako.apijitpack.data.common.utils.TimeOut
+import co.dito.abako.apijitpack.data.common.utils.Unauthorized
 import co.dito.abako.apijitpack.domain.NO_INTERNET_CONNECTION
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -10,19 +14,21 @@ class ErrorProcessorImp : ErrorProcessor {
     override fun handlerError(error: Throwable): String {
         return when (error) {
             is SocketTimeoutException,
-            is NetworkException.TimeOut,
+            is TimeOut,
             is ConnectException,
-            is NetworkException.NoInternet -> {
+            is NoInternet,
+            -> {
                 if (NO_INTERNET_CONNECTION == error.message) {
                     WHOOPS_LOST_INTERNET_CONNECTION
                 } else {
                     CONNECTIVITY_ERROR
                 }
             }
-            is NetworkException.ServerError,
-            is NetworkException.BadRequest -> CONNECTIVITY_ERROR
+            is ServerError,
+            is BadRequest,
+            -> CONNECTIVITY_ERROR
 
-            is NetworkException.Unauthorized -> {
+            is Unauthorized -> {
                 EXPIRED_CONNECTION
             }
 

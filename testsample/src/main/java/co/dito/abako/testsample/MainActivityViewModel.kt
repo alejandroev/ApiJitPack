@@ -2,29 +2,22 @@ package co.dito.abako.testsample
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.dito.abako.apijitpack.data.common.HostSelectionInterceptor
 import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
 import co.dito.abako.apijitpack.domain.BaseResult
-import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryDetailResponseUseCase
-import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
-import co.dito.abako.apijitpack.domain.delivery.usecase.GetMasterDeliveryResponseUseCase
-import co.dito.abako.apijitpack.domain.delivery.usecase.GetReasonReturnDeliveryResponseUseCase
-import co.dito.abako.apijitpack.domain.general.usecase.PingUseCase
+import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val getDeliveryDetailResponseUseCase: GetDeliveryDetailResponseUseCase
+    private val hostSelectionInterceptor: HostSelectionInterceptor,
+    private val exchangeRateUseCase: ExchangeRateUseCase,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -48,25 +41,23 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            val request = DeliveryDetailRequest(209, Date(), 34)
+            hostSelectionInterceptor.setHost("https://clouderp.abakoerp.com:9480/ApiNegocio/api/")
 
-            getDeliveryDetailResponseUseCase(
-                "http://abako.ditosas.com/ServicioMovilDITO/ServicioMovilDITO.svc/GetEntregaDetalle",
-                request
-            ).onStart {
-                setLoading()
-            }.catch { exception ->
-                hideLoading()
-                showToast(exception.message.toString())
-            }.collect { baseResult ->
-                hideLoading()
-                when (baseResult) {
-                    is BaseResult.Error -> state.value =
-                        MainActivityState.ErrorMain(baseResult.rawResponse)
-                    is BaseResult.Success -> state.value =
-                        MainActivityState.SuccessMain(baseResult.data)
+            exchangeRateUseCase()
+                .onStart {
+                    setLoading()
+                }.catch { exception ->
+                    hideLoading()
+                    showToast(exception.message.toString())
+                }.collect { baseResult ->
+                    hideLoading()
+                    when (baseResult) {
+                        is BaseResult.Error -> state.value =
+                            MainActivityState.ErrorMain(baseResult.rawResponse)
+                        is BaseResult.Success -> state.value =
+                            MainActivityState.SuccessMain(baseResult.data)
+                    }
                 }
-            }
         }
     }
 }

@@ -1,22 +1,41 @@
 package co.dito.abako.apijitpack.data.common
 
+import java.net.URISyntaxException
+import javax.inject.Inject
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import javax.inject.Inject
 
 class HostSelectionInterceptor @Inject constructor() : Interceptor {
 
-    @Volatile
-    private var host = HttpUrl.parse("")
-
     fun setHost(url: String) {
-        host = HttpUrl.parse(url)
+        host = url.toHttpUrlOrNull()
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request: Request = chain.request()
+        if (host != null) {
+            val newUrl: HttpUrl =
+                try {
+                    var controller = ""
+                    request.url.pathSegments.forEach {
+                        if (!it.contains("ServicioMovilDITO")) controller += "$it/"
+                    }
+                    (host.toString() + controller).toHttpUrlOrNull()
+                } catch (e: URISyntaxException) {
+                    null
+                } ?: return chain.proceed(request)
+
+            request = request.newBuilder()
+                .url(newUrl)
+                .build()
+        }
         return chain.proceed(request)
+    }
+
+    companion object {
+        private var host: HttpUrl? = null
     }
 }
