@@ -4,10 +4,7 @@ import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailReques
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
-import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
+import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import retrofit2.Response
 import retrofit2.http.Body
@@ -58,5 +55,16 @@ interface DeliveryApiService {
     suspend fun getReasonReturnDeliveryResponse(
         @Url url: String,
         @Body reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest
+    ): Response<JsonCompress>
+
+    /**
+     * @param url URL of services
+     * @param setCreditNoteDetailRequest Body of request
+     * @return [JsonCompress]
+     */
+    @POST
+    suspend fun setCreditNoteResponse(
+        @Url url: String,
+        @Body setCreditNoteDetailRequest: SetCreditNoteRequest
     ): Response<JsonCompress>
 }

@@ -5,10 +5,12 @@ import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailReques
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.SetCreditNoteResponse
 import co.dito.abako.apijitpack.domain.BaseResult
 import kotlinx.coroutines.flow.Flow
 
@@ -33,4 +35,9 @@ interface DeliveryRepository {
         url: String,
         reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest
     ): Flow<BaseResult<ReasonReturnDeliveryResponse, WrappedResponse<ReasonReturnDeliveryResponse>>>
+
+    suspend fun setCreditNoteDetailRequest(
+        url: String,
+        setCreditNoteRequest: SetCreditNoteRequest
+    ): Flow<BaseResult<SetCreditNoteResponse, WrappedResponse<SetCreditNoteResponse>>>
 }

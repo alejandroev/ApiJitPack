@@ -6,10 +6,12 @@ import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailReques
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.SetCreditNoteResponse
 import co.dito.abako.apijitpack.data.network.DeliveryApiService
 import co.dito.abako.apijitpack.domain.BaseResult
 import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
@@ -104,6 +106,28 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
             } else {
                 val type = object : TypeToken<WrappedResponse<MasterDeliveryResponse>>() {}.type
                 val err: WrappedResponse<ReasonReturnDeliveryResponse> =
+                    Gson().fromJson(response.errorBody()!!.charStream(), type)
+                err.code = response.code()
+                emit(BaseResult.Error(err))
+            }
+        }
+    }
+
+    override suspend fun setCreditNoteDetailRequest(
+        url: String,
+        setCreditNoteRequest: SetCreditNoteRequest,
+    ): Flow<BaseResult<SetCreditNoteResponse, WrappedResponse<SetCreditNoteResponse>>> {
+        return flow {
+            val response = deliveryApiService.setCreditNoteResponse(url, setCreditNoteRequest)
+            if (response.isSuccessful && response.body() != null) {
+                val setCreditNoteResponse = Gson().fromJson(
+                    ZipUtils.decompress(response.body()!!.content),
+                    SetCreditNoteResponse::class.java
+                )
+                emit(BaseResult.Success(setCreditNoteResponse))
+            } else {
+                val type = object : TypeToken<WrappedResponse<SetCreditNoteResponse>>() {}.type
+                val err: WrappedResponse<SetCreditNoteResponse> =
                     Gson().fromJson(response.errorBody()!!.charStream(), type)
                 err.code = response.code()
                 emit(BaseResult.Error(err))
