@@ -14,5 +14,5 @@ import java.util.*
 data class DeliveryDetailRequest(
     @SerializedName("IdEntrega") val idDelivery: Int,
     @JsonAdapter(DateJsonSerializeOld::class) @SerializedName("Fecha") val date: Date,
-    @SerializedName("IdPersona") val idPerson: Int,
+    @SerializedName("IdPersona") val idPerson: Int
 )
