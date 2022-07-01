@@ -1,10 +1,6 @@
 package co.dito.abako.apijitpack.data.network
 
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.*
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import retrofit2.Response
 import retrofit2.http.Body
@@ -66,5 +62,27 @@ interface DeliveryApiService {
     suspend fun setCreditNoteResponse(
         @Url url: String,
         @Body setCreditNoteDetailRequest: SetCreditNoteRequest
+    ): Response<JsonCompress>
+
+    /**
+     * @param url URL of services
+     * @param requestSettlement Body of request
+     * @return [JsonCompress]
+     */
+    @POST
+    suspend fun settlementDeliveryResponse(
+        @Url url: String,
+        @Body requestSettlement: SettlementDeliveryRequest
+    ): Response<JsonCompress>
+
+    /**
+     * @param url URL of services
+     * @param gpsTourRequest Body of request
+     * @return [JsonCompress]
+     */
+    @POST
+    suspend fun gpsTourResponse(
+        @Url url: String,
+        @Body gpsTourRequest: GpsTourRequest
     ): Response<JsonCompress>
 }

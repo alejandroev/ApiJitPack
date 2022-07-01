@@ -2,16 +2,8 @@ package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.common.utils.ZipUtils
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
-import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
-import co.dito.abako.apijitpack.data.model.response.delivery.SetCreditNoteResponse
+import co.dito.abako.apijitpack.data.model.request.delivery.*
+import co.dito.abako.apijitpack.data.model.response.delivery.*
 import co.dito.abako.apijitpack.data.network.DeliveryApiService
 import co.dito.abako.apijitpack.domain.BaseResult
 import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
@@ -128,6 +120,50 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
             } else {
                 val type = object : TypeToken<WrappedResponse<SetCreditNoteResponse>>() {}.type
                 val err: WrappedResponse<SetCreditNoteResponse> =
+                    Gson().fromJson(response.errorBody()!!.charStream(), type)
+                err.code = response.code()
+                emit(BaseResult.Error(err))
+            }
+        }
+    }
+
+    override suspend fun settlementDeliveryResponse(
+        url: String,
+        settlementDeliveryRequest: SettlementDeliveryRequest,
+    ): Flow<BaseResult<SettlementDeliveryResponse, WrappedResponse<SettlementDeliveryResponse>>>{
+        return flow {
+            val response = deliveryApiService.settlementDeliveryResponse(url, settlementDeliveryRequest)
+            if (response.isSuccessful && response.body() != null) {
+                val settlementDeliveryResponse = Gson().fromJson(
+                    ZipUtils.decompress(response.body()!!.content),
+                    SettlementDeliveryResponse::class.java
+                )
+                emit(BaseResult.Success(settlementDeliveryResponse))
+            } else {
+                val type = object : TypeToken<WrappedResponse<SettlementDeliveryResponse>>() {}.type
+                val err: WrappedResponse<SettlementDeliveryResponse> =
+                    Gson().fromJson(response.errorBody()!!.charStream(), type)
+                err.code = response.code()
+                emit(BaseResult.Error(err))
+            }
+        }
+    }
+
+    override suspend fun gpsTourResponse(
+        url: String,
+        gpsTourRequest: GpsTourRequest
+    ): Flow<BaseResult<GpsTourResponse, WrappedResponse<GpsTourResponse>>> {
+        return flow {
+            val response = deliveryApiService.gpsTourResponse(url, gpsTourRequest)
+            if (response.isSuccessful && response.body() != null) {
+                val gpsTourResponse = Gson().fromJson(
+                    ZipUtils.decompress(response.body()!!.content),
+                    GpsTourResponse::class.java
+                )
+                emit(BaseResult.Success(gpsTourResponse))
+            } else {
+                val type = object : TypeToken<WrappedResponse<GpsTourResponse>>() {}.type
+                val err: WrappedResponse<GpsTourResponse> =
                     Gson().fromJson(response.errorBody()!!.charStream(), type)
                 err.code = response.code()
                 emit(BaseResult.Error(err))
