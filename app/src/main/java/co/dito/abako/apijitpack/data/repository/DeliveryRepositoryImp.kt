@@ -148,26 +148,4 @@ class DeliveryRepositoryImp @Inject constructor(private val deliveryApiService: 
             }
         }
     }
-
-    override suspend fun gpsTourResponse(
-        url: String,
-        gpsTourRequest: GpsTourRequest
-    ): Flow<BaseResult<GpsTourResponse, WrappedResponse<GpsTourResponse>>> {
-        return flow {
-            val response = deliveryApiService.gpsTourResponse(url, gpsTourRequest)
-            if (response.isSuccessful && response.body() != null) {
-                val gpsTourResponse = Gson().fromJson(
-                    ZipUtils.decompress(response.body()!!.content),
-                    GpsTourResponse::class.java
-                )
-                emit(BaseResult.Success(gpsTourResponse))
-            } else {
-                val type = object : TypeToken<WrappedResponse<GpsTourResponse>>() {}.type
-                val err: WrappedResponse<GpsTourResponse> =
-                    Gson().fromJson(response.errorBody()!!.charStream(), type)
-                err.code = response.code()
-                emit(BaseResult.Error(err))
-            }
-        }
-    }
 }

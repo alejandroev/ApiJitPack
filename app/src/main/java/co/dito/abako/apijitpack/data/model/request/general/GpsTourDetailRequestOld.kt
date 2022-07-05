@@ -1,11 +1,11 @@
-package co.dito.abako.apijitpack.data.model.request.delivery
+package co.dito.abako.apijitpack.data.model.request.general
 
 import co.dito.abako.apijitpack.data.common.converters.DateJsonSerializeOld
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class GpsTourDetailRequest(
+data class GpsTourDetailRequestOld(
     @SerializedName("IdEmp") val idCompany: Double,
     @SerializedName("Lon") val longitude: Double,
     @SerializedName("Lat") val latitude: Double,

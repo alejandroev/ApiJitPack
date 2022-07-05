@@ -2,6 +2,7 @@ package co.dito.abako.apijitpack.domain.delivery
 
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.*
+import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequestOld
 import co.dito.abako.apijitpack.data.model.response.delivery.*
 import co.dito.abako.apijitpack.domain.BaseResult
 import kotlinx.coroutines.flow.Flow
@@ -37,9 +38,4 @@ interface DeliveryRepository {
         url: String,
         settlementDeliveryRequest: SettlementDeliveryRequest
     ): Flow<BaseResult<SettlementDeliveryResponse, WrappedResponse<SettlementDeliveryResponse>>>
-
-    suspend fun gpsTourResponse(
-        url: String,
-        gpsTourRequest: GpsTourRequest
-    ): Flow<BaseResult<GpsTourResponse, WrappedResponse<GpsTourResponse>>>
 }
