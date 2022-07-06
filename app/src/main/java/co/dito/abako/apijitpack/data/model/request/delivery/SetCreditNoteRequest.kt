@@ -1,6 +1,6 @@
 package co.dito.abako.apijitpack.data.model.request.delivery
 
-import co.dito.abako.apijitpack.data.common.converters.DateJsonSerialize
+import co.dito.abako.apijitpack.data.common.converters.DateTimeJsonSerialize
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.util.Date
@@ -23,7 +23,7 @@ data class SetCreditNoteRequest(
     @SerializedName("IdPed") val idPed: Int,
     @SerializedName("IdMot") val idMot: Int,
     @SerializedName("Obs") val obs: String,
-    @JsonAdapter(DateJsonSerialize::class) @SerializedName("fc") val fc: Date,
+    @JsonAdapter(DateTimeJsonSerialize::class) @SerializedName("fc") val fc: Date,
     @SerializedName("Usr") val usr: Int,
     @SerializedName("Lon") val lon: Double,
     @SerializedName("Lat") val lat: Double,
