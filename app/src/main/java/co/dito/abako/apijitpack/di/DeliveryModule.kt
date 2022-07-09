@@ -1,8 +1,8 @@
 package co.dito.abako.apijitpack.di
 
-import co.dito.abako.apijitpack.data.network.DeliveryApiService
+import co.dito.abako.apijitpack.data.network.DeliveryOldApiService
 import co.dito.abako.apijitpack.data.repository.DeliveryRepositoryImp
-import co.dito.abako.apijitpack.domain.MOBILE_RETROFIT_API_JITPACK
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_OLD_API
 import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
 import dagger.Module
 import dagger.Provides
@@ -18,11 +18,11 @@ object DeliveryModule {
 
     @Singleton
     @Provides
-    fun providerDeliveryApiService(@Named(MOBILE_RETROFIT_API_JITPACK) retrofit: Retrofit): DeliveryApiService =
-        retrofit.create(DeliveryApiService::class.java)
+    fun providerDeliveryApiService(@Named(RETROFIT_URL_OLD_API) retrofit: Retrofit): DeliveryOldApiService =
+        retrofit.create(DeliveryOldApiService::class.java)
 
     @Singleton
     @Provides
-    fun providerDeliveryRepository(deliveryApiService: DeliveryApiService): DeliveryRepository =
+    fun providerDeliveryRepository(deliveryApiService: DeliveryOldApiService): DeliveryRepository =
         DeliveryRepositoryImp(deliveryApiService)
 }

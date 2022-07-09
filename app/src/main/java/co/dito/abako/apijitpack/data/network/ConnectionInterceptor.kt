@@ -2,20 +2,16 @@ package co.dito.abako.apijitpack.data.network
 
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelper
 import co.dito.abako.apijitpack.data.common.utils.BadRequest
-import co.dito.abako.apijitpack.data.common.utils.Connection
 import co.dito.abako.apijitpack.data.common.utils.NetworkErrorContent
 import co.dito.abako.apijitpack.data.common.utils.NoInternet
 import co.dito.abako.apijitpack.data.common.utils.NotFound
 import co.dito.abako.apijitpack.data.common.utils.ServerError
-import co.dito.abako.apijitpack.data.common.utils.TimeOut
 import co.dito.abako.apijitpack.data.common.utils.Unauthorized
 import co.dito.abako.apijitpack.domain.NO_INTERNET_CONNECTION
 import com.google.gson.Gson
+import java.net.HttpURLConnection
 import okhttp3.Interceptor
 import okhttp3.Response
-import java.io.IOException
-import java.net.ConnectException
-import java.net.HttpURLConnection
 
 class ConnectionInterceptor(
     private val networkHelper: NetworkHelper,
@@ -24,31 +20,17 @@ class ConnectionInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         return if (networkHelper.isInternetAvailable()) {
-            try {
-                val response = chain.proceed(originalRequest)
-                when (response.code) {
-                    HttpURLConnection.HTTP_NOT_FOUND -> throw NotFound(
-                        getErrorFromResponse(response.body?.string())
-                    )
-                    HttpURLConnection.HTTP_NOT_ACCEPTABLE,
-                    HttpURLConnection.HTTP_BAD_REQUEST -> throw BadRequest(
-                        getErrorFromResponse(response.body?.string())
-                    )
-                    HttpURLConnection.HTTP_INTERNAL_ERROR -> throw ServerError(
-                        getErrorFromResponse(response.body?.string())
-                    )
-                    HttpURLConnection.HTTP_FORBIDDEN -> throw Unauthorized(
-                        getErrorFromResponse(response.body?.string())
-                    )
-                    else -> {
-                        response
-                    }
-                }
-            } catch (e: IOException) {
-                throw when (e) {
-                    is ConnectException -> Connection(e.message)
-                    else -> TimeOut(NO_INTERNET_CONNECTION)
-                }
+            val response = chain.proceed(originalRequest)
+            when (response.code) {
+                HttpURLConnection.HTTP_NOT_FOUND ->
+                    throw NotFound(getErrorFromResponse(response.body?.string()))
+                HttpURLConnection.HTTP_NOT_ACCEPTABLE, HttpURLConnection.HTTP_BAD_REQUEST ->
+                    throw BadRequest(getErrorFromResponse(response.body?.string()))
+                HttpURLConnection.HTTP_INTERNAL_ERROR ->
+                    throw ServerError(getErrorFromResponse(response.body?.string()))
+                HttpURLConnection.HTTP_FORBIDDEN ->
+                    throw Unauthorized(getErrorFromResponse(response.body?.string()))
+                else -> response
             }
         } else
             throw NoInternet(NO_INTERNET_CONNECTION)

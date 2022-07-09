@@ -52,29 +52,17 @@ android {
 
 dependencies {
 
-    implementation(Dependencies.ANDROID_X_CORE)
-    implementation(Dependencies.APP_COMPAT)
-    implementation(Dependencies.GOOGLE_MATERIAL)
-    implementation(Dependencies.CONSTRAINT_LAYOUT)
+    implementation androidXCore
+    implementation appCompat
+    implementation googleMaterial
+    implementation contraintLayout
+    implementation kotlinXCoroutinesCore
 
-    implementation(Dependencies.RETROFIT)
-    implementation(Dependencies.RETROFIT_GSON)
-    implementation(Dependencies.LOGGING_INTERCEPTOR)
-
-    testImplementation(Dependencies.JUNIT)
-    testImplementation(Dependencies.CORE_TESTING)
-    testImplementation(Dependencies.KOTLINX_COROUTINES_TEST)
-    testImplementation(Dependencies.MOCKK)
-
-    androidTestImplementation(Dependencies.JUNIT_EXT)
-    androidTestImplementation(Dependencies.ESPRESSO_CORE)
+    implementation retrofit
+    implementation retrofitGson
+    implementation loggingInterceptor
 
     //Dagger Hilt
-    implementation(Dependencies.DAGGER_HILT)
-    kapt(Dependencies.KAPT_DAGGER_HILT)
-
-    implementation(Dependencies.KOTLINX_COROUTINES_CORE)
-
-    testImplementation(Dependencies.HILT_ANDROID_TESTING)
-    testAnnotationProcessor(Dependencies.HILT_ANDROID_COMPILER)
+    implementation daggerHilt
+    kapt kaptDaggerHilt
 }

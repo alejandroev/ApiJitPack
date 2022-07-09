@@ -1,0 +1,23 @@
+ext {
+    retrofit_version = "2.9.0"
+    hilt_version = "2.40.5"
+    kotlinx_coroutines_version = "1.6.1"
+    lifecycle_ktx_version = "2.4.1"
+
+    androidXCore = "androidx.core:core-ktx:1.7.0"
+    appCompat = "androidx.appcompat:appcompat:1.4.1"
+    googleMaterial = "com.google.android.material:material:1.5.0"
+    contraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
+    retrofit = "com.squareup.retrofit2:retrofit:$retrofit_version"
+    retrofitGson = "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
+
+    daggerHilt = "com.google.dagger:hilt-android:$hilt_version"
+    kaptDaggerHilt = "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    kotlinXCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+
+    lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_ktx_version"
+
+    lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_ktx_version"
+}

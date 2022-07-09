@@ -3,11 +3,11 @@ package co.dito.abako.apijitpack.data.model.response.delivery
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param idOC = ID of other charges
- * @param oc = Description
+ * @param idOtherChange = ID of other charges
+ * @param otherChange = Description
  */
 
 data class OtherChargesSyncResponse(
-    @SerializedName("IdOC") val idOC: Int,
-    @SerializedName("Oc") val oc: String,
+    @SerializedName("IdOC") val idOtherChange: Int,
+    @SerializedName("Oc") val otherChange: String,
 )

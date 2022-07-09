@@ -1,41 +1,30 @@
 package co.dito.abako.apijitpack.domain.delivery
 
-import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.data.model.request.delivery.*
-import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequestOld
-import co.dito.abako.apijitpack.data.model.response.delivery.*
-import co.dito.abako.apijitpack.domain.BaseResult
+import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.SetCreditNoteResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import kotlinx.coroutines.flow.Flow
 
 interface DeliveryRepository {
 
-    suspend fun getDeliveryResponse(
-        url: String,
-        deliveryRequest: DeliveryRequest
-    ): Flow<BaseResult<DeliveryResponse, WrappedResponse<DeliveryResponse>>>
+    suspend fun getDeliveryResponse(deliveryRequest: DeliveryRequest): Flow<DeliveryResponse>
 
-    suspend fun getDeliveryDetailResponse(
-        url: String,
-        deliveryDetailRequest: DeliveryDetailRequest
-    ): Flow<BaseResult<DeliveryDetailResponse, WrappedResponse<DeliveryDetailResponse>>>
+    suspend fun getDeliveryDetailResponse(deliveryDetailRequest: DeliveryDetailRequest): Flow<DeliveryDetailResponse>
 
-    suspend fun getMasterDeliveryResponse(
-        url: String,
-        masterDeliveryRequest: MasterDeliveryRequest
-    ): Flow<BaseResult<MasterDeliveryResponse, WrappedResponse<MasterDeliveryResponse>>>
+    suspend fun getMasterDeliveryResponse(masterDeliveryRequest: MasterDeliveryRequest): Flow<MasterDeliveryResponse>
 
-    suspend fun getReasonReturnDeliveryResponse(
-        url: String,
-        reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest
-    ): Flow<BaseResult<ReasonReturnDeliveryResponse, WrappedResponse<ReasonReturnDeliveryResponse>>>
+    suspend fun getReasonReturnDeliveryResponse(reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest): Flow<ReasonReturnDeliveryResponse>
 
-    suspend fun setCreditNoteDetailRequest(
-        url: String,
-        setCreditNoteRequest: SetCreditNoteRequest
-    ): Flow<BaseResult<SetCreditNoteResponse, WrappedResponse<SetCreditNoteResponse>>>
+    suspend fun setCreditNoteDetailRequest(setCreditNoteRequest: SetCreditNoteRequest): Flow<SetCreditNoteResponse>
 
-    suspend fun settlementDeliveryResponse(
-        url: String,
-        settlementDeliveryRequest: SettlementDeliveryRequest
-    ): Flow<BaseResult<SettlementDeliveryResponse, WrappedResponse<SettlementDeliveryResponse>>>
+    suspend fun setSettlementDeliveryRequest(settlementDeliveryRequest: SettlementDeliveryRequest): Flow<SettlementDeliveryResponse>
 }

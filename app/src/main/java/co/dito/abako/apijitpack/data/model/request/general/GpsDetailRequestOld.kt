@@ -5,10 +5,10 @@ import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class GpsTourDetailRequestOld(
-    @SerializedName("IdEmp") val idCompany: Double,
+data class GpsDetailRequestOld(
+    @SerializedName("IdEmp") val idBusiness: Double,
     @SerializedName("Lon") val longitude: Double,
     @SerializedName("Lat") val latitude: Double,
     @JsonAdapter(DateJsonSerializeOld::class) @SerializedName("Fc") val creationDate: Date,
-    @SerializedName("Tp") val Tp: String
+    @SerializedName("Tp") val type: String
 )

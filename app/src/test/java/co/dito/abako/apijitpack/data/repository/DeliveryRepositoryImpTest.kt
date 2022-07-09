@@ -2,7 +2,7 @@ package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
-import co.dito.abako.apijitpack.data.network.DeliveryApiService
+import co.dito.abako.apijitpack.data.network.DeliveryOldApiService
 import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -16,7 +16,7 @@ import retrofit2.Response
 @ExperimentalCoroutinesApi
 class DeliveryRepositoryImpTest {
 
-    private val deliveryApiServices: DeliveryApiService = mockk()
+    private val deliveryApiServices: DeliveryOldApiService = mockk()
 
     private lateinit var deliveryRepository: DeliveryRepository
 

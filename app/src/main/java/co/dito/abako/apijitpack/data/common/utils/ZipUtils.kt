@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.data.common.utils
 
+import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
+import com.google.gson.Gson
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -9,10 +11,10 @@ import java.util.zip.GZIPInputStream
 object ZipUtils {
 
     /**
-     * @Deprecated Only use for the old services, after to migrate to the new API send to Deprecated and later delete the classes
      * @param zipText = info compressed
      */
     @JvmStatic
+    @Deprecated("Only use for the old services, after to migrate to the new API send to Deprecated and later delete the classes")
     @Throws(IOException::class)
     fun decompress(zipText: String?): String {
         var size: Int
@@ -29,4 +31,10 @@ object ZipUtils {
         baos.close()
         return String(buffer, Charset.forName("UTF-8"))
     }
+}
+
+fun <T> JsonCompress?.mappingTo(tClass: Class<T>): T = try {
+    Gson().fromJson(ZipUtils.decompress(this?.content), tClass)
+} catch (ex: Exception) {
+    throw BackEndException(ex.message)
 }

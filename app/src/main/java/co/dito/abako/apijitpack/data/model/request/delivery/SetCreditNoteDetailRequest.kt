@@ -3,11 +3,11 @@ package co.dito.abako.apijitpack.data.model.request.delivery
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param idArt = Id of Article
- * @param cant = Quantity to return
+ * @param idArticle = Id of Article
+ * @param quantity = Quantity to return
  */
 
 data class SetCreditNoteDetailRequest(
-    @SerializedName("IdArt") val idArt: Int,
-    @SerializedName("Cant") val cant: Double
+    @SerializedName("IdArt") val idArticle: Int,
+    @SerializedName("Cant") val quantity: Double
 )

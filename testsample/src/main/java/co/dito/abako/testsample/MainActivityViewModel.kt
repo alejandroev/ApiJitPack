@@ -2,21 +2,30 @@ package co.dito.abako.testsample
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.dito.abako.apijitpack.data.common.HostSelectionInterceptor
 import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.domain.BaseResult
+import co.dito.abako.apijitpack.data.common.utils.ApiAbakoException
+import co.dito.abako.apijitpack.data.common.utils.BackEndException
+import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
+import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
+import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
+import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Date
+import javax.inject.Inject
+import javax.inject.Named
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val hostSelectionInterceptor: HostSelectionInterceptor,
+    private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
+    @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
     private val exchangeRateUseCase: ExchangeRateUseCase,
 ) : ViewModel() {
 
@@ -41,22 +50,21 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            hostSelectionInterceptor.setHost("https://clouderp.abakoerp.com:9480/ApiNegocio/api/")
+            val deliveryRequest = DeliveryRequest(Date(1000, 1, 1), 34)
 
-            exchangeRateUseCase()
+            getDeliveryResponseUseCase(deliveryRequest)
+                .flowOn(Dispatchers.IO)
                 .onStart {
                     setLoading()
                 }.catch { exception ->
+                    if (exception is ApiAbakoException || exception is BackEndException) {
+                        val handler = errorProcessor.handlerError(exception)
+                        print(handler)
+                    }
                     hideLoading()
-                    showToast(exception.message.toString())
                 }.collect { baseResult ->
                     hideLoading()
-                    when (baseResult) {
-                        is BaseResult.Error -> state.value =
-                            MainActivityState.ErrorMain(baseResult.rawResponse)
-                        is BaseResult.Success -> state.value =
-                            MainActivityState.SuccessMain(baseResult.data)
-                    }
+                    MainActivityState.SuccessMain(baseResult)
                 }
         }
     }

@@ -11,16 +11,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Url
 
-interface GeneralApiService {
-
-    @POST("Usuario")
-    suspend fun loginUser(@Body userRequest: UserRequest): UserResponse
+interface GeneralOldApiService {
 
     @GET
     suspend fun ping(@Url url: String): Response<String?>
-
-    @GET("TasaCambio/GetTasaActual")
-    suspend fun getExchangeRateSync(): Response<ExchangeRateSyncResponse>
 
     /**
      * @param url URL of services

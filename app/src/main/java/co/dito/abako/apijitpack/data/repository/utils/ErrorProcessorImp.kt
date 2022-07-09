@@ -1,7 +1,9 @@
 package co.dito.abako.apijitpack.data.repository.utils
 
+import co.dito.abako.apijitpack.data.common.utils.BackEndException
 import co.dito.abako.apijitpack.data.common.utils.BadRequest
 import co.dito.abako.apijitpack.data.common.utils.NoInternet
+import co.dito.abako.apijitpack.data.common.utils.NotFound
 import co.dito.abako.apijitpack.data.common.utils.ServerError
 import co.dito.abako.apijitpack.data.common.utils.TimeOut
 import co.dito.abako.apijitpack.data.common.utils.Unauthorized
@@ -26,24 +28,28 @@ class ErrorProcessorImp : ErrorProcessor {
             }
             is ServerError,
             is BadRequest,
+            is NotFound,
             -> CONNECTIVITY_ERROR
-
-            is Unauthorized -> {
-                EXPIRED_CONNECTION
-            }
-
+            is Unauthorized -> EXPIRED_CONNECTION
+            is BackEndException -> BACKEND_ERROR
             else -> UNKNOWN_ERROR
         }
     }
 }
 
-const val WHOOPS_LOST_INTERNET_CONNECTION =
-    "Su conexión a Internet ha sido interrumpida.\nVerifique su configuración de Internet."
+private const val WHOOPS_LOST_INTERNET_CONNECTION = "Su conexión a Internet ha sido interrumpida." +
+        "\nVerifique su configuración de Internet."
 
-const val CONNECTIVITY_ERROR =
-    "No pudimos contactar correctamente con el servidor. \nPor favor, inténtelo de nuevo más tarde."
+private const val CONNECTIVITY_ERROR = "No pudimos contactar correctamente con el servidor." +
+        "\nPor favor, inténtelo de nuevo más tarde."
 
-const val EXPIRED_CONNECTION = "Conexión expiró.\nPor favor salir e ingresar nuevamente a la App."
+private const val EXPIRED_CONNECTION = "Conexión expiró." +
+        "\nPor favor salir e ingresar nuevamente a la App."
 
-const val UNKNOWN_ERROR =
-    "La aplicación experimentó un error. Por favor, inténtelo de nuevo más tarde. Si el problema persiste, póngase en contacto con el soporte."
+private const val UNKNOWN_ERROR = "La aplicación experimentó un error. " +
+        "\nPor favor, inténtelo de nuevo más tarde. " +
+        "\nSi el problema persiste, póngase en contacto con el soporte."
+
+private const val BACKEND_ERROR = "La aplicación se conecto al servicio." +
+        "\nSin embargo se produjo un error al momento de obtener la respuesta." +
+        "\nEl equipo de soporte ya esta validando y se comunicarán con usted en el menor tiempo posible."

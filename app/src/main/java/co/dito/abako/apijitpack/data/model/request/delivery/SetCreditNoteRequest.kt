@@ -6,27 +6,27 @@ import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 /**
- * @param idVnt = Id of sales
- * @param idPed = Id of order
- * @param idMot = Id of reason return
- * @param obs = Observation
- * @param fc = Creation date
- * @param usr = Id of user
- * @param lon = Longitude
- * @param lat = Latitude
- * @param rfv = Validation reference
+ * @param idSale = Id of sales
+ * @param idOrder = Id of order
+ * @param idReasonReturn = Id of reason return
+ * @param observation = Observation
+ * @param creationDate = Creation date
+ * @param idUser = Id of user
+ * @param longitude = Longitude
+ * @param latitude = Latitude
+ * @param validationReference = Validation reference
  * @param dlls = List of articles to return
  */
 
 data class SetCreditNoteRequest(
-    @SerializedName("IdVnt") val idVnt: Int,
-    @SerializedName("IdPed") val idPed: Int,
-    @SerializedName("IdMot") val idMot: Int,
-    @SerializedName("Obs") val obs: String,
-    @JsonAdapter(DateTimeJsonSerialize::class) @SerializedName("fc") val fc: Date,
-    @SerializedName("Usr") val usr: Int,
-    @SerializedName("Lon") val lon: Double,
-    @SerializedName("Lat") val lat: Double,
-    @SerializedName("Rfv") val rfv: String,
+    @SerializedName("IdVnt") val idSale: Int,
+    @SerializedName("IdPed") val idOrder: Int,
+    @SerializedName("IdMot") val idReasonReturn: Int,
+    @SerializedName("Obs") val observation: String,
+    @JsonAdapter(DateTimeJsonSerialize::class) @SerializedName("fc") val creationDate: Date,
+    @SerializedName("Usr") val idUser: Int,
+    @SerializedName("Lon") val longitude: Double,
+    @SerializedName("Lat") val latitude: Double,
+    @SerializedName("Rfv") val validationReference: String,
     @SerializedName("Dll") val dlls: List<SetCreditNoteDetailRequest>,
 )
