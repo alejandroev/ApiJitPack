@@ -1,11 +1,14 @@
 package co.dito.abako.apijitpack.data.model.request.general
 
+import co.dito.abako.apijitpack.data.common.converters.DateTimeJsonSerialize
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class GpsDetailRequest(
     @SerializedName("idEmp") val idBusiness: Int,
-    @SerializedName("lon") val longitude: Int,
-    @SerializedName("lat") val latitude: Int,
-    @SerializedName("fc") val creationDate: String,
+    @SerializedName("lon") val longitude: Double,
+    @SerializedName("lat") val latitude: Double,
+    @JsonAdapter(DateTimeJsonSerialize::class) @SerializedName("fc") val creationDate: Date,
     @SerializedName("tp") val type: String
 )

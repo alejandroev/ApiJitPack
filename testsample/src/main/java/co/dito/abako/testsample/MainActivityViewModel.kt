@@ -6,10 +6,13 @@ import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.common.utils.ApiAbakoException
 import co.dito.abako.apijitpack.data.common.utils.BackEndException
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.general.GpsDetailRequest
+import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
+import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Date
 import javax.inject.Inject
@@ -21,12 +24,14 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
     private val exchangeRateUseCase: ExchangeRateUseCase,
+    private val insertGpsTourUseCase: InsertGpsTourUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -50,9 +55,10 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            val deliveryRequest = DeliveryRequest(Date(1000, 1, 1), 34)
+            val gpsDetail = GpsDetailRequest(-1000, 1.2223, 1.0000, Date(), "Asdsada")
+            val request = GpsTourRequest(-1, listOf(gpsDetail))
 
-            getDeliveryResponseUseCase(deliveryRequest)
+            insertGpsTourUseCase.invoke(request)
                 .flowOn(Dispatchers.IO)
                 .onStart {
                     setLoading()
