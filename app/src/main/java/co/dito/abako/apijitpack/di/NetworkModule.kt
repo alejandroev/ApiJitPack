@@ -5,6 +5,7 @@ import co.dito.abako.apijitpack.BuildConfig
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelper
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelperImp
 import co.dito.abako.apijitpack.data.network.ConnectionInterceptor
+import co.dito.abako.apijitpack.data.network.LoggerInterceptor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessorImp
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
@@ -43,6 +44,7 @@ object NetworkModule {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
+                .addInterceptor(LoggerInterceptor())
                 .build()
         } else {
             OkHttpClient().newBuilder()
@@ -52,6 +54,7 @@ object NetworkModule {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
+                .addInterceptor(LoggerInterceptor())
                 .build()
         }
     }
