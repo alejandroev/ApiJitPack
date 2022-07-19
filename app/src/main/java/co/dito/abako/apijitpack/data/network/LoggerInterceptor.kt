@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import okhttp3.Interceptor
 import okhttp3.RequestBody
 import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Buffer
 
 class LoggerInterceptor : Interceptor {
@@ -12,12 +13,14 @@ class LoggerInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
+        var responseBody = ""
+        response.body?.let { responseBody = it.string() }
 
         Log.i(EVENT_NAME_TAG, "<-- ${request.url.toUri()} ${response.receivedResponseAtMillis - response.sentRequestAtMillis}ms")
         Log.i(EVENT_NAME_TAG, Gson().toJson(request.body.bodyToString()))
-        response.body?.let { Log.i(EVENT_NAME_TAG, it.string()) }
+        Log.i(EVENT_NAME_TAG, responseBody)
         Log.i(EVENT_NAME_TAG, "<-- END ${request.method}")
-        return response
+        return response.newBuilder().body(responseBody.toResponseBody(response.body?.contentType())).build()
     }
 
     private fun RequestBody?.bodyToString(): String {

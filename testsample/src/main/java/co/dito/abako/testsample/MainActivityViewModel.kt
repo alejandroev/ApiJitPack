@@ -31,7 +31,7 @@ class MainActivityViewModel @Inject constructor(
     private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
     private val exchangeRateUseCase: ExchangeRateUseCase,
-    private val insertGpsTourUseCase: InsertGpsTourUseCase
+    private val insertGpsTourUseCase: InsertGpsTourUseCase,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -55,10 +55,9 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            val gpsDetail = GpsDetailRequest(-1000, 1.2223, 1.0000, Date(), "Asdsada")
-            val request = GpsTourRequest(-1, listOf(gpsDetail))
+            val request = DeliveryRequest(Date(), 16280)
 
-            insertGpsTourUseCase.invoke(request)
+            getDeliveryResponseUseCase(request)
                 .flowOn(Dispatchers.IO)
                 .onStart {
                     setLoading()
