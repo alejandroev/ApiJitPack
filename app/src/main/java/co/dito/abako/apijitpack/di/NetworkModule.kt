@@ -79,25 +79,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun providerErrorProcessor(): ErrorProcessor = ErrorProcessorImp()
-    /*
-
-    @Singleton
-    @Provides
-    fun providerOrderApiService(@Named(MOBILE_RETROFIT_API_JITPACK) retrofit: Retrofit): OrderApiService {
-        return retrofit.create(OrderApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providerSupervisorApiService(retrofit: Retrofit): SupervisorApiService {
-        return retrofit.create(SupervisorApiService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providerWorkShopApiService(retrofit: Retrofit): WorkShopApiService {
-        return retrofit.create(WorkShopApiService::class.java)
-    }*/
 }
 
 private const val URL_FIREBASE_DEFAULT = "https://us-central1-codi-abako.cloudfunctions.net/"
