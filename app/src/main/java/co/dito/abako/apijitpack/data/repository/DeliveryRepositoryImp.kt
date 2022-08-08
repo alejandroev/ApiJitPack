@@ -74,6 +74,9 @@ class DeliveryRepositoryImp @Inject constructor(
                 val response = it.mappingTo(SetCreditNoteResponse::class.java).apply {
                     validResponse()
                 }
+                response.states.forEach { state ->
+                    state.validResponse()
+                }
                 emit(response)
             }
         }
