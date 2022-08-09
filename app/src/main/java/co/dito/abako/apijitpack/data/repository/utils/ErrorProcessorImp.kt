@@ -10,6 +10,8 @@ import co.dito.abako.apijitpack.data.common.utils.Unauthorized
 import co.dito.abako.apijitpack.domain.NO_INTERNET_CONNECTION
 import java.net.ConnectException
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import java.net.UnknownServiceException
 
 class ErrorProcessorImp : ErrorProcessor {
 
@@ -19,6 +21,8 @@ class ErrorProcessorImp : ErrorProcessor {
             is TimeOut,
             is ConnectException,
             is NoInternet,
+            is UnknownHostException,
+            is UnknownServiceException,
             -> {
                 if (NO_INTERNET_CONNECTION == error.message) {
                     WHOOPS_LOST_INTERNET_CONNECTION
