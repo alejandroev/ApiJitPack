@@ -32,7 +32,7 @@ data class DeliverySyncResponse(
     @SerializedName("Facts") val facts: Int,
     @SerializedName("Ctd") val ctd: Double,
     @SerializedName("Crdt") val crdt: Double,
-    @SerializedName("Rms") val rms: Int,
+    @SerializedName("Rms") val rms: Double,
     @SerializedName("Ttl") val ttl: Double,
     @SerializedName("Nts") val nts: Double,
     @SerializedName("OtCb") val otCb: Double,
