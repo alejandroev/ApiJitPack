@@ -23,7 +23,7 @@ data class SetCreditNoteRequest(
     @SerializedName("IdPed") val idOrder: Int,
     @SerializedName("IdMot") val idReasonReturn: Int,
     @SerializedName("Obs") val observation: String,
-    @JsonAdapter(DateTimeJsonSerialize::class) @SerializedName("fc") val creationDate: Date,
+    @JsonAdapter(DateTimeJsonSerialize::class) @SerializedName("Fc") val creationDate: Date,
     @SerializedName("Usr") val idUser: Int,
     @SerializedName("Lon") val longitude: Double,
     @SerializedName("Lat") val latitude: Double,

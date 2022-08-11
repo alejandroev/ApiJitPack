@@ -1,1 +1,1 @@
-/Users/juantobon/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/AndroidConstants.class:/Users/juantobon/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/LibraryConstants.class
+/Users/braianstiven/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/AndroidConstants.class:/Users/braianstiven/AndroidStudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/LibraryConstants.class
