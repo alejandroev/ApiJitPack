@@ -11,4 +11,5 @@ import com.google.gson.annotations.SerializedName
 data class SetCreditNoteResponse(
     @SerializedName("Estado") val states: List<MessageResponseOld>,
     @SerializedName("IdDev") val idDevolution: Int,
+    @SerializedName("Nota") val note: Int
 ) : MessageResponseOld()
