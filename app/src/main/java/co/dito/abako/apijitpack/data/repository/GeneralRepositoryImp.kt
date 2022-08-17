@@ -3,10 +3,13 @@ package co.dito.abako.apijitpack.data.repository
 import android.util.Log
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.common.utils.mappingTo
+import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponseOld
 import co.dito.abako.apijitpack.data.model.response.general.ExchangeRateSyncResponse
+import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
+import co.dito.abako.apijitpack.data.model.response.general.MessageResponseOld
 import co.dito.abako.apijitpack.data.network.GeneralBusinessApiService
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.GeneralOldApiService
@@ -50,11 +53,21 @@ class GeneralRepositoryImp @Inject constructor(
         val response = try {
             generalMobileApiService.gpsTourResponse(gpsTourRequest)
         } catch (ex: Exception) {
-            Log.e("ABAKO ERROR", ex.message!!)
             generalOldApiService.gpsTourResponse(gpsTourRequest.mapper()).mappingTo(GpsTourResponseOld::class.java).mapper()
         }
         response.state.validResponse()
-        print(response)
+        return flow {
+            emit(response)
+        }
+    }
+
+    override suspend fun cancelDocumentResponse(cancelDocumentRequest: CancelDocumentRequest): Flow<MessageResponse> {
+        val response = try {
+            generalMobileApiService.cancelDocument(cancelDocumentRequest)
+        } catch (ex: Exception) {
+            generalOldApiService.cancelDocument(cancelDocumentRequest.mapper()).mappingTo(MessageResponseOld::class.java).mapper()
+        }
+        response.validResponse()
         return flow {
             emit(response)
         }

@@ -1,5 +1,6 @@
 package co.dito.abako.apijitpack.data.network
 
+import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequestOld
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequestOld
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import retrofit2.Response
@@ -21,4 +22,7 @@ interface GeneralOldApiService {
     suspend fun gpsTourResponse(
         @Body gpsTourRequestOld: GpsTourRequestOld
     ): JsonCompress
+
+    @POST("OperacionesDocumentos/AnularDocumentos")
+    suspend fun cancelDocument(@Body cancelDocumentRequest: CancelDocumentRequestOld): JsonCompress
 }

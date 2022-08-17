@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.data.repository.utils
 
+import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
+import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequestOld
 import co.dito.abako.apijitpack.data.model.request.general.GpsDetailRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsDetailRequestOld
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
@@ -13,6 +15,14 @@ fun GpsTourRequest.mapper(): GpsTourRequestOld = GpsTourRequestOld(
     idUser = idUser,
     dll = dll.map { it.mapper() }
 )
+
+fun CancelDocumentRequest.mapper(): CancelDocumentRequestOld =
+    CancelDocumentRequestOld(
+        movement = movement,
+        idUser = idUser,
+        document = document,
+        validationReference = validationReference
+    )
 
 fun GpsDetailRequest.mapper(): GpsDetailRequestOld = GpsDetailRequestOld(
     idBusiness = idBusiness,
