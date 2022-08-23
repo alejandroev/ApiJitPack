@@ -8,9 +8,11 @@ import co.dito.abako.apijitpack.data.common.utils.BackEndException
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsDetailRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
+import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
+import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.PingUseCase
@@ -31,6 +33,7 @@ import kotlinx.coroutines.withContext
 class MainActivityViewModel @Inject constructor(
     private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
+    private val getReportDocumentResponseUseCase: GetReportDocumentResponseUseCase,
     private val exchangeRateUseCase: ExchangeRateUseCase,
     private val insertGpsTourUseCase: InsertGpsTourUseCase,
 ) : ViewModel() {
@@ -56,9 +59,8 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            val request = DeliveryRequest(Date(), 16280)
-
-            getDeliveryResponseUseCase(request)
+            val request = DocumentReportRequest(9, "198", 16280)
+            getReportDocumentResponseUseCase(request)
                 .flowOn(Dispatchers.IO)
                 .onStart {
                     setLoading()
@@ -69,7 +71,7 @@ class MainActivityViewModel @Inject constructor(
                     }
                     hideLoading()
                 }.collect { baseResult ->
-
+                    print(baseResult)
                 }
         }
     }

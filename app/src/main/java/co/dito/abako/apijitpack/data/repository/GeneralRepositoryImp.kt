@@ -5,12 +5,14 @@ import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.common.utils.mappingTo
 import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
+import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponseOld
 import co.dito.abako.apijitpack.data.model.response.general.ExchangeRateSyncResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponseOld
-import co.dito.abako.apijitpack.data.network.GeneralBusinessApiService
+import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponse
+import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponseOld
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.GeneralOldApiService
 import co.dito.abako.apijitpack.data.network.validResponse
@@ -63,9 +65,22 @@ class GeneralRepositoryImp @Inject constructor(
 
     override suspend fun cancelDocumentResponse(cancelDocumentRequest: CancelDocumentRequest): Flow<MessageResponse> {
         val response = try {
+            throw Exception()
             generalMobileApiService.cancelDocument(cancelDocumentRequest)
         } catch (ex: Exception) {
             generalOldApiService.cancelDocument(cancelDocumentRequest.mapper()).mappingTo(MessageResponseOld::class.java).mapper()
+        }
+        response.validResponse()
+        return flow {
+            emit(response)
+        }
+    }
+
+    override suspend fun reportDocument(documentReportRequest: DocumentReportRequest): Flow<DocumentReportResponse> {
+        val response = try {
+            generalMobileApiService.getReportDocument(documentReportRequest)
+        } catch (ex: Exception) {
+            generalOldApiService.getReportDocument(documentReportRequest.mapper()).mappingTo(DocumentReportResponseOld::class.java).mapper()
         }
         response.validResponse()
         return flow {
