@@ -88,6 +88,9 @@ class DeliveryRepositoryImp @Inject constructor(
                 val response = it.mappingTo(SettlementDeliveryResponse::class.java).apply {
                     validResponse()
                 }
+                response.state.forEach { state ->
+                    state.validResponse()
+                }
                 emit(response)
             }
         }
