@@ -65,4 +65,7 @@ dependencies {
     //Dagger Hilt
     implementation daggerHilt
     kapt kaptDaggerHilt
+
+    implementation dataFormatXml
+    implementation staxApi
 }

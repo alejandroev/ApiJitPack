@@ -20,4 +20,8 @@ ext {
     lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_ktx_version"
 
     lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_ktx_version"
+
+    dataFormatXml = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.1"
+
+    staxApi = "javax.xml.stream:stax-api:1.0"
 }

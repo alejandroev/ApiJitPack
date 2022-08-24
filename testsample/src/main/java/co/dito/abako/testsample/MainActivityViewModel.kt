@@ -15,7 +15,6 @@ import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCa
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
-import co.dito.abako.apijitpack.domain.general.usecase.PingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Date
 import javax.inject.Inject
@@ -71,7 +70,7 @@ class MainActivityViewModel @Inject constructor(
                     }
                     hideLoading()
                 }.collect { baseResult ->
-                    print(baseResult)
+
                 }
         }
     }
