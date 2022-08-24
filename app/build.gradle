@@ -66,6 +66,8 @@ dependencies {
     implementation daggerHilt
     kapt kaptDaggerHilt
 
-    implementation dataFormatXml
+    implementation(dataFormatXml) {
+        transitive = true
+    }
     implementation staxApi
 }
