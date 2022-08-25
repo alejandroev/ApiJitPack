@@ -1,5 +1,6 @@
 package co.dito.abako.testsample
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
@@ -15,7 +16,14 @@ import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCa
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
+import co.dito.abako.apijitpack.utils.getBatteryLevel
+import co.dito.abako.apijitpack.utils.sendEmail.EmailSender
+import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBody
+import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBodyError
+import co.dito.abako.apijitpack.utils.sendEmail.data.EmailData
+import co.dito.abako.apijitpack.utils.sendEmail.data.EmailType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Named
@@ -30,7 +38,9 @@ import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
+    private val emailSender: EmailSender,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
     private val getReportDocumentResponseUseCase: GetReportDocumentResponseUseCase,
     private val exchangeRateUseCase: ExchangeRateUseCase,
@@ -58,20 +68,31 @@ class MainActivityViewModel @Inject constructor(
 
     private fun ping() {
         viewModelScope.launch {
-            val request = DocumentReportRequest(9, "198", 16280)
-            getReportDocumentResponseUseCase(request)
-                .flowOn(Dispatchers.IO)
-                .onStart {
-                    setLoading()
-                }.catch { exception ->
-                    if (exception is ApiAbakoException || exception is BackEndException) {
-                        val handler = errorProcessor.handlerError(exception)
-                        print(handler)
-                    }
-                    hideLoading()
-                }.collect { baseResult ->
-
+            getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
+                .catch { exception ->
+                    exception.printStackTrace()
                 }
+                .collect {
+                    print(it.toString())
+                }
+
+            /*val data = EmailData(
+                title = "TEST SERVER",
+                bodyError = EmailBodyError(
+                    url = "test.com",
+                    request = "hola",
+                    response = "response",
+                    resultCode = 500,
+                    timeResponse = 1
+                ),
+                type = EmailType.AUTOMATIC
+            )
+
+            try {
+                emailSender.sendEmail(data)
+            }catch (ex: Exception) {
+                ex.printStackTrace()
+            }*/
         }
     }
 }

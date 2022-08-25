@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Date
 
+data class CreditNoteListResponse(
+    @JsonProperty("Encabezado") val details: List<CreditNoteResponse>
+)
+
 data class CreditNoteResponse(
     @JsonProperty("IdDevolucionVenta") val idDevolution: Int,
     @JsonProperty("NotaCredito") val creditNote: Int,

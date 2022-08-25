@@ -12,8 +12,8 @@ data class DocumentReportResponse(
 ) : MessageResponse()
 
 
-fun <T> DocumentReportResponse.mapper(content: String,clazz: Class<T>) : T {
+fun <T> String.mapper(clazz: Class<T>) : T {
     val xmlMapper = XmlMapper(JacksonXmlModule().apply { setDefaultUseWrapper(false) })
     xmlMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-    return xmlMapper.readValue(content, clazz)
+    return xmlMapper.readValue(this, clazz)
 }

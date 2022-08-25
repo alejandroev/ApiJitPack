@@ -48,6 +48,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        }
+    }
 }
 
 dependencies {
@@ -66,8 +72,12 @@ dependencies {
     implementation daggerHilt
     kapt kaptDaggerHilt
 
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/activation.jar')
+    implementation files('libs/mail.jar')
+
     implementation(dataFormatXml) {
-        transitive = true
+        exclude group: 'jakarta.activation'
     }
     implementation staxApi
 }
