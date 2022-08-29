@@ -4,11 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.data.common.utils.ApiAbakoException
-import co.dito.abako.apijitpack.data.common.utils.BackEndException
-import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
-import co.dito.abako.apijitpack.data.model.request.general.GpsDetailRequest
-import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
@@ -16,29 +11,24 @@ import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCa
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
-import co.dito.abako.apijitpack.utils.getBatteryLevel
+import co.dito.abako.apijitpack.utils.backupDocument.BackupDocument
+import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
 import co.dito.abako.apijitpack.utils.sendEmail.EmailSender
-import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBody
-import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBodyError
-import co.dito.abako.apijitpack.utils.sendEmail.data.EmailData
-import co.dito.abako.apijitpack.utils.sendEmail.data.EmailType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Date
 import javax.inject.Inject
 import javax.inject.Named
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val backupDocument: BackupDocument<BackupOrden>,
     private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
     private val emailSender: EmailSender,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
@@ -67,6 +57,13 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun ping() {
+        val backup = backupDocument.getBackup("Hola.json", BackupOrden::class.java) ?: BackupOrden()
+        if (backup is BackupOrden) {
+            val newBackup = backup.copy(list = listOf("Hola", "Holis"))
+            backupDocument.saveBackup(newBackup)
+        }
+
+
         viewModelScope.launch {
             getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
                 .catch { exception ->
@@ -104,3 +101,10 @@ sealed class MainActivityState {
     data class SuccessMain<T>(val response: T) : MainActivityState()
     data class ErrorMain<T>(val rawResponse: WrappedResponse<T>) : MainActivityState()
 }
+
+
+data class BackupOrden(
+    override val creationDateBackup: Date = Date(),
+    override val updateDateBackup: Date = Date(),
+    val list: List<String> = emptyList()
+) : BackupRequestData(creationDateBackup, updateDateBackup)
