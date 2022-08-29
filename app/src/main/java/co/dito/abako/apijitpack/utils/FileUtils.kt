@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class FileUtils @Inject constructor(@ApplicationContext context: Context) {
 
-    private val transmitterDatabaseFolder = File("${Environment.getDataDirectory()}/${context.packageName}/databases/")
+    private val transmitterDatabaseFolder = File("${Environment.getDataDirectory()}/data/${context.packageName}/databases/")
     private val receiverDatabaseFolder = File("${Environment.getExternalStorageDirectory().absolutePath}/Abako/Databases/")
 
     fun transferDatabaseToExternalStorage(databaseName: String): File {
