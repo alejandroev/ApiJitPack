@@ -1,27 +1,27 @@
 package co.dito.abako.apijitpack.data.network
 
 import android.util.Log
+import co.dito.abako.apijitpack.data.model.request.support.SupportRequest
+import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.sendEmail.EmailSender
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBodyError
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailData
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailType
 import com.google.gson.Gson
-import java.net.HttpURLConnection
-import java.net.URI
-import kotlin.coroutines.Continuation
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.RequestBody
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Buffer
+import java.net.HttpURLConnection
 
 @OptIn(DelicateCoroutinesApi::class)
-class LoggerInterceptor : Interceptor {
+class LoggerInterceptor(private val sendSupportResponseUseCase: SendSupportResponseUseCase) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -38,6 +38,7 @@ class LoggerInterceptor : Interceptor {
 
         if (validIfError(resultCode = response.code)) {
             sendNotificationError(request.url, request.body.bodyToString(), response.code, responseBody, timeResponse)
+            sendSupportCodi(request.url, request.body.bodyToString(), response.code, responseBody)
         }
 
         return response.newBuilder().body(responseBody.toResponseBody(response.body?.contentType())).build()
@@ -66,6 +67,25 @@ class LoggerInterceptor : Interceptor {
             )
 
             EmailSender().sendEmail(data)
+        }
+     }
+
+    private fun sendSupportCodi(url: HttpUrl, request: String, code: Int, responseBody: String) {
+        GlobalScope.launch {
+            val data = SupportRequest(
+                codiCode = "99999",
+                process = "Url: $url",
+                event = "Request: $request\n" +
+                        "Code: $code \n" +
+                        "Response: $responseBody"
+            )
+            sendSupportResponseUseCase(data)
+                .catch { exception ->
+                    exception.printStackTrace()
+                }
+                .collect {
+                    print(it.message)
+                }
         }
     }
 

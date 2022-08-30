@@ -10,7 +10,9 @@ import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessorImp
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
+import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FIREBASE
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
+import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,12 +30,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Named(RETROFIT_OK_HTTP_CLIENT)
+    @Named(RETROFIT_OK_HTTP_CLIENT_FIREBASE)
     @Provides
     @Singleton
-    fun provideOkHttpClient(
+    fun provideOkHttpClientFirebase(
         @ApplicationContext context: Context,
-        networkHelper: NetworkHelper,
+        networkHelper: NetworkHelper
     ): OkHttpClient {
         return if (BuildConfig.DEBUG) {
             OkHttpClient().newBuilder()
@@ -44,7 +46,6 @@ object NetworkModule {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
-                .addInterceptor(LoggerInterceptor())
                 .build()
         } else {
             OkHttpClient().newBuilder()
@@ -54,7 +55,38 @@ object NetworkModule {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
-                .addInterceptor(LoggerInterceptor())
+                .build()
+        }
+    }
+
+    @Named(RETROFIT_OK_HTTP_CLIENT)
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context,
+        networkHelper: NetworkHelper,
+        sendSupportResponseUseCase: SendSupportResponseUseCase
+    ): OkHttpClient {
+        return if (BuildConfig.DEBUG) {
+            OkHttpClient().newBuilder()
+                .cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
+                .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .followRedirects(true)
+                .followSslRedirects(true)
+                .addInterceptor(ConnectionInterceptor(networkHelper))
+                .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase))
+                .build()
+        } else {
+            OkHttpClient().newBuilder()
+                .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .followRedirects(true)
+                .followSslRedirects(true)
+                .addInterceptor(ConnectionInterceptor(networkHelper))
+                .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase))
                 .build()
         }
     }
@@ -62,7 +94,7 @@ object NetworkModule {
     @Named(RETROFIT_URL_FIREBASE_API)
     @Singleton
     @Provides
-    fun providerRetrofit(@Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient): Retrofit {
+    fun providerRetrofit(@Named(RETROFIT_OK_HTTP_CLIENT_FIREBASE) okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(URL_FIREBASE_DEFAULT)
             .client(okHttpClient)

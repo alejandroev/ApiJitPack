@@ -57,12 +57,11 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun ping() {
-        val backup = backupDocument.getBackup("Hola.json", BackupOrden::class.java) ?: BackupOrden()
+        /*val backup = backupDocument.getBackup("Hola.json", BackupOrden::class.java) ?: BackupOrden()
         if (backup is BackupOrden) {
             val newBackup = backup.copy(list = listOf("Hola", "Holis"))
             backupDocument.saveBackup(newBackup)
-        }
-
+        }*/
 
         viewModelScope.launch {
             getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
