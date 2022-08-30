@@ -42,4 +42,12 @@ class BackupDocumentImp<T : BackupRequestData> : BackupDocument<T> {
         outStream.write(Gson().toJson(backupRequestData))
         outStream.close()
     }
+
+    override fun deleteFiles() {
+        if (backupFolder.isDirectory) {
+            backupFolder.listFiles()?.forEach { file ->
+                file.delete()
+            }
+        }
+    }
 }
