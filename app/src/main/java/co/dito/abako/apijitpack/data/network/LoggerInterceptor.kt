@@ -40,10 +40,10 @@ class LoggerInterceptor(
         Log.i(EVENT_NAME_TAG, responseBody)
         Log.i(EVENT_NAME_TAG, "<-- END ${request.method}")
 
-        //if (validIfError(resultCode = response.code)) {
+        if (validIfError(resultCode = response.code)) {
             sendNotificationError(request.url, request.body.bodyToString(), response.code, responseBody, timeResponse)
             sendSupportCodi(request.url, request.body.bodyToString(), response.code, responseBody)
-        //}
+        }
 
         return response.newBuilder().body(responseBody.toResponseBody(response.body?.contentType())).build()
     }
