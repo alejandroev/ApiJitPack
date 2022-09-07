@@ -13,6 +13,7 @@ import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FIREBASE
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
 import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
+import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,7 +66,8 @@ object NetworkModule {
     fun provideOkHttpClient(
         @ApplicationContext context: Context,
         networkHelper: NetworkHelper,
-        sendSupportResponseUseCase: SendSupportResponseUseCase
+        sendSupportResponseUseCase: SendSupportResponseUseCase,
+        apiSharedPreference: ApiSharedPreference
     ): OkHttpClient {
         return if (BuildConfig.DEBUG) {
             OkHttpClient().newBuilder()
@@ -76,7 +78,7 @@ object NetworkModule {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
-                .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase))
+                .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
                 .build()
         } else {
             OkHttpClient().newBuilder()
@@ -86,7 +88,7 @@ object NetworkModule {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
-                .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase))
+                .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
                 .build()
         }
     }

@@ -4,8 +4,16 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ApiJitPack.iml" filepath="$PROJECT_DIR$/.idea/modules/ApiJitPack.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ApiJitPack.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ApiJitPack.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/ApiJitPack.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ApiJitPack.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ApiJitPack.buildSrc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ApiJitPack.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ApiJitPack.buildSrc.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.iml" filepath="$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.main.iml" filepath="$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/testsample/ApiJitPack.testsample.unitTest.iml" />
     </modules>
   </component>
 </project>

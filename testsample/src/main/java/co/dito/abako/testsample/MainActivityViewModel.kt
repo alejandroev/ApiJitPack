@@ -11,6 +11,7 @@ import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCa
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
+import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupDocument
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
 import co.dito.abako.apijitpack.utils.sendEmail.EmailSender
@@ -33,6 +34,7 @@ class MainActivityViewModel @Inject constructor(
     private val emailSender: EmailSender,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
     private val getReportDocumentResponseUseCase: GetReportDocumentResponseUseCase,
+    private val apiSharedPreference: ApiSharedPreference,
     private val exchangeRateUseCase: ExchangeRateUseCase,
     private val insertGpsTourUseCase: InsertGpsTourUseCase,
 ) : ViewModel() {
@@ -62,6 +64,8 @@ class MainActivityViewModel @Inject constructor(
             val newBackup = backup.copy(list = listOf("Hola", "Holis"))
             backupDocument.saveBackup(newBackup)
         }*/
+
+        apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
             getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
