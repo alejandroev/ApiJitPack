@@ -66,7 +66,6 @@ class GeneralRepositoryImp @Inject constructor(
 
     override suspend fun cancelDocumentResponse(cancelDocumentRequest: CancelDocumentRequest): Flow<MessageResponse> {
         val response = try {
-            throw Exception()
             generalMobileApiService.cancelDocument(cancelDocumentRequest)
         } catch (ex: Exception) {
             generalOldApiService.cancelDocument(cancelDocumentRequest.mapper()).mappingTo(MessageResponseOld::class.java).mapper()

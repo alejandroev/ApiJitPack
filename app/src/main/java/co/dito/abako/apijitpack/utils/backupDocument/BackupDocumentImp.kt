@@ -3,14 +3,18 @@ package co.dito.abako.apijitpack.utils.backupDocument
 import android.content.Context
 import android.os.Environment
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
+import javax.inject.Inject
 
-class BackupDocumentImp<T : BackupRequestData>(context: Context) : BackupDocument<T> {
+class BackupDocumentImp<T : BackupRequestData> @Inject constructor(
+    @ApplicationContext context: Context
+) : BackupDocument<T> {
 
     private val backupFolder = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
     private lateinit var backupFileDocument: File

@@ -1,5 +1,6 @@
 package co.dito.abako.testsample
 
+import android.content.Context
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
@@ -9,6 +10,7 @@ import co.dito.abako.apijitpack.utils.backupDocument.BackupDocumentImp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
 import javax.inject.Singleton
@@ -55,7 +57,7 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun providerBackupDocument(): BackupDocument<BackupOrden> = BackupDocumentImp()
+    fun providerBackupDocument(@ApplicationContext context: Context): BackupDocument<BackupOrden> = BackupDocumentImp(context)
 }
 
 private const val URL_EXAMPLE_OLD = "http://abako.ditosas.com/ServicioMovilDITO/ServicioMovilDITO.svc/"
