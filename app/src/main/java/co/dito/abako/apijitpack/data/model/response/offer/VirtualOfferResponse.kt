@@ -7,7 +7,7 @@ data class VirtualOfferResponse(
     @SerializedName("mensaje") val message: MessageResponse,
     @SerializedName("ofertas") val offersResponse: List<OfferResponse>,
     @SerializedName("articulos") val articlesOffersResponse: List<ArticleOfferResponse>,
-    @SerializedName("articulosElegidos") val articlesSelectedResponse: List<ArticleSelectedResponse>
+    @SerializedName("articulosElegigos") val articlesSelectedResponse: List<ArticleSelectedResponse>
 )
 
 data class OfferResponse(
