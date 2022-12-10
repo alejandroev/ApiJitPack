@@ -6,7 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class VirtualOfferResponse(
     @SerializedName("mensaje") val message: MessageResponse,
     @SerializedName("ofertas") val offersResponse: List<OfferResponse>,
-    @SerializedName("articulos") val articlesOffersResponse: List<ArticleOfferResponse>
+    @SerializedName("articulos") val articlesOffersResponse: List<ArticleOfferResponse>,
+    @SerializedName("articulosElegidos") val articlesSelectedResponse: List<ArticleSelectedResponse>
 )
 
 data class OfferResponse(
@@ -21,4 +22,9 @@ data class ArticleOfferResponse(
     @SerializedName("idArticulo") val articleId: Int,
     @SerializedName("codigo") val code: String,
     @SerializedName("nombreArticulo") val articleName: String
+)
+
+data class ArticleSelectedResponse(
+    @SerializedName("id") val articleSelectedId: Int,
+    @SerializedName("idArticulo") val articleId: Int
 )
