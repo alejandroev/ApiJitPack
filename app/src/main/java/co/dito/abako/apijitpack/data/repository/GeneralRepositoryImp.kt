@@ -4,17 +4,15 @@ import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.common.utils.mappingTo
 import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
+import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
-import co.dito.abako.apijitpack.data.model.request.virtualOffer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponseOld
 import co.dito.abako.apijitpack.data.model.response.general.ExchangeRateSyncResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponseOld
-import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponse
-import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponseOld
-import co.dito.abako.apijitpack.data.model.response.report.ReportResponse
-import co.dito.abako.apijitpack.data.model.response.virtualOffer.VirtualOfferResponse
+import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
+import co.dito.abako.apijitpack.data.model.response.report.*
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.GeneralOldApiService
 import co.dito.abako.apijitpack.data.network.validResponse
@@ -55,7 +53,7 @@ class GeneralRepositoryImp @Inject constructor(
         val response = try {
             generalMobileApiService.getVirtualOffer(virtualOfferRequest)
         }catch (ex: java.lang.Exception){
-            VirtualOfferResponse(MessageResponse(-1, ex.message.toString()), listOf(), listOf())
+            VirtualOfferResponse(MessageResponse(-1, ex.message.toString()), listOf(), listOf(), listOf())
         }
         response.message.validResponse()
         return flow {
@@ -107,11 +105,15 @@ class GeneralRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun reportResponse(documentReportRequest: DocumentReportRequest): Flow<ReportResponse> {
+    override suspend fun reportResponse(documentReportRequest: DocumentReportRequest): Flow<Resultado> {
         val response = try {
-            generalMobileApiService.getReport(documentReportRequest)
+            val jsonString = generalMobileApiService.getReport(documentReportRequest)
+            val payType = jsonString.xmlInforme.split("FormaPago>")[1].split("<")[0]
+            val pending = jsonString.xmlInforme.split("<Pendiente>")[1].split("<")[0]
+            val quota = jsonString.xmlInforme.split("<Cupo>")[1].split("<")[0]
+            Resultado(payType, pending, quota)
         } catch (ex: Exception){
-            ReportResponse(ex.message.toString(), 0.0, 0.0)
+            Resultado(ex.message.toString(), "", "")
         }
         return flow {
             emit(response)

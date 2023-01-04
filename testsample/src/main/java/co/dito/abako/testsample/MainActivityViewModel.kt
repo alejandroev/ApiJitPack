@@ -1,6 +1,7 @@
 package co.dito.abako.testsample
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
@@ -9,6 +10,7 @@ import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
+import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
@@ -25,6 +27,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
@@ -34,6 +37,7 @@ class MainActivityViewModel @Inject constructor(
     private val emailSender: EmailSender,
     @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
     private val getReportDocumentResponseUseCase: GetReportDocumentResponseUseCase,
+    private val getReportResponseUseCase: GetReportResponseUseCase,
     private val apiSharedPreference: ApiSharedPreference,
     private val exchangeRateUseCase: ExchangeRateUseCase,
     private val insertGpsTourUseCase: InsertGpsTourUseCase,
@@ -68,13 +72,21 @@ class MainActivityViewModel @Inject constructor(
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
+            getReportResponseUseCase(DocumentReportRequest(38, "34", 34))
+                .catch { exception ->
+                    exception.printStackTrace()
+                }
+                .collect{
+                    Log.d("response", it.toString())
+                    print(it.toString())
+                }
+            /*getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
                 .catch { exception ->
                     exception.printStackTrace()
                 }
                 .collect {
                     print(it.toString())
-                }
+                }*/
 
             /*val data = EmailData(
                 title = "TEST SERVER",

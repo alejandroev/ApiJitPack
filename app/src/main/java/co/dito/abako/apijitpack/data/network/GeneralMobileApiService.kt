@@ -3,14 +3,14 @@ package co.dito.abako.apijitpack.data.network
 import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.general.UserRequest
+import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
-import co.dito.abako.apijitpack.data.model.request.virtualOffer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
+import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponse
 import co.dito.abako.apijitpack.data.model.response.report.ReportResponse
-import co.dito.abako.apijitpack.data.model.response.virtualOffer.VirtualOfferResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
