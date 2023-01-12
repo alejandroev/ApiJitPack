@@ -36,4 +36,4 @@ class ConfigurationPropertiesEmail : Authenticator() {
 
 private const val EMAIL_TRANSMITTER = "notificaciones@abakosoluciones.com"
 private const val PASSWORD_EMAIL_TRANSMITTER = "Abako123"
-private const val EMAIL_RECEIVER = "movilidad@abakosoluciones.com"
+private const val EMAIL_RECEIVER = "soporte@abakosoluciones.com"
