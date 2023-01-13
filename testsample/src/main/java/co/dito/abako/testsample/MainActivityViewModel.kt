@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
+import co.dito.abako.apijitpack.data.model.request.notification.DetailNotificationFCMRequest
+import co.dito.abako.apijitpack.data.model.request.notification.NotificationFCMRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
@@ -13,6 +15,7 @@ import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentRespons
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
+import co.dito.abako.apijitpack.domain.notification.usecase.SendNotification
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupDocument
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
@@ -41,6 +44,7 @@ class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val exchangeRateUseCase: ExchangeRateUseCase,
     private val insertGpsTourUseCase: InsertGpsTourUseCase,
+    private val sendNotification: SendNotification
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -72,14 +76,29 @@ class MainActivityViewModel @Inject constructor(
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            getReportResponseUseCase(DocumentReportRequest(38, "34", 34))
+            val request = NotificationFCMRequest(
+                to = "cVcx4YzKSOeGvOUq5ZTi-p:APA91bGIsiiDDO3wYa18MspGrkwV8MO7fN1wkMEWEzE1lzw0SnO7RX7J9VI2i3vU7H_V8oUquZ5WUIdkM9TO0ZAq4q1F7jtDam9Ea4mMosztakKs5vyqmAMeNHGWxovE_YawqllANapc",
+                notification = DetailNotificationFCMRequest(
+                    body = "Hola",
+                    subtitle = "Prueba",
+                    title = "Hola"
+                )
+            )
+            try {
+                val response = sendNotification(request)
+                print(response)
+            }catch (ex: Exception) {
+                print(ex)
+            }
+
+            /*getReportResponseUseCase(DocumentReportRequest(38, "34", 34))
                 .catch { exception ->
                     exception.printStackTrace()
                 }
                 .collect{
                     Log.d("response", it.toString())
                     print(it.toString())
-                }
+                }*/
             /*getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
                 .catch { exception ->
                     exception.printStackTrace()

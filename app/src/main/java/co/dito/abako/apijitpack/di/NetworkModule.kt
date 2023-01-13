@@ -10,7 +10,10 @@ import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessorImp
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
+import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FCM
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FIREBASE
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_FCM_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
 import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
@@ -23,7 +26,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -104,6 +109,17 @@ object NetworkModule {
             .build()
     }
 
+    @Named(RETROFIT_URL_FCM_API)
+    @Singleton
+    @Provides
+    fun providerRetrofitFCM(@Named(RETROFIT_OK_HTTP_CLIENT_FCM) okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(URL_NOTIFICATION_FCM)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     @Singleton
     @Provides
     fun providerHelper(@ApplicationContext context: Context): NetworkHelper =
@@ -116,4 +132,5 @@ object NetworkModule {
 }
 
 private const val URL_FIREBASE_DEFAULT = "https://us-central1-codi-abako.cloudfunctions.net/"
+private const val URL_NOTIFICATION_FCM = "https://fcm.googleapis.com/fcm/"
 private const val TIME_OUT_SECONDS: Long = 200
