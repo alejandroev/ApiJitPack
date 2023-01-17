@@ -76,20 +76,22 @@ class LoggerInterceptor(
 
     private fun sendSupportCodi(url: HttpUrl, request: String, code: Int, responseBody: String) {
         GlobalScope.launch {
-            val data = SupportRequest(
-                codiCode = apiSharedPreference.getCodeCODI(),
-                process = "Url: $url",
-                event = "Request: $request\n" +
-                        "Code: $code \n" +
-                        "Response: $responseBody"
-            )
-            sendSupportResponseUseCase(data)
-                .catch { exception ->
-                    exception.printStackTrace()
-                }
-                .collect {
-                    print(it.message)
-                }
+            if (code != 404){
+                val data = SupportRequest(
+                    codiCode = apiSharedPreference.getCodeCODI(),
+                    process = "Url: $url",
+                    event = "Request: $request\n" +
+                            "Code: $code \n" +
+                            "Response: $responseBody"
+                )
+                sendSupportResponseUseCase(data)
+                    .catch { exception ->
+                        exception.printStackTrace()
+                    }
+                    .collect {
+                        print(it.message)
+                    }
+            }
         }
     }
 
