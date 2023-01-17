@@ -5,9 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.data.model.request.notification.DetailNotificationFCMRequest
 import co.dito.abako.apijitpack.data.model.request.notification.NotificationFCMRequest
-import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
@@ -77,11 +75,10 @@ class MainActivityViewModel @Inject constructor(
 
         viewModelScope.launch {
             val request = NotificationFCMRequest(
-                to = "cVcx4YzKSOeGvOUq5ZTi-p:APA91bGIsiiDDO3wYa18MspGrkwV8MO7fN1wkMEWEzE1lzw0SnO7RX7J9VI2i3vU7H_V8oUquZ5WUIdkM9TO0ZAq4q1F7jtDam9Ea4mMosztakKs5vyqmAMeNHGWxovE_YawqllANapc",
-                notification = DetailNotificationFCMRequest(
-                    body = "Hola",
-                    subtitle = "Prueba",
-                    title = "Hola"
+                to = "crA0nACQSHmZtzCxj64_Cr:APA91bGAWetm9Z7B3kmQ3bfPiwUsEp5tR9oQj5hOw4BfH2nDIdTERuSAHo0K_aCzGxixXE6ZOT2jPoc-ot9zoH3s1GSnTTvbqbNORsN5GQhD2X2LXk8gCf00VxBEkVEE6WW7SlkJdq2F",
+                data = mapOf(
+                    "title" to "Test",
+                    "body" to "Prueba"
                 )
             )
             try {
