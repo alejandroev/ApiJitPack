@@ -1,7 +1,6 @@
 package co.dito.abako.testsample
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
@@ -13,7 +12,7 @@ import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentRespons
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportResponseUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
-import co.dito.abako.apijitpack.domain.notification.usecase.SendNotification
+import co.dito.abako.apijitpack.domain.notification.usecase.SendNotificationUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupDocument
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
@@ -25,10 +24,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.math.log
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
@@ -42,7 +38,7 @@ class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val exchangeRateUseCase: ExchangeRateUseCase,
     private val insertGpsTourUseCase: InsertGpsTourUseCase,
-    private val sendNotification: SendNotification
+    private val sendNotificationUseCase: SendNotificationUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -74,15 +70,13 @@ class MainActivityViewModel @Inject constructor(
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            val request = NotificationFCMRequest(
-                to = "crA0nACQSHmZtzCxj64_Cr:APA91bGAWetm9Z7B3kmQ3bfPiwUsEp5tR9oQj5hOw4BfH2nDIdTERuSAHo0K_aCzGxixXE6ZOT2jPoc-ot9zoH3s1GSnTTvbqbNORsN5GQhD2X2LXk8gCf00VxBEkVEE6WW7SlkJdq2F",
-                data = mapOf(
-                    "title" to "Test",
-                    "body" to "Prueba"
-                )
-            )
             try {
-                val response = sendNotification(request)
+                val response = sendNotificationUseCase(
+                    to = "crA0nACQSHmZtzCxj64_Cr:APA91bGAWetm9Z7B3kmQ3bfPiwUsEp5tR9oQj5hOw4BfH2nDIdTERuSAHo0K_aCzGxixXE6ZOT2jPoc-ot9zoH3s1GSnTTvbqbNORsN5GQhD2X2LXk8gCf00VxBEkVEE6WW7SlkJdq2F",
+                    title = "Test",
+                    body = "Body",
+                    notificationType = "NEW_BRANCH_USER"
+                )
                 print(response)
             }catch (ex: Exception) {
                 print(ex)
