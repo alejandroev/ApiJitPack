@@ -9,7 +9,7 @@ import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FCM
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_OLD_API
-import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
+import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupDocument
 import co.dito.abako.apijitpack.utils.backupDocument.BackupDocumentImp

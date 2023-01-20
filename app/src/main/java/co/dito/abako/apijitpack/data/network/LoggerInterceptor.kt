@@ -2,7 +2,7 @@ package co.dito.abako.apijitpack.data.network
 
 import android.util.Log
 import co.dito.abako.apijitpack.data.model.request.support.SupportRequest
-import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
+import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.sendEmail.EmailSender
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBodyError

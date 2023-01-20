@@ -3,7 +3,7 @@ package co.dito.abako.apijitpack.di
 import co.dito.abako.apijitpack.data.network.FirebaseApiService
 import co.dito.abako.apijitpack.data.repository.FirebaseRepositoryImp
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
-import co.dito.abako.apijitpack.domain.support.FirebaseRepository
+import co.dito.abako.apijitpack.domain.firebase.FirebaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SupportModule {
+object FirebaseModule {
 
     @Singleton
     @Provides

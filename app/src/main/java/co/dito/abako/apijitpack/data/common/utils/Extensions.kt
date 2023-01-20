@@ -10,4 +10,11 @@ fun String?.stringToTimeOld(): Long {
 
 fun Date.dateTimeFormat(): String = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).format(this)
 
+fun String.dateTimeFormat(): Date =
+    try {
+        SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).parse(this)!!
+    } catch (ex: Exception) {
+        Date()
+    }
+
 fun Date.dateFormat(): String = SimpleDateFormat("yyyy/MM/dd", Locale.US).format(this)

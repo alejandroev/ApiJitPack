@@ -12,10 +12,9 @@ import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FCM
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FIREBASE
-import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FCM_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
-import co.dito.abako.apijitpack.domain.support.usecase.SendSupportResponseUseCase
+import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import dagger.Module
 import dagger.Provides

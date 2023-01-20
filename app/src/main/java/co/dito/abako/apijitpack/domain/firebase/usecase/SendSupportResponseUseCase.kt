@@ -1,8 +1,8 @@
-package co.dito.abako.apijitpack.domain.support.usecase
+package co.dito.abako.apijitpack.domain.firebase.usecase
 
 import co.dito.abako.apijitpack.data.model.request.support.SupportRequest
 import co.dito.abako.apijitpack.data.model.response.support.SupportResponse
-import co.dito.abako.apijitpack.domain.support.FirebaseRepository
+import co.dito.abako.apijitpack.domain.firebase.FirebaseRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

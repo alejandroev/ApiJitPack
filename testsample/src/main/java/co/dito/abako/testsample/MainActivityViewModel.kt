@@ -4,12 +4,16 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
+import co.dito.abako.apijitpack.data.model.request.firebase.LoginBusinessRequest
 import co.dito.abako.apijitpack.data.model.request.notification.NotificationFCMRequest
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
+import co.dito.abako.apijitpack.domain.client.usecase.GetClientByIdentificationUseCase
+import co.dito.abako.apijitpack.domain.client.usecase.VerifyClientExistByIdentificationUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportResponseUseCase
+import co.dito.abako.apijitpack.domain.firebase.usecase.LoginBusinessUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
 import co.dito.abako.apijitpack.domain.notification.usecase.SendNotificationUseCase
@@ -24,6 +28,8 @@ import javax.inject.Inject
 import javax.inject.Named
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -38,7 +44,10 @@ class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val exchangeRateUseCase: ExchangeRateUseCase,
     private val insertGpsTourUseCase: InsertGpsTourUseCase,
-    private val sendNotificationUseCase: SendNotificationUseCase
+    private val sendNotificationUseCase: SendNotificationUseCase,
+    private val loginBusinessUseCase: LoginBusinessUseCase,
+    private val verifyClientExistByIdentificationUseCase: VerifyClientExistByIdentificationUseCase,
+    private val getClientByIdentificationUseCase: GetClientByIdentificationUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -61,60 +70,16 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun ping() {
-        /*val backup = backupDocument.getBackup("Hola.json", BackupOrden::class.java) ?: BackupOrden()
-        if (backup is BackupOrden) {
-            val newBackup = backup.copy(list = listOf("Hola", "Holis"))
-            backupDocument.saveBackup(newBackup)
-        }*/
-
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            try {
-                val response = sendNotificationUseCase(
-                    to = "crA0nACQSHmZtzCxj64_Cr:APA91bGAWetm9Z7B3kmQ3bfPiwUsEp5tR9oQj5hOw4BfH2nDIdTERuSAHo0K_aCzGxixXE6ZOT2jPoc-ot9zoH3s1GSnTTvbqbNORsN5GQhD2X2LXk8gCf00VxBEkVEE6WW7SlkJdq2F",
-                    title = "Test",
-                    body = "Body",
-                    notificationType = "NEW_BRANCH_USER"
-                )
-                print(response)
-            }catch (ex: Exception) {
-                print(ex)
-            }
-
-            /*getReportResponseUseCase(DocumentReportRequest(38, "34", 34))
+            getClientByIdentificationUseCase("11105879700000")
                 .catch { exception ->
-                    exception.printStackTrace()
-                }
-                .collect{
-                    Log.d("response", it.toString())
-                    print(it.toString())
-                }*/
-            /*getReportDocumentResponseUseCase(DocumentReportRequest(1, "123", 12))
-                .catch { exception ->
-                    exception.printStackTrace()
+                    print(exception)
                 }
                 .collect {
-                    print(it.toString())
-                }*/
-
-            /*val data = EmailData(
-                title = "TEST SERVER",
-                bodyError = EmailBodyError(
-                    url = "test.com",
-                    request = "hola",
-                    response = "response",
-                    resultCode = 500,
-                    timeResponse = 1
-                ),
-                type = EmailType.AUTOMATIC
-            )
-
-            try {
-                emailSender.sendEmail(data)
-            }catch (ex: Exception) {
-                ex.printStackTrace()
-            }*/
+                    print(it)
+                }
         }
     }
 }
