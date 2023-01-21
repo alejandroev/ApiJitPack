@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
-import co.dito.abako.apijitpack.data.model.request.firebase.LoginBusinessRequest
-import co.dito.abako.apijitpack.data.model.request.notification.NotificationFCMRequest
+import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.client.usecase.GetClientByIdentificationUseCase
@@ -34,20 +33,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val backupDocument: BackupDocument<BackupOrden>,
-    private val getDeliveryResponseUseCase: GetDeliveryResponseUseCase,
-    private val emailSender: EmailSender,
-    @Named(ERROR_PROCESSOR_API) private val errorProcessor: ErrorProcessor,
-    private val getReportDocumentResponseUseCase: GetReportDocumentResponseUseCase,
-    private val getReportResponseUseCase: GetReportResponseUseCase,
     private val apiSharedPreference: ApiSharedPreference,
-    private val exchangeRateUseCase: ExchangeRateUseCase,
-    private val insertGpsTourUseCase: InsertGpsTourUseCase,
-    private val sendNotificationUseCase: SendNotificationUseCase,
-    private val loginBusinessUseCase: LoginBusinessUseCase,
-    private val verifyClientExistByIdentificationUseCase: VerifyClientExistByIdentificationUseCase,
-    private val getClientByIdentificationUseCase: GetClientByIdentificationUseCase
+    private val getClientByIdentificationUseCase: GetClientByIdentificationUseCase,
+    private val hostChangeInterceptor: HostChangeInterceptor
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -73,7 +61,8 @@ class MainActivityViewModel @Inject constructor(
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            getClientByIdentificationUseCase("11105879700000")
+            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
+            getClientByIdentificationUseCase("1110587970")
                 .catch { exception ->
                     print(exception)
                 }

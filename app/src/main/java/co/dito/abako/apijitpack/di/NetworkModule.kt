@@ -2,6 +2,7 @@ package co.dito.abako.apijitpack.di
 
 import android.content.Context
 import co.dito.abako.apijitpack.BuildConfig
+import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelper
 import co.dito.abako.apijitpack.data.common.helper.NetworkHelperImp
 import co.dito.abako.apijitpack.data.network.ConnectionInterceptor
@@ -12,9 +13,13 @@ import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FCM
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FIREBASE
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FCM_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
+import co.dito.abako.apijitpack.domain.http.GetURLBusiness
+import co.dito.abako.apijitpack.domain.http.GetURLMobile
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import dagger.Module
 import dagger.Provides
@@ -25,9 +30,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.Cache
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -71,7 +74,8 @@ object NetworkModule {
         @ApplicationContext context: Context,
         networkHelper: NetworkHelper,
         sendSupportResponseUseCase: SendSupportResponseUseCase,
-        apiSharedPreference: ApiSharedPreference
+        apiSharedPreference: ApiSharedPreference,
+        hostChangeInterceptor: HostChangeInterceptor,
     ): OkHttpClient {
         return if (BuildConfig.DEBUG) {
             OkHttpClient().newBuilder()
@@ -81,6 +85,7 @@ object NetworkModule {
                 .retryOnConnectionFailure(true)
                 .followRedirects(true)
                 .followSslRedirects(true)
+                .addInterceptor(hostChangeInterceptor)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
                 .build()
@@ -91,6 +96,7 @@ object NetworkModule {
                 .retryOnConnectionFailure(true)
                 .followRedirects(true)
                 .followSslRedirects(true)
+                .addInterceptor(hostChangeInterceptor)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
                 .build()
@@ -123,6 +129,34 @@ object NetworkModule {
     @Provides
     fun providerHelper(@ApplicationContext context: Context): NetworkHelper =
         NetworkHelperImp(context)
+/*
+    @Named(RETROFIT_URL_MOBILE_API)
+    @Singleton
+    @Provides
+    fun providerRetrofitMobile(
+        @Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient,
+        getURLMobile: GetURLMobile
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(getURLMobile())
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }*/
+
+    @Named(RETROFIT_URL_BUSINESS_API)
+    @Singleton
+    @Provides
+    fun providerRetrofitBusiness(
+        @Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient,
+        getURLBusiness: GetURLBusiness
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(getURLBusiness())
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
     @Named(ERROR_PROCESSOR_API)
     @Singleton

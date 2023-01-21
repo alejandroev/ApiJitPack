@@ -1,4 +1,4 @@
-package co.dito.abako.apijitpack.data.common
+package co.dito.abako.apijitpack.data.network
 
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -8,10 +8,11 @@ import okhttp3.Response
 import java.net.URISyntaxException
 import javax.inject.Inject
 
-class HostSelectionInterceptor @Inject constructor() : Interceptor {
+class HostChangeInterceptor @Inject constructor() : Interceptor {
 
-    @Volatile
-    private var host: HttpUrl? = null
+    companion object {
+        private var host: HttpUrl? = null
+    }
 
     fun setHost(url: String) {
         host = url.toHttpUrlOrNull()
@@ -25,6 +26,7 @@ class HostSelectionInterceptor @Inject constructor() : Interceptor {
                     request.url.newBuilder()
                         .scheme(host.scheme)
                         .host(host.toUrl().toURI().host)
+                        .port(host.port)
                         .build()
                 } catch (e: URISyntaxException) {
                     null

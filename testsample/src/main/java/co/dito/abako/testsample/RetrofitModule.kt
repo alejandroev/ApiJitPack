@@ -6,8 +6,6 @@ import co.dito.abako.apijitpack.data.network.ConnectionInterceptor
 import co.dito.abako.apijitpack.data.network.LoggerInterceptor
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FCM
-import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
-import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_OLD_API
 import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
@@ -36,28 +34,6 @@ object RetrofitModule {
     fun providerRetrofitOld(@Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(URL_EXAMPLE_OLD)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    @Named(RETROFIT_URL_MOBILE_API)
-    @Singleton
-    @Provides
-    fun providerRetrofitMobile(@Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(URL_MOBILE_API)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-    @Named(RETROFIT_URL_BUSINESS_API)
-    @Singleton
-    @Provides
-    fun providerRetrofitBusiness(@Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(URL_BUSINESS_API)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
