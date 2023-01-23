@@ -1,13 +1,11 @@
 package co.dito.abako.apijitpack.di
 
-import co.dito.abako.apijitpack.data.network.ClientApiService
-import co.dito.abako.apijitpack.data.network.FirebaseApiService
+import co.dito.abako.apijitpack.data.network.ClientBusinessApiService
+import co.dito.abako.apijitpack.data.network.ClientMobileApiService
 import co.dito.abako.apijitpack.data.repository.ClientRepositoryImp
-import co.dito.abako.apijitpack.data.repository.FirebaseRepositoryImp
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
-import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.client.ClientRepository
-import co.dito.abako.apijitpack.domain.firebase.FirebaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,11 +20,22 @@ object ClientModule {
 
     @Singleton
     @Provides
-    fun providerClientApiService(@Named(RETROFIT_URL_BUSINESS_API) retrofit: Retrofit): ClientApiService =
-        retrofit.create(ClientApiService::class.java)
+    fun providerClientBusinessApiService(@Named(RETROFIT_URL_BUSINESS_API) retrofit: Retrofit): ClientBusinessApiService =
+        retrofit.create(ClientBusinessApiService::class.java)
 
     @Singleton
     @Provides
-    fun providerClientRepository(clientApiService: ClientApiService): ClientRepository =
-        ClientRepositoryImp(clientApiService = clientApiService)
+    fun providerClientMobileApiService(@Named(RETROFIT_URL_MOBILE_API) retrofit: Retrofit): ClientMobileApiService =
+        retrofit.create(ClientMobileApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun providerClientRepository(
+        clientBusinessApiService: ClientBusinessApiService,
+        clientMobileApiService: ClientMobileApiService
+    ): ClientRepository =
+        ClientRepositoryImp(
+            clientBusinessApiService = clientBusinessApiService,
+            clientMobileApiService = clientMobileApiService
+        )
 }

@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface ClientApiService {
+interface ClientBusinessApiService {
 
     @GET("CredencialesCliente/VerificarExistenciaCliente/{identification}")
     suspend fun verifyClientExist(@Path("identification") identification: String): Response<ResponseBody>

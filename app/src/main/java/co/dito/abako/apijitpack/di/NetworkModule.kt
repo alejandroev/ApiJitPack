@@ -129,7 +129,7 @@ object NetworkModule {
     @Provides
     fun providerHelper(@ApplicationContext context: Context): NetworkHelper =
         NetworkHelperImp(context)
-/*
+
     @Named(RETROFIT_URL_MOBILE_API)
     @Singleton
     @Provides
@@ -142,7 +142,7 @@ object NetworkModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }*/
+    }
 
     @Named(RETROFIT_URL_BUSINESS_API)
     @Singleton
