@@ -14,5 +14,7 @@ data class GpsDetailRequest(
 )
 
 enum class GPSType(val value: String) {
-    DELIVERED("EN")
+    DELIVERED("EN"),
+    ROUTE("RE"),
+    CHECK_IN("IN"),
 }

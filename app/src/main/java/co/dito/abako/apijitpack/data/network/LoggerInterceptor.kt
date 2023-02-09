@@ -41,14 +41,21 @@ class LoggerInterceptor(
         Log.i(EVENT_NAME_TAG, "<-- END ${request.method}")
 
         if (validIfError(resultCode = response.code)) {
-            sendNotificationError(request.url, request.body.bodyToString(), response.code, responseBody, timeResponse)
+            sendNotificationError(
+                request.url,
+                request.body.bodyToString(),
+                response.code,
+                responseBody,
+                timeResponse
+            )
             sendSupportCodi(request.url, request.body.bodyToString(), response.code, responseBody)
         }
 
-        return response.newBuilder().body(responseBody.toResponseBody(response.body?.contentType())).build()
+        return response.newBuilder().body(responseBody.toResponseBody(response.body?.contentType()))
+            .build()
     }
 
-    private fun validIfError(resultCode: Int) : Boolean {
+    private fun validIfError(resultCode: Int): Boolean {
         return resultCode == HttpURLConnection.HTTP_NOT_FOUND ||
                 resultCode == HttpURLConnection.HTTP_NOT_ACCEPTABLE ||
                 resultCode == HttpURLConnection.HTTP_BAD_REQUEST ||
@@ -56,27 +63,36 @@ class LoggerInterceptor(
                 resultCode == HttpURLConnection.HTTP_FORBIDDEN
     }
 
-     private fun sendNotificationError(url: HttpUrl, request: String, code: Int, responseBody: String, timeResponse: Long) {
-        GlobalScope.launch {
-            val data = EmailData(
-                title = "Error Server",
-                bodyError = EmailBodyError(
-                    url = url.toString(),
-                    request = request,
-                    resultCode = code,
-                    response = responseBody,
-                    timeResponse = timeResponse
-                ),
-                type = EmailType.AUTOMATIC
-            )
+    private fun sendNotificationError(
+        url: HttpUrl,
+        request: String,
+        code: Int,
+        responseBody: String,
+        timeResponse: Long
+    ) {
 
-            EmailSender().sendEmail(data)
+        GlobalScope.launch {
+            if (code != 404) {
+                val data = EmailData(
+                    title = "Error Server",
+                    bodyError = EmailBodyError(
+                        url = url.toString(),
+                        request = request,
+                        resultCode = code,
+                        response = responseBody,
+                        timeResponse = timeResponse
+                    ),
+                    type = EmailType.AUTOMATIC
+                )
+
+                EmailSender().sendEmail(data)
+            }
         }
-     }
+    }
 
     private fun sendSupportCodi(url: HttpUrl, request: String, code: Int, responseBody: String) {
         GlobalScope.launch {
-            if (code != 404){
+            if (code != 404) {
                 val data = SupportRequest(
                     codiCode = apiSharedPreference.getCodeCODI(),
                     process = "Url: $url",
