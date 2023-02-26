@@ -31,6 +31,7 @@ import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -88,6 +89,7 @@ object NetworkModule {
                 .addInterceptor(hostChangeInterceptor)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build()
         } else {
             OkHttpClient().newBuilder()
@@ -99,6 +101,7 @@ object NetworkModule {
                 .addInterceptor(hostChangeInterceptor)
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build()
         }
     }

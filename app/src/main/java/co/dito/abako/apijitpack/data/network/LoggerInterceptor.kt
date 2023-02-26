@@ -1,6 +1,5 @@
 package co.dito.abako.apijitpack.data.network
 
-import android.util.Log
 import co.dito.abako.apijitpack.data.model.request.support.SupportRequest
 import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
@@ -8,7 +7,6 @@ import co.dito.abako.apijitpack.utils.sendEmail.EmailSender
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailBodyError
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailData
 import co.dito.abako.apijitpack.utils.sendEmail.data.EmailType
-import com.google.gson.Gson
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.catch
@@ -34,14 +32,9 @@ class LoggerInterceptor(
         response.body?.let { responseBody = it.string() }
 
         val timeResponse = response.receivedResponseAtMillis - response.sentRequestAtMillis
-        Log.i(EVENT_NAME_TAG, "<-- ${request.url.toUri()} $timeResponse ms")
-        Log.i(EVENT_NAME_TAG, Gson().toJson(request.body.bodyToString()))
-        Log.i(EVENT_NAME_TAG, response.code.toString())
-        Log.i(EVENT_NAME_TAG, responseBody)
-        Log.i(EVENT_NAME_TAG, "<-- END ${request.method}")
 
         if (validIfError(resultCode = response.code)) {
-            //sendNotificationError(
+            sendNotificationError(
                 request.url,
                 request.body.bodyToString(),
                 response.code,
@@ -110,5 +103,3 @@ class LoggerInterceptor(
         return buffer.readUtf8()
     }
 }
-
-private const val EVENT_NAME_TAG = "Abako Request"
