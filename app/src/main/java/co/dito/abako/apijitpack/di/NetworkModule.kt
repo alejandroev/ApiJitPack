@@ -18,8 +18,8 @@ import co.dito.abako.apijitpack.domain.RETROFIT_URL_FCM_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
-import co.dito.abako.apijitpack.domain.http.GetURLBusiness
-import co.dito.abako.apijitpack.domain.http.GetURLMobile
+import co.dito.abako.apijitpack.domain.http.GetURLBusinessUseCase
+import co.dito.abako.apijitpack.domain.http.GetURLMobileUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import dagger.Module
 import dagger.Provides
@@ -138,10 +138,10 @@ object NetworkModule {
     @Provides
     fun providerRetrofitMobile(
         @Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient,
-        getURLMobile: GetURLMobile
+        getURLMobileUseCase: GetURLMobileUseCase
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(getURLMobile())
+            .baseUrl(getURLMobileUseCase())
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -152,10 +152,10 @@ object NetworkModule {
     @Provides
     fun providerRetrofitBusiness(
         @Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient,
-        getURLBusiness: GetURLBusiness
+        getURLBusinessUseCase: GetURLBusinessUseCase
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(getURLBusiness())
+            .baseUrl(getURLBusinessUseCase())
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

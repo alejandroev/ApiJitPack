@@ -3,9 +3,9 @@ package co.dito.abako.apijitpack.domain.http
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import javax.inject.Inject
 
-class GetURLBusiness @Inject constructor(
+class PutURLMobileUseCase @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference
 ) {
 
-    operator fun invoke() : String = apiSharedPreference.getURLBusiness()
+    suspend operator fun invoke(url: String) = apiSharedPreference.putURLMobile(url)
 }
