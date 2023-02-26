@@ -41,7 +41,7 @@ class LoggerInterceptor(
         Log.i(EVENT_NAME_TAG, "<-- END ${request.method}")
 
         if (validIfError(resultCode = response.code)) {
-            sendNotificationError(
+            //sendNotificationError(
                 request.url,
                 request.body.bodyToString(),
                 response.code,
@@ -63,14 +63,7 @@ class LoggerInterceptor(
                 resultCode == HttpURLConnection.HTTP_FORBIDDEN
     }
 
-    private fun sendNotificationError(
-        url: HttpUrl,
-        request: String,
-        code: Int,
-        responseBody: String,
-        timeResponse: Long
-    ) {
-
+     private fun sendNotificationError(url: HttpUrl, request: String, code: Int, responseBody: String, timeResponse: Long) {
         GlobalScope.launch {
             if (code != 404) {
                 val data = EmailData(
