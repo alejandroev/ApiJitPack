@@ -17,4 +17,7 @@ fun String.dateTimeFormat(): Date =
         Date()
     }
 
-fun Date.dateFormat(): String = SimpleDateFormat("yyyy/MM/dd", Locale.US).format(this)
+fun Date.dateFormat(format: String = CURRENT_DATE_FORMAT): String = SimpleDateFormat(format, Locale.US).format(this)
+
+private const val CURRENT_DATE_FORMAT = "yyyy/MM/dd"
+const val REQUEST_DATE_FORMAT = "yyyy-MM-dd"

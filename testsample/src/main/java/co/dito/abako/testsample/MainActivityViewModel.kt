@@ -7,6 +7,9 @@ import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
+import co.dito.abako.apijitpack.domain.article.usecase.FetchCategoryArticlesUseCase
+import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
+import co.dito.abako.apijitpack.domain.article.usecase.FetchPromotionArticlesUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.GetClientByIdentificationUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.VerifyClientExistByIdentificationUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
@@ -35,7 +38,10 @@ import kotlinx.coroutines.launch
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val getClientByIdentificationUseCase: GetClientByIdentificationUseCase,
-    private val hostChangeInterceptor: HostChangeInterceptor
+    private val hostChangeInterceptor: HostChangeInterceptor,
+    private val fetchPromotionArticlesUseCase: FetchPromotionArticlesUseCase,
+    private val fetchLineArticlesUseCase: FetchLineArticlesUseCase,
+    private val fetchCategoryArticlesUseCase: FetchCategoryArticlesUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -67,6 +73,27 @@ class MainActivityViewModel @Inject constructor(
                     print(exception)
                 }
                 .collect {
+                    print(it)
+                }
+            fetchPromotionArticlesUseCase(0, true, Date())
+                .catch { exception ->
+                    print(exception)
+                }
+                .collect{
+                    print(it)
+                }
+            fetchLineArticlesUseCase(Date(), 0, true)
+                .catch { exception ->
+                    print(exception)
+                }
+                .collect{
+                    print(it)
+                }
+            fetchCategoryArticlesUseCase(Date(), 0, true,1)
+                .catch {exception ->
+                    print(exception)
+                }
+                .collect{
                     print(it)
                 }
         }
