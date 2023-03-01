@@ -17,9 +17,11 @@ import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FCM_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_SHOPPING_CART_API
 import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
 import co.dito.abako.apijitpack.domain.http.GetURLBusinessUseCase
 import co.dito.abako.apijitpack.domain.http.GetURLMobileUseCase
+import co.dito.abako.apijitpack.domain.http.GetURLShoppingCartUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import dagger.Module
 import dagger.Provides
@@ -142,6 +144,20 @@ object NetworkModule {
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(getURLMobileUseCase())
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Named(RETROFIT_URL_SHOPPING_CART_API)
+    @Singleton
+    @Provides
+    fun providerRetrofitShoppingCart(
+        @Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient,
+        getURLShoppingCartUseCase: GetURLShoppingCartUseCase
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(getURLShoppingCartUseCase())
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

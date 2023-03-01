@@ -4,12 +4,17 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
+import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
+import co.dito.abako.apijitpack.domain.article.usecase.FetchArticleClientFilterUseCase
+import co.dito.abako.apijitpack.domain.article.usecase.FetchBannerArticleUseCase
+import co.dito.abako.apijitpack.domain.article.usecase.FetchBannerUseCase
 import co.dito.abako.apijitpack.domain.article.usecase.FetchCategoryArticlesUseCase
 import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.article.usecase.FetchPromotionArticlesUseCase
+import co.dito.abako.apijitpack.domain.article.usecase.SearchArticleUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.GetClientByIdentificationUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.VerifyClientExistByIdentificationUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
@@ -37,11 +42,12 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
-    private val getClientByIdentificationUseCase: GetClientByIdentificationUseCase,
     private val hostChangeInterceptor: HostChangeInterceptor,
+    private val fetchArticleClientFilterUseCase: FetchArticleClientFilterUseCase,
     private val fetchPromotionArticlesUseCase: FetchPromotionArticlesUseCase,
-    private val fetchLineArticlesUseCase: FetchLineArticlesUseCase,
-    private val fetchCategoryArticlesUseCase: FetchCategoryArticlesUseCase
+    private val fetchBannerArticleUseCase: FetchBannerArticleUseCase,
+    private val fetchBannerUseCase: FetchBannerUseCase,
+    private val searchArticleUseCase: SearchArticleUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -68,32 +74,39 @@ class MainActivityViewModel @Inject constructor(
 
         viewModelScope.launch {
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
-            getClientByIdentificationUseCase("1110587970")
-                .catch { exception ->
-                    print(exception)
-                }
-                .collect {
+
+            fetchPromotionArticlesUseCase(0, true, Date(), "1")
+                .catch {
+                    print(it.message)
+                }.collect {
                     print(it)
                 }
-            fetchPromotionArticlesUseCase(0, true, Date())
-                .catch { exception ->
-                    print(exception)
-                }
-                .collect{
+
+            fetchArticleClientFilterUseCase(Date(), 0, true, 3, "CT", "1")
+                .catch {
+                    print(it.message)
+                }.collect {
                     print(it)
                 }
-            fetchLineArticlesUseCase(Date(), 0, true)
-                .catch { exception ->
-                    print(exception)
-                }
-                .collect{
+
+            fetchBannerArticleUseCase("1", 0)
+                .catch {
+                    print(it.message)
+                }.collect {
                     print(it)
                 }
-            fetchCategoryArticlesUseCase(Date(), 0, true,1)
-                .catch {exception ->
-                    print(exception)
+
+            fetchBannerUseCase(APIBannerRequest("GET", 1))
+                .catch {
+                    print(it.message)
+                }.collect {
+                    print(it)
                 }
-                .collect{
+
+            searchArticleUseCase("Alp", Date(), 0, "1")
+                .catch {
+                    print(it.message)
+                }.collect {
                     print(it)
                 }
         }

@@ -1,8 +1,10 @@
 package co.dito.abako.apijitpack.di
 
 import co.dito.abako.apijitpack.data.network.ArticleMobileAPIService
+import co.dito.abako.apijitpack.data.network.BannerShoppingCartAPIService
 import co.dito.abako.apijitpack.data.repository.ArticleRepositoryImp
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_SHOPPING_CART_API
 import co.dito.abako.apijitpack.domain.article.ArticleRepository
 import dagger.Module
 import dagger.Provides
@@ -23,10 +25,17 @@ object ArticleModule {
 
     @Singleton
     @Provides
+    fun providerBannerShoppingCartApiService(@Named(RETROFIT_URL_SHOPPING_CART_API) retrofit: Retrofit): BannerShoppingCartAPIService =
+        retrofit.create(BannerShoppingCartAPIService::class.java)
+
+    @Singleton
+    @Provides
     fun providerArticleRepository(
-        articleMobileAPIService: ArticleMobileAPIService
+        articleMobileAPIService: ArticleMobileAPIService,
+        shoppingCartAPIService: BannerShoppingCartAPIService
     ): ArticleRepository =
         ArticleRepositoryImp(
-            articleMobileAPIService = articleMobileAPIService
+            articleMobileAPIService = articleMobileAPIService,
+            shoppingCartAPIService = shoppingCartAPIService
         )
 }

@@ -10,6 +10,6 @@ class FetchPromotionArticlesUseCase @Inject constructor(
     private val articleRepository: ArticleRepository
 ) {
 
-    suspend operator fun invoke(companyId: Int, isAll: Boolean, currentDate: Date): Flow<APIPromotionArticleResponse> =
-        articleRepository.fetchPromotionArticles(companyId = companyId, isAll = isAll, currentDate = currentDate)
+    suspend operator fun invoke(companyId: Int, isAll: Boolean, currentDate: Date, agency: String): Flow<APIPromotionArticleResponse> =
+        articleRepository.fetchPromotionArticles(companyId = companyId, isAll = isAll, currentDate = currentDate, agency = agency)
 }
