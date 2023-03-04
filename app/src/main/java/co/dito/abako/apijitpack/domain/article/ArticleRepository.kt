@@ -1,14 +1,15 @@
 package co.dito.abako.apijitpack.domain.article
 
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
+import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
-import co.dito.abako.apijitpack.data.model.response.article.APIArticleResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
+import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
+import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 import java.util.Date
 
 interface ArticleRepository {
@@ -54,5 +55,17 @@ interface ArticleRepository {
     suspend fun getBannerArticle(
         code: String,
         companyId: Int,
-    ): Flow<APIArticleMasterResponse?   >
+    ): Flow<APIArticleMasterResponse?>
+
+    suspend fun getSetFavoriteArticles(
+        apiFavoriteRequest: APIFavoriteRequest
+    ): APIFavoriteResponse
+
+    suspend fun getFavorites(
+        date: Date,
+        personId: Int,
+        isAll: Boolean,
+        agency: String,
+        articles: List<APIDetailFavoriteRequestResponse>
+    ): Flow<APIArticleMasterResponse?>
 }

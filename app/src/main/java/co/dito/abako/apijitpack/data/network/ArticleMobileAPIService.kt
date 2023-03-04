@@ -1,13 +1,18 @@
 package co.dito.abako.apijitpack.data.network
 
+import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
+import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
+import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceArticleResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ArticleMobileAPIService {
@@ -87,6 +92,26 @@ interface ArticleMobileAPIService {
         @Path("companyId") companyId: Int,
         @Path("agency") agency: String
     ): Call<ResponseBody?>
+
+    @POST("Favoritos/GetSet")
+    suspend fun setDelFavorites(
+        @Body apiFavoriteRequest: APIFavoriteRequest
+    ): APIFavoriteResponse
+
+    @POST("Articulos/RecuperarArticuloConIds")
+    suspend fun recoverArticlesByIds(
+        @Body apiArticleFavoriteRequest: APIArticleFavoriteRequest
+    ): APIArticleMasterResponse?
+
+    @POST("Inventario/RecuperarInventarioConIds")
+    fun recoverInventoriesByIds(
+        @Body apiArticleFavoriteRequest: APIArticleFavoriteRequest
+    ): Call<ResponseBody?>
+
+    @POST("Precios/RecuperarPreciosConIds")
+    suspend fun recoverPricesByIds(
+        @Body apiArticleFavoriteRequest: APIArticleFavoriteRequest
+    ): APIPriceMasterResponse?
 
     @GET("Lineas/{Fecha}/{IdEmpresa}/{EsTodo}")
     fun fetchLineArticles(

@@ -3,10 +3,14 @@ package co.dito.abako.apijitpack.data.repository
 import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
+import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
+import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
+import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
+import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.inventory.APIInventoryResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
 import co.dito.abako.apijitpack.data.network.ArticleMobileAPIService
@@ -173,4 +177,44 @@ class ArticleRepositoryImp(
             )
         )
     }
+
+    override suspend fun getSetFavoriteArticles(apiFavoriteRequest: APIFavoriteRequest): APIFavoriteResponse =
+        articleMobileAPIService.setDelFavorites(apiFavoriteRequest = apiFavoriteRequest)
+
+    override suspend fun getFavorites(
+        date: Date,
+        personId: Int,
+        isAll: Boolean,
+        agency: String,
+        articles: List<APIDetailFavoriteRequestResponse>
+    ): Flow<APIArticleMasterResponse?> = flow {
+        val articleRequest = APIArticleFavoriteRequest(
+            isAll = if (isAll) "S" else "N",
+            date = date.dateFormat(REQUEST_DATE_FORMAT),
+            agency = agency,
+            personId = personId,
+            articles = articles
+        )
+
+        val articleResponse = articleMobileAPIService.recoverArticlesByIds(articleRequest)
+        if (articleResponse == null) {
+            emit(null)
+            return@flow
+        }
+
+        val priceResponse = articleMobileAPIService.recoverPricesByIds(articleRequest)
+        val inventoryResponse = articleMobileAPIService.recoverInventoriesByIds(articleRequest).awaitResponse().extractArray(
+            Array<APIInventoryResponse>::class.java,
+            "inventarios"
+        )?.toList() ?: emptyList()
+
+        emit(
+            articleResponse.copy(
+                pricesDetail = priceResponse?.pricesDetail ?: emptyList(),
+                metricUnits = priceResponse?.metricUnits ?: emptyList(),
+                inventories = inventoryResponse
+            )
+        )
+    }
+
 }

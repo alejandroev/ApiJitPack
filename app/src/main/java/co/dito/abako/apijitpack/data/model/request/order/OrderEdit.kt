@@ -9,6 +9,6 @@ data class OrderEdit(
     @SerializedName("agn") val agn: String,
     @SerializedName("usr") val usr: Int,
     @SerializedName("fnt") val fnt: Int,
-    @SerializedName("dll") val dll: List<DllOrder>,
-    @SerializedName("dllCmb") val dllCmb: List<DllCmbOrder>
+    @SerializedName("dll") val dll: List<APIOrderDetailRequest>,
+    @SerializedName("dllCmb") val dllCmb: List<APIOrderChangeRequest>
 )

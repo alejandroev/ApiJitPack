@@ -1,7 +1,9 @@
 package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
+import co.dito.abako.apijitpack.data.model.request.order.APIOrderRequest
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
+import co.dito.abako.apijitpack.data.model.response.order.APIOrderResponse
 import co.dito.abako.apijitpack.data.network.OrderMobileApiService
 import co.dito.abako.apijitpack.data.network.validResponse
 import co.dito.abako.apijitpack.domain.order.OrderRepository
@@ -20,5 +22,11 @@ class OrderRepositoryImp @Inject constructor(
         return flow {
             emit(response)
         }
+    }
+
+    override suspend fun insertOrder(apiOrderRequest: APIOrderRequest): Flow<APIOrderResponse> = flow {
+        val response = orderMobileApiService.insertOrder(apiOrderRequest)
+        response.states.forEach { it.validResponse() }
+        emit(response)
     }
 }

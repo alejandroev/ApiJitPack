@@ -5,6 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
+import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
+import co.dito.abako.apijitpack.data.model.request.favorite.FavoriteRequestType
+import co.dito.abako.apijitpack.data.model.request.order.APIOrderDetailRequest
+import co.dito.abako.apijitpack.data.model.request.order.APIOrderRequest
+import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.data.repository.utils.ErrorProcessor
 import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
@@ -20,10 +25,13 @@ import co.dito.abako.apijitpack.domain.client.usecase.VerifyClientExistByIdentif
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetDeliveryResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportDocumentResponseUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.GetReportResponseUseCase
+import co.dito.abako.apijitpack.domain.favorite.FetchFavoriteArticlesUseCase
+import co.dito.abako.apijitpack.domain.favorite.FetchSetFavoriteArticlesUseCase
 import co.dito.abako.apijitpack.domain.firebase.usecase.LoginBusinessUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.ExchangeRateUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.InsertGpsTourUseCase
 import co.dito.abako.apijitpack.domain.notification.usecase.SendNotificationUseCase
+import co.dito.abako.apijitpack.domain.order.usecase.InsertOrderUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupDocument
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
@@ -38,16 +46,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val fetchArticleClientFilterUseCase: FetchArticleClientFilterUseCase,
-    private val fetchPromotionArticlesUseCase: FetchPromotionArticlesUseCase,
-    private val fetchBannerArticleUseCase: FetchBannerArticleUseCase,
-    private val fetchBannerUseCase: FetchBannerUseCase,
-    private val searchArticleUseCase: SearchArticleUseCase
+    private val fetchFavoriteArticlesUseCase: FetchFavoriteArticlesUseCase,
+    private val fetchSetFavoriteArticlesUseCase: FetchSetFavoriteArticlesUseCase,
+    private val insertOrderUseCase: InsertOrderUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -75,37 +82,33 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
 
-            fetchPromotionArticlesUseCase(0, true, Date(), "1")
-                .catch {
-                    print(it.message)
-                }.collect {
-                    print(it)
-                }
-
-            fetchArticleClientFilterUseCase(Date(), 0, true, 3, "CT", "1")
-                .catch {
-                    print(it.message)
-                }.collect {
-                    print(it)
-                }
-
-            fetchBannerArticleUseCase("1", 0)
-                .catch {
-                    print(it.message)
-                }.collect {
-                    print(it)
-                }
-
-            fetchBannerUseCase(APIBannerRequest("GET", 1))
-                .catch {
-                    print(it.message)
-                }.collect {
-                    print(it)
-                }
-
-            searchArticleUseCase("Alp", Date(), 0, "1")
-                .catch {
-                    print(it.message)
+            val request = APIOrderRequest(
+                1,
+                "1",
+                0.0,
+                "",
+                1,
+                1,
+                1,
+                1,
+                Date(),
+                Date(),
+                "1",
+                0.0,
+                0.0,
+                UUID.randomUUID().toString(),
+                listOf(APIOrderDetailRequest(
+                    1,
+                    1.0,
+                    "UM",
+                    0.0,
+                    0,
+                    0.0
+                ))
+            )
+            insertOrderUseCase(request)
+                .catch { exception ->
+                    print(exception)
                 }.collect {
                     print(it)
                 }
