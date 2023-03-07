@@ -77,20 +77,6 @@ class GeneralRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun reportDocument(documentReportRequest: DocumentReportRequest): Flow<DocumentReportResponse> {
-        val response = try {
-            generalMobileApiService.getReportDocument(documentReportRequest)
-        } catch (ex: Exception) {
-            generalOldApiService.getReportDocument(documentReportRequest.mapper())
-                .mappingTo(DocumentReportResponseOld::class.java).mapper()
-        }
-
-        response.validResponse()
-        return flow {
-            emit(response)
-        }
-    }
-
     override suspend fun reportResponse(documentReportRequest: DocumentReportRequest): Flow<Resultado> {
         val response = try {
             val jsonString = generalMobileApiService.getReport(documentReportRequest)

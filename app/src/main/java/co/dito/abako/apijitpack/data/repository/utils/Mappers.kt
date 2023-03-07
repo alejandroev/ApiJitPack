@@ -28,13 +28,6 @@ fun CancelDocumentRequest.mapper(): CancelDocumentRequestOld =
         validationReference = validationReference
     )
 
-fun DocumentReportRequest.mapper(): DocumentReportRequestOld =
-    DocumentReportRequestOld(
-        idReport = idReport,
-        idConsult = idConsult,
-        idPerson = idPerson
-    )
-
 fun GpsDetailRequest.mapper(): GpsDetailRequestOld = GpsDetailRequestOld(
     idBusiness = idBusiness,
     longitude = longitude,
