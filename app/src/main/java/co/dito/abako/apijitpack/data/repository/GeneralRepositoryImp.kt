@@ -10,7 +10,6 @@ import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponseOld
 import co.dito.abako.apijitpack.data.model.response.general.ExchangeRateSyncResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
-import co.dito.abako.apijitpack.data.model.response.general.MessageResponseOld
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.report.*
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
@@ -25,7 +24,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.w3c.dom.Document
-
 
 class GeneralRepositoryImp @Inject constructor(
     private val generalOldApiService: GeneralOldApiService,
@@ -52,7 +50,7 @@ class GeneralRepositoryImp @Inject constructor(
     ): Flow<VirtualOfferResponse> {
         val response = try {
             generalMobileApiService.getVirtualOffer(virtualOfferRequest)
-        }catch (ex: java.lang.Exception){
+        } catch (ex: java.lang.Exception) {
             VirtualOfferResponse(MessageResponse(-1, ex.message.toString()), listOf(), listOf(), listOf())
         }
         response.message.validResponse()
@@ -79,18 +77,6 @@ class GeneralRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun cancelDocumentResponse(cancelDocumentRequest: CancelDocumentRequest): Flow<MessageResponse> {
-        val response = try {
-            generalMobileApiService.cancelDocument(cancelDocumentRequest)
-        } catch (ex: Exception) {
-            generalOldApiService.cancelDocument(cancelDocumentRequest.mapper()).mappingTo(MessageResponseOld::class.java).mapper()
-        }
-        response.validResponse()
-        return flow {
-            emit(response)
-        }
-    }
-
     override suspend fun reportDocument(documentReportRequest: DocumentReportRequest): Flow<DocumentReportResponse> {
         val response = try {
             generalMobileApiService.getReportDocument(documentReportRequest)
@@ -112,7 +98,7 @@ class GeneralRepositoryImp @Inject constructor(
             val pending = jsonString.xmlInforme.split("<Pendiente>")[1].split("<")[0]
             val quota = jsonString.xmlInforme.split("<Cupo>")[1].split("<")[0]
             Resultado(payType, pending, quota)
-        } catch (ex: Exception){
+        } catch (ex: Exception) {
             Resultado(ex.message.toString(), "", "")
         }
         return flow {

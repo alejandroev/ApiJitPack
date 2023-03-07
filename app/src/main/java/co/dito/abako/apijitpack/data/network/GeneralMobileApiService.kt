@@ -25,9 +25,6 @@ interface GeneralMobileApiService {
     @POST("Geo/SetRecorridoGPS")
     suspend fun gpsTourResponse(@Body gpsTourRequest: GpsTourRequest): GpsTourResponse
 
-    @POST("OperacionesDocumentos/AnularDocumentos")
-    suspend fun cancelDocument(@Body cancelDocumentRequest: CancelDocumentRequest): MessageResponse
-
     @POST("Informes/GetInformeDocumento")
     suspend fun getReportDocument(@Body documentReportRequest: DocumentReportRequest): DocumentReportResponse
 

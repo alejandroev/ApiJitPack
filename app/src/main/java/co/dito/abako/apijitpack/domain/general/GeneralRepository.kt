@@ -31,10 +31,6 @@ interface GeneralRepository {
         gpsTourRequest: GpsTourRequest
     ): Flow<GpsTourResponse>
 
-    suspend fun cancelDocumentResponse(
-        cancelDocumentRequest: CancelDocumentRequest
-    ): Flow<MessageResponse>
-
     suspend fun reportDocument(
         documentReportRequest: DocumentReportRequest
     ): Flow<DocumentReportResponse>
