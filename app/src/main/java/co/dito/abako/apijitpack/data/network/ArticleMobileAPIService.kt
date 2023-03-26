@@ -60,6 +60,18 @@ interface ArticleMobileAPIService {
     ): Call<ResponseBody?>
 
     @GET("Articulos/RecuperarArticulo/{code}/{companyId}")
+    suspend fun fetchArticleByCode(
+        @Path("code") code: String,
+        @Path("companyId") companyId: Int
+    ): APIArticleMasterResponse?
+
+    @GET("Precios/RecuperarPrecioCodigo/{code}/{companyId}")
+    suspend fun fetchPriceCode(
+        @Path("code") date: String,
+        @Path("companyId") companyId: Int
+    ): APIPriceMasterResponse?
+
+    @GET("Articulos/RecuperarArticulo/{code}/{companyId}")
     suspend fun fetchBannerArticle(
         @Path("code") code: String,
         @Path("companyId") companyId: Int,

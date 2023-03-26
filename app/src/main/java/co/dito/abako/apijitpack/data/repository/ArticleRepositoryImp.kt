@@ -95,6 +95,19 @@ class ArticleRepositoryImp(
             )
         }
 
+    override suspend fun fetchArticlesByCode(code: String, companyId: Int): Flow<APIArticleMasterResponse?> = flow {
+        val articleResponse = articleMobileAPIService.fetchArticleByCode(code, companyId)
+        val priceResponse = articleMobileAPIService.fetchPriceCode(code, companyId)
+
+        emit(
+            articleResponse?.copy(
+                pricesDetail = priceResponse?.pricesDetail ?: emptyList(),
+                metricUnits = priceResponse?.metricUnits ?: emptyList(),
+                inventories = emptyList()
+            )
+        )
+    }
+
     override suspend fun fetchLineArticle(
         date: Date,
         companyId: Int,

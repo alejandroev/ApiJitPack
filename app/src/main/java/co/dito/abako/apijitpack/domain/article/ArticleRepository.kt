@@ -30,6 +30,11 @@ interface ArticleRepository {
         agency: String
     ): Flow<APIArticleMasterResponse?>
 
+    suspend fun fetchArticlesByCode(
+        code: String,
+        companyId: Int
+    ): Flow<APIArticleMasterResponse?>
+
     suspend fun fetchLineArticle(
         date: Date,
         companyId: Int,

@@ -7,6 +7,7 @@ import co.dito.abako.apijitpack.data.model.request.order.APIOrderDetailRequest
 import co.dito.abako.apijitpack.data.model.request.order.APIOrderRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
+import co.dito.abako.apijitpack.domain.article.usecase.FetchArticleCodeUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.FetchHistoryClientReportUseCase
 import co.dito.abako.apijitpack.domain.favorite.FetchFavoriteArticlesUseCase
 import co.dito.abako.apijitpack.domain.favorite.FetchSetFavoriteArticlesUseCase
@@ -26,7 +27,7 @@ import java.util.UUID
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val fetchHistoryClientReportUseCase: FetchHistoryClientReportUseCase
+    private val fetchArticleCodeUseCase: FetchArticleCodeUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -59,7 +60,7 @@ class MainActivityViewModel @Inject constructor(
                 personId = 16364
             )
 
-            fetchHistoryClientReportUseCase(request)
+            fetchArticleCodeUseCase("576516", 0)
                 .catch { exception ->
                     print(exception)
                 }
