@@ -11,6 +11,7 @@ import co.dito.abako.apijitpack.domain.article.usecase.FetchArticleCodeUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.FetchHistoryClientReportUseCase
 import co.dito.abako.apijitpack.domain.favorite.FetchFavoriteArticlesUseCase
 import co.dito.abako.apijitpack.domain.favorite.FetchSetFavoriteArticlesUseCase
+import co.dito.abako.apijitpack.domain.general.usecase.GetConfigurationUseCase
 import co.dito.abako.apijitpack.domain.order.usecase.InsertOrderUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
@@ -20,6 +21,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -27,7 +29,8 @@ import java.util.UUID
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val fetchArticleCodeUseCase: FetchArticleCodeUseCase
+    private val fetchArticleCodeUseCase: FetchArticleCodeUseCase,
+    private val getConfigurationUseCase: GetConfigurationUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -55,16 +58,10 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
 
-            val request = DocumentReportRequest(
-                searchId = "16364",
-                personId = 16364
-            )
-
-            fetchArticleCodeUseCase("576516", 0)
+            getConfigurationUseCase(Date(), 0, true)
                 .catch { exception ->
                     print(exception)
-                }
-                .collect {
+                }.collect {
                     print(it)
                 }
         }

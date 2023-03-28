@@ -1,18 +1,19 @@
 package co.dito.abako.apijitpack.data.network
 
-import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.general.UserRequest
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
+import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
-import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
-import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponse
 import co.dito.abako.apijitpack.data.model.response.report.ReportResponse
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GeneralMobileApiService {
 
@@ -27,4 +28,11 @@ interface GeneralMobileApiService {
 
     @POST("Informes/GetInforme")
     suspend fun getReport(@Body documentReportRequest: DocumentReportRequest): ReportResponse
+
+    @GET("Configuracion/{date}/{companyId}/{isAll}")
+    suspend fun getConfiguration(
+        @Path("date") date: String,
+        @Path("companyId") companyId: Int,
+        @Path("isAll") isAll: String
+    ): List<APIConfigurationResponse>
 }
