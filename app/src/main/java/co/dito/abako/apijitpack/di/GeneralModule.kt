@@ -3,10 +3,12 @@ package co.dito.abako.apijitpack.di
 import co.dito.abako.apijitpack.data.network.GeneralBusinessApiService
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.GeneralOldApiService
+import co.dito.abako.apijitpack.data.repository.GeneralBackupBackupRepositoryImp
 import co.dito.abako.apijitpack.data.repository.GeneralRepositoryImp
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_OLD_API
+import co.dito.abako.apijitpack.domain.general.GeneralBackupRepository
 import co.dito.abako.apijitpack.domain.general.GeneralRepository
 import dagger.Module
 import dagger.Provides
@@ -37,11 +39,17 @@ object GeneralModule {
 
     @Singleton
     @Provides
-    fun providerGeneralRepository(
+    fun providerGeneralBackupRepository(
         generalOldApiService: GeneralOldApiService,
         generalMobileApiService: GeneralMobileApiService
-    ): GeneralRepository =
-        GeneralRepositoryImp(
+    ): GeneralBackupRepository =
+        GeneralBackupBackupRepositoryImp(
             generalOldApiService,
             generalMobileApiService)
+
+    @Singleton
+    @Provides
+    fun providerGeneralRepository(
+        generalMobileApiService: GeneralMobileApiService
+    ): GeneralRepository = GeneralRepositoryImp(generalMobileApiService)
 }

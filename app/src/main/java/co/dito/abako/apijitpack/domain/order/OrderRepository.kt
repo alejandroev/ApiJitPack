@@ -7,8 +7,7 @@ import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.order.APIOrderResponse
-import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponse
-import co.dito.abako.apijitpack.data.model.response.report.HistoryReportResponse
+import co.dito.abako.apijitpack.data.model.response.report.APIHistoryReportResponse
 import kotlinx.coroutines.flow.Flow
 
 interface OrderRepository {
@@ -19,7 +18,7 @@ interface OrderRepository {
 
     suspend fun fetchHistoryClient(
         documentReportRequest: DocumentReportRequest
-    ): Flow<HistoryReportResponse?>
+    ): Flow<APIHistoryReportResponse?>
 
     suspend fun cancelDocumentResponse(
         cancelDocumentRequest: CancelDocumentRequest

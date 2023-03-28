@@ -1,6 +1,5 @@
 package co.dito.abako.apijitpack.data.repository
 
-import co.dito.abako.apijitpack.data.common.utils.mappingTo
 import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.order.APIOrderRequest
@@ -8,16 +7,12 @@ import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.order.APIOrderResponse
-import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponse
-import co.dito.abako.apijitpack.data.model.response.report.DocumentReportResponseOld
-import co.dito.abako.apijitpack.data.model.response.report.HistoryDetailMasterResponse
-import co.dito.abako.apijitpack.data.model.response.report.HistoryHeaderMasterResponse
-import co.dito.abako.apijitpack.data.model.response.report.HistoryHeaderResponse
-import co.dito.abako.apijitpack.data.model.response.report.HistoryReportResponse
+import co.dito.abako.apijitpack.data.model.response.report.APIHistoryDetailMasterResponse
+import co.dito.abako.apijitpack.data.model.response.report.APIHistoryHeaderMasterResponse
+import co.dito.abako.apijitpack.data.model.response.report.APIHistoryReportResponse
 import co.dito.abako.apijitpack.data.model.response.report.mapper
 import co.dito.abako.apijitpack.data.network.OrderMobileApiService
 import co.dito.abako.apijitpack.data.network.validResponse
-import co.dito.abako.apijitpack.data.repository.utils.mapper
 import co.dito.abako.apijitpack.domain.order.OrderRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -51,7 +46,7 @@ class OrderRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun fetchHistoryClient(documentReportRequest: DocumentReportRequest): Flow<HistoryReportResponse?> = flow {
+    override suspend fun fetchHistoryClient(documentReportRequest: DocumentReportRequest): Flow<APIHistoryReportResponse?> = flow {
         val response = orderMobileApiService.getReportDocument(documentReportRequest)
         response.validResponse()
         if (response.header.isEmpty()) {
@@ -59,10 +54,10 @@ class OrderRepositoryImp @Inject constructor(
             return@flow
         }
 
-        val header = "<Encabezado>${response.header}</Encabezado>".mapper(HistoryHeaderMasterResponse::class.java)
-        val detail = response.detail.mapper(HistoryDetailMasterResponse::class.java)
+        val header = "<Encabezado>${response.header}</Encabezado>".mapper(APIHistoryHeaderMasterResponse::class.java)
+        val detail = response.detail.mapper(APIHistoryDetailMasterResponse::class.java)
         emit(
-            HistoryReportResponse(
+            APIHistoryReportResponse(
                 header = header.header,
                 details = detail.details
             )

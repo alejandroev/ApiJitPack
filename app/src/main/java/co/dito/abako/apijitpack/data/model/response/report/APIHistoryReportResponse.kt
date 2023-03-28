@@ -2,16 +2,16 @@ package co.dito.abako.apijitpack.data.model.response.report
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class HistoryReportResponse(
-    val header: List<HistoryHeaderResponse> = emptyList(),
-    val details: List<HistoryDetailResponse> = emptyList()
+data class APIHistoryReportResponse(
+    val header: List<APIHistoryHeaderResponse> = emptyList(),
+    val details: List<APIHistoryDetailResponse> = emptyList()
 )
 
-data class HistoryHeaderMasterResponse(
-    @JsonProperty("Encabezado") val header: List<HistoryHeaderResponse>
+data class APIHistoryHeaderMasterResponse(
+    @JsonProperty("Encabezado") val header: List<APIHistoryHeaderResponse>
 )
 
-data class HistoryHeaderResponse(
+data class APIHistoryHeaderResponse(
     @JsonProperty("Pedido") val orderConsecutive: Int,
     @JsonProperty("Fecha") val creationDate: String,
     @JsonProperty("Asesor") val adviserName: String,
@@ -21,11 +21,11 @@ data class HistoryHeaderResponse(
     @JsonProperty("Estado") val state: String
 )
 
-data class HistoryDetailMasterResponse(
-    @JsonProperty("DetalleFactura") val details: List<HistoryDetailResponse>
+data class APIHistoryDetailMasterResponse(
+    @JsonProperty("DetalleFactura") val details: List<APIHistoryDetailResponse>
 )
 
-data class HistoryDetailResponse(
+data class APIHistoryDetailResponse(
     @JsonProperty("IdpedidoVenta") val orderId: Int,
     @JsonProperty("Codigo") val articleCode: String,
     @JsonProperty("Descripcion") val articleDescription: String,
