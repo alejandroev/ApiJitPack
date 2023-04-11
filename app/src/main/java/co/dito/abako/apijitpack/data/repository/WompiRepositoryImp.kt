@@ -72,9 +72,9 @@ class WompiRepositoryImp(
         val response = wompiAPIService.transactionValidationById(
             id = id
         ).awaitResponse().extractArray(
-            Array<TransactionValidationResponse>::class.java,
+            TransactionValidationResponse::class.java,
             "data"
-        )?.firstOrNull() ?: throw Exception("Transaction Validation not found")
+        ) ?: throw Exception("Transaction Validation not found")
 
         emit(response)
     }

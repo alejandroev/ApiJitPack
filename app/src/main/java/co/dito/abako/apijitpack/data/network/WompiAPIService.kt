@@ -19,7 +19,7 @@ interface WompiAPIService {
         @Path("validationReference") validationReference: String, @Path("date") date: String
     ): Call<ResponseBody?>
 
-    @GET("Wompi/VerificarTransacciones/{id}")
+    @GET("Wompi/VerificarTransaccion/{id}")
     fun transactionValidationById(
         @Path("id") id: String
     ): Call<ResponseBody?>
