@@ -15,6 +15,8 @@ import co.dito.abako.apijitpack.domain.favorite.FetchSetFavoriteArticlesUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.GetConfigurationUseCase
 import co.dito.abako.apijitpack.domain.order.usecase.InsertOrderUseCase
 import co.dito.abako.apijitpack.domain.wompi.usecase.FetchConfigurationWompiUseCase
+import co.dito.abako.apijitpack.domain.wompi.usecase.TransactionValidationByIdWompiUseCase
+import co.dito.abako.apijitpack.domain.wompi.usecase.TransactionValidationWompiUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +33,8 @@ import java.util.UUID
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val fetchConfigurationWompiUseCase: FetchConfigurationWompiUseCase
+    private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase,
+    private val transactionValidationByIdWompiUseCase: TransactionValidationByIdWompiUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -57,14 +60,19 @@ class MainActivityViewModel @Inject constructor(
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
+            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9444/")
 
-            fetchConfigurationWompiUseCase(
-                WompiRequest(
-                    validationReference = UUID.randomUUID().toString(),
-                    amount = "100000"
-                ),
-                "https://laplaza.page.link/mVFa"
+            transactionValidationWompiUseCase(
+                "55ee051f-fdf4-48d2-bafa-fc398816b22c",
+                Date()
+            ).catch {exception ->
+                print(exception)
+            }.collect {
+                print(it)
+            }
+
+            transactionValidationByIdWompiUseCase(
+                "115569-1681169789-38765"
             ).catch {exception ->
                 print(exception)
             }.collect {

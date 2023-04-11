@@ -1,11 +1,18 @@
 package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.common.utils.BackEndException
+import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
+import co.dito.abako.apijitpack.data.common.utils.dateFormat
 import co.dito.abako.apijitpack.data.model.request.wompi.WompiRequest
+import co.dito.abako.apijitpack.data.model.response.inventory.APIInventoryResponse
+import co.dito.abako.apijitpack.data.model.response.wompi.TransactionValidationResponse
 import co.dito.abako.apijitpack.data.network.WompiAPIService
 import co.dito.abako.apijitpack.domain.wompi.WompiRepository
+import co.dito.abako.apijitpack.utils.extractArray
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.awaitResponse
+import java.util.Date
 
 class WompiRepositoryImp(
     private val wompiAPIService: WompiAPIService
@@ -13,8 +20,8 @@ class WompiRepositoryImp(
 
     override suspend fun fetchConfigurationWompi(wompiRequest: WompiRequest, redirectUrl: String): Flow<String> = flow {
         val response = wompiAPIService.getWompi(wompiRequest)
-        // response.publicKey == "0" ||
-        if (response.publicKey.isEmpty() || response.signatureIntegrity.isEmpty()) {
+
+        if (response.publicKey.isEmpty() || response.publicKey == "0" || response.signatureIntegrity.isEmpty()) {
             throw BackEndException("Wompi configuration not found")
         }
 
@@ -35,7 +42,7 @@ class WompiRepositoryImp(
                 "            amountInCents:${wompiRequest.amount},\n" +
                 "            reference: \"${wompiRequest.validationReference}\",\n" +
                 "            publicKey: \"${response.publicKey}\",\n" +
-                "            redirectUrl: '$redirectUrl'\n" +
+                "            redirectUrl: \"$redirectUrl\"\n" +
                 "            })\n" +
                 "          \n" +
                 "            checkout.open(function ( result ) {\n" +
@@ -47,5 +54,28 @@ class WompiRepositoryImp(
                 "</body>\n" +
                 "</html>"
         emit(data)
+    }
+
+    override suspend fun transactionValidation(validationReference: String, creationDate: Date): Flow<TransactionValidationResponse> = flow {
+        val response = wompiAPIService.transactionValidation(
+            validationReference = validationReference,
+            date = creationDate.dateFormat(REQUEST_DATE_FORMAT)
+        ).awaitResponse().extractArray(
+            Array<TransactionValidationResponse>::class.java,
+            "data"
+        )?.firstOrNull() ?: throw Exception("Transaction Validation not found")
+
+        emit(response)
+    }
+
+    override suspend fun transactionValidation(id: String): Flow<TransactionValidationResponse> = flow {
+        val response = wompiAPIService.transactionValidationById(
+            id = id
+        ).awaitResponse().extractArray(
+            Array<TransactionValidationResponse>::class.java,
+            "data"
+        )?.firstOrNull() ?: throw Exception("Transaction Validation not found")
+
+        emit(response)
     }
 }
