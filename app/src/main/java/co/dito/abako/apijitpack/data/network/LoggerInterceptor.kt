@@ -57,7 +57,7 @@ class LoggerInterceptor(
     }
 
      private fun sendNotificationError(url: HttpUrl, request: String, code: Int, responseBody: String, timeResponse: Long) {
-        GlobalScope.launch {
+        /*GlobalScope.launch {
             if (code != 404) {
                 val data = EmailData(
                     title = "Error Server",
@@ -73,7 +73,7 @@ class LoggerInterceptor(
 
                 EmailSender().sendEmail(data)
             }
-        }
+        }*/
     }
 
     private fun sendSupportCodi(url: HttpUrl, request: String, code: Int, responseBody: String) {
