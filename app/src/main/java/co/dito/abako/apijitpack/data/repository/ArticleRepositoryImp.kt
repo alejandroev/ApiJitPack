@@ -119,7 +119,14 @@ class ArticleRepositoryImp(
                 companyId = companyId,
                 isAll = if (isAll) "S" else "N"
             )
-            val apiLineResponse = response.awaitResponse().extractArray(Array<APILineResponse>::class.java, "lineas")?.toList() ?: emptyList()
+            val apiLineResponse = response.awaitResponse().extractArray(Array<APILineResponse>::class.java, "lineas")?.toMutableList() ?: mutableListOf()
+            apiLineResponse.forEachIndexed { index, line ->
+                val categories = mutableListOf<APICategoryResponse>()
+                line.categoriesList.forEach {
+                    categories.add(it.copy(lineId = line.lineId))
+                }
+                apiLineResponse[index] = line.copy(categoriesList = categories)
+            }
             emit(apiLineResponse)
         }
     }

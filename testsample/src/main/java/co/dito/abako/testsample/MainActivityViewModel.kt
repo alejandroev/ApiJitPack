@@ -9,6 +9,7 @@ import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.request.wompi.WompiRequest
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.domain.article.usecase.FetchArticleCodeUseCase
+import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.delivery.usecase.FetchHistoryClientReportUseCase
 import co.dito.abako.apijitpack.domain.favorite.FetchFavoriteArticlesUseCase
 import co.dito.abako.apijitpack.domain.favorite.FetchSetFavoriteArticlesUseCase
@@ -34,7 +35,7 @@ import java.util.UUID
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val orderFollowUpOrderUseCase: FollowUpOrderUseCase
+    private val fetchLineArticlesUseCase: FetchLineArticlesUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -62,10 +63,10 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
 
-            orderFollowUpOrderUseCase(
-                orderId = 83956,
-                orderConsecutive = 62450,
-                email = "Sin Mail"
+            fetchLineArticlesUseCase(
+                Date(),
+                0,
+                true
             ).catch { exception ->
                 print(exception)
             }.collect { response ->
