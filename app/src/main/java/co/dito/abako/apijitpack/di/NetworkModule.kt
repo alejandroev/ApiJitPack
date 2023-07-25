@@ -13,12 +13,14 @@ import co.dito.abako.apijitpack.domain.ERROR_PROCESSOR_API
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FCM
 import co.dito.abako.apijitpack.domain.RETROFIT_OK_HTTP_CLIENT_FIREBASE
+import co.dito.abako.apijitpack.domain.RETROFIT_URL_ADMINISTRATION_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_BUSINESS_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FCM_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_FIREBASE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_MOBILE_API
 import co.dito.abako.apijitpack.domain.RETROFIT_URL_SHOPPING_CART_API
 import co.dito.abako.apijitpack.domain.firebase.usecase.SendSupportResponseUseCase
+import co.dito.abako.apijitpack.domain.http.GetURLAdministrationUseCase
 import co.dito.abako.apijitpack.domain.http.GetURLBusinessUseCase
 import co.dito.abako.apijitpack.domain.http.GetURLMobileUseCase
 import co.dito.abako.apijitpack.domain.http.GetURLShoppingCartUseCase
@@ -158,6 +160,20 @@ object NetworkModule {
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(getURLShoppingCartUseCase())
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Named(RETROFIT_URL_ADMINISTRATION_API)
+    @Singleton
+    @Provides
+    fun providerRetrofitAdministration(
+        @Named(RETROFIT_OK_HTTP_CLIENT) okHttpClient: OkHttpClient,
+        getURLAdministrationUseCase: GetURLAdministrationUseCase
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(getURLAdministrationUseCase())
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

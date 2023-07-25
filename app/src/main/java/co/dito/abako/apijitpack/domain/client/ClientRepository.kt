@@ -14,7 +14,9 @@ interface ClientRepository {
 
     suspend fun fetchClientResponse(identification: String): Flow<APIAbakoClientResponse>
 
-    suspend fun createClient(@Body clientRequest: APICreateClientRequest): Flow<APICreateClientResponse>
+    suspend fun createClient(clientRequest: APICreateClientRequest): Flow<APICreateClientResponse>
 
-    suspend fun createClientV2(@Body clientRequest: APICreateClientV2Request): Flow<APICreateClientV2Response>
+    suspend fun createClientV2(clientRequest: APICreateClientV2Request): Flow<APICreateClientV2Response>
+
+    suspend fun createClientV1(clientRequest: APICreateClientRequest): Flow<APICreateClientResponse>
 }

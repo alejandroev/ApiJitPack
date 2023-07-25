@@ -45,11 +45,16 @@ object GeneralModule {
     ): GeneralBackupRepository =
         GeneralBackupBackupRepositoryImp(
             generalOldApiService,
-            generalMobileApiService)
+            generalMobileApiService
+        )
 
     @Singleton
     @Provides
     fun providerGeneralRepository(
-        generalMobileApiService: GeneralMobileApiService
-    ): GeneralRepository = GeneralRepositoryImp(generalMobileApiService)
+        generalMobileApiService: GeneralMobileApiService,
+        generalBusinessApiService: GeneralBusinessApiService
+    ): GeneralRepository = GeneralRepositoryImp(
+        generalMobileApiService = generalMobileApiService,
+        generalBusinessApiService = generalBusinessApiService
+    )
 }

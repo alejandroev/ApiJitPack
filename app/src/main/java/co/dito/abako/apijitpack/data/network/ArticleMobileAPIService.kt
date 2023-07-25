@@ -40,6 +40,9 @@ interface ArticleMobileAPIService {
         @Path("type") type: String,
     ): APIArticleMasterResponse?
 
+    @GET("Articulos/RecuperarArticuloPedido/{orderId}")
+    suspend fun fetchArticlesByOrderId(@Path("orderId") orderId: Int): APIArticleMasterResponse?
+
     @GET("Precios/RecuperarPrecioClienteFiltro/{date}/{companyId}/{isAll}/{typeId}/{type}")
     suspend fun fetchPriceClientFilter(
         @Path("date") date: String,

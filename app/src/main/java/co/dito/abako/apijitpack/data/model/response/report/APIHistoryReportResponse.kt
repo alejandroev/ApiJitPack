@@ -18,6 +18,7 @@ data class APIHistoryHeaderResponse(
     @JsonProperty("Total") val total: Double,
     @JsonProperty("Impuestos") val taxes: Double,
     @JsonProperty("IdpedidoVenta") val orderId: Int,
+    @JsonProperty("ReferenciaValidacion") val rfv: String,
     @JsonProperty("Estado") val state: String
 )
 
@@ -27,12 +28,14 @@ data class APIHistoryDetailMasterResponse(
 
 data class APIHistoryDetailResponse(
     @JsonProperty("IdpedidoVenta") val orderId: Int,
+    @JsonProperty("IdArticulos") val articleId: Int,
     @JsonProperty("Codigo") val articleCode: String,
     @JsonProperty("Descripcion") val articleDescription: String,
     @JsonProperty("Cantidad") val quantity: Double,
     @JsonProperty("UM") val metricUnitCode: String,
     @JsonProperty("Precio") val price: Double,
     @JsonProperty("SubTotal") val subtotal: Double,
+    @JsonProperty("Descuento") val discount: Double,
     @JsonProperty("Impuestos") val taxes: Double,
     @JsonProperty("imagen") val articleImage: String?,
 )

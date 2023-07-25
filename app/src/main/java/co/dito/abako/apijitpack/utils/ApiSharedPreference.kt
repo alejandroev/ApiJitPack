@@ -1,6 +1,7 @@
 package co.dito.abako.apijitpack.utils
 
 import android.content.SharedPreferences
+import co.dito.abako.apijitpack.API_ADMINISTRATION
 import co.dito.abako.apijitpack.API_BUSINESS
 import co.dito.abako.apijitpack.API_HUB
 import co.dito.abako.apijitpack.API_MOBILE
@@ -22,6 +23,9 @@ class ApiSharedPreference @Inject constructor(
     fun putURLShoppingCart(url: String) = sharePreference.edit().putString(KEY_URL_SHOPPING_CART, url).apply()
     fun getURLShoppingCart(): String = sharePreference.getString(KEY_URL_SHOPPING_CART, FAKE_URL_BASE_SHOPPING_CART) ?: FAKE_URL_BASE_SHOPPING_CART
 
+    fun putURLAdministration(url: String) = sharePreference.edit().putString(KEY_URL_ADMINISTRATION, url).apply()
+    fun getURLAdministration(): String = sharePreference.getString(KEY_URL_ADMINISTRATION, FAKE_URL_BASE_ADMINISTRATION) ?: FAKE_URL_BASE_ADMINISTRATION
+
     fun putCodeCODI(code: String) = sharePreference.edit().putString(KEY_CODI_CODE, code).apply()
     fun getCodeCODI(): String = sharePreference.getString(KEY_CODI_CODE, "") ?: ""
 
@@ -33,8 +37,10 @@ private const val KEY_CODI_CODE = "CODI_CODE"
 private const val KEY_URL_MOBILE = "URL_MOBILE"
 private const val KEY_URL_BUSINESS = "URL_BUSINESS"
 private const val KEY_URL_SHOPPING_CART = "URL_SHOPPING_CART"
+private const val KEY_URL_ADMINISTRATION = "URL_ADMINISTRATION"
 private const val KEY_URL_NOTIFICATION = "URL_NOTIFICATION"
 
 private const val FAKE_URL_BASE_MOBILE = "https://www.google.com/$API_MOBILE"
 private const val FAKE_URL_BASE_BUSINESS = "https://www.google.com/$API_BUSINESS"
 private const val FAKE_URL_BASE_SHOPPING_CART = "https://www.google.com/$API_SHOPPING_CART"
+private const val FAKE_URL_BASE_ADMINISTRATION = "https://www.google.com/$API_ADMINISTRATION"

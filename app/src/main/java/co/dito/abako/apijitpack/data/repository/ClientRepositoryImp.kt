@@ -6,17 +6,18 @@ import co.dito.abako.apijitpack.data.model.request.client.APICreateClientV2Reque
 import co.dito.abako.apijitpack.data.model.response.client.APIAbakoClientResponse
 import co.dito.abako.apijitpack.data.model.response.client.APICreateClientResponse
 import co.dito.abako.apijitpack.data.model.response.client.APICreateClientV2Response
+import co.dito.abako.apijitpack.data.network.ClientAdministrationAPIService
 import co.dito.abako.apijitpack.data.network.ClientBusinessApiService
 import co.dito.abako.apijitpack.data.network.ClientMobileApiService
 import co.dito.abako.apijitpack.data.network.validResponse
 import co.dito.abako.apijitpack.domain.client.ClientRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
-class ClientRepositoryImp @Inject constructor(
+class ClientRepositoryImp(
     private val clientBusinessApiService: ClientBusinessApiService,
-    private val clientMobileApiService: ClientMobileApiService
+    private val clientMobileApiService: ClientMobileApiService,
+    private val clientAdministrationAPIService: ClientAdministrationAPIService
 ) : ClientRepository {
 
     override suspend fun verifyClientExist(identification: String): Flow<String> = flow {
@@ -44,8 +45,16 @@ class ClientRepositoryImp @Inject constructor(
     }
 
     override suspend fun createClientV2(clientRequest: APICreateClientV2Request): Flow<APICreateClientV2Response> = flow {
-        val response = clientMobileApiService.createClientV2(clientRequest = clientRequest)
+        val response = clientAdministrationAPIService.createClientV2(clientRequest = clientRequest)
         response.message.validResponse()
+        emit(response)
+    }
+
+    override suspend fun createClientV1(clientRequest: APICreateClientRequest): Flow<APICreateClientResponse> = flow {
+        val response = clientAdministrationAPIService.createClientV1(clientRequest = clientRequest)
+        response.states.forEach {
+            it.validResponse()
+        }
         emit(response)
     }
 }

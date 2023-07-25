@@ -11,8 +11,8 @@ data class APICreateClientRequest(
 )
 
 data class APIClientRequest(
-    @SerializedName("idEmp") val companyId: Int,
-    @SerializedName("idUsr") val userId: Int,
+    @SerializedName("idEmp") val companyId: Int = 0,
+    @SerializedName("idUsr") val userId: Int = 0,
     @SerializedName("idZn") val zoneId: Int,
     @SerializedName("idCnl") val channelId: Int,
     @SerializedName("idSgt") val segmentId: Int,
