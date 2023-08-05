@@ -5,25 +5,8 @@ import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.model.request.client.APIClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
-import co.dito.abako.apijitpack.data.model.request.order.APIOrderDetailRequest
-import co.dito.abako.apijitpack.data.model.request.order.APIOrderRequest
-import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
-import co.dito.abako.apijitpack.data.model.request.wompi.WompiRequest
-import co.dito.abako.apijitpack.data.model.response.general.MasterTypeRequest
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
-import co.dito.abako.apijitpack.domain.article.usecase.FetchArticleCodeUseCase
-import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.CreateClientV1UseCase
-import co.dito.abako.apijitpack.domain.delivery.usecase.FetchHistoryClientReportUseCase
-import co.dito.abako.apijitpack.domain.favorite.FetchFavoriteArticlesUseCase
-import co.dito.abako.apijitpack.domain.favorite.FetchSetFavoriteArticlesUseCase
-import co.dito.abako.apijitpack.domain.general.usecase.FetchMasterIdUseCase
-import co.dito.abako.apijitpack.domain.general.usecase.GetConfigurationUseCase
-import co.dito.abako.apijitpack.domain.order.usecase.FollowUpOrderUseCase
-import co.dito.abako.apijitpack.domain.order.usecase.InsertOrderUseCase
-import co.dito.abako.apijitpack.domain.wompi.usecase.FetchConfigurationWompiUseCase
-import co.dito.abako.apijitpack.domain.wompi.usecase.TransactionValidationByIdWompiUseCase
-import co.dito.abako.apijitpack.domain.wompi.usecase.TransactionValidationWompiUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,7 +15,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -73,7 +55,7 @@ class MainActivityViewModel @Inject constructor(
                     process = 2,
                     apiClientRequest = APIClientRequest(
                         0,
-                        0,0,0,0, "11047063245",
+                        0,0,0,0, "65743059",
                         1, "prueba", "prueba", "prueba",
                         "prueba", "emar@f.co", "320920892", 2, "10'04", "",
                         "", 2, Date(), 0.0, 0.0, UUID.randomUUID().toString()

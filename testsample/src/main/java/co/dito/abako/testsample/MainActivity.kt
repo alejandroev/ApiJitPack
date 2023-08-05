@@ -1,12 +1,7 @@
 package co.dito.abako.testsample
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.provider.Settings
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
@@ -19,7 +14,6 @@ import kotlinx.coroutines.flow.onEach
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

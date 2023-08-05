@@ -5,11 +5,9 @@ import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
-import co.dito.abako.apijitpack.data.model.response.price.APIPriceArticleResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
