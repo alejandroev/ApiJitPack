@@ -1,6 +1,7 @@
 package co.dito.abako.apijitpack.domain.article.usecase
 
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
+import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.domain.article.ArticleRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.*
@@ -14,7 +15,8 @@ class SearchArticleUseCase @Inject constructor(
         search: String,
         date: Date,
         companyId: Int,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?> =
-        articleRepository.searchArticle(search, date, companyId, agency)
+        articleRepository.searchArticle(search, date, companyId, agency, platformType)
 }

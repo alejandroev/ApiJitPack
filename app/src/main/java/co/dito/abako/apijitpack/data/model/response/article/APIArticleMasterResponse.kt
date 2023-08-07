@@ -18,3 +18,12 @@ data class APIArticleMasterResponse(
     @JsonIgnore val metricUnits: List<APIMetricUnitResponse> = emptyList(),
     @JsonIgnore val inventories: List<APIInventoryResponse> = emptyList()
 )
+
+enum class PlatformType(val value: Int) {
+    ALL(1),
+    MOBILE_APPLICATION(3),
+    CUSTOM_APPLICATION(4),
+    ABAKO_CLIENT(5),
+    CUSTOM_MOBILE_APPLICATION(6),
+    ABAKO_CLIENT_MOBILE_APPLICATION(7)
+}

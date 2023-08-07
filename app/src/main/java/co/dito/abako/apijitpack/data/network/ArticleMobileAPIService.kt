@@ -15,11 +15,12 @@ import retrofit2.http.Path
 
 interface ArticleMobileAPIService {
 
-    @GET("Articulos/RecuperarArticuloPromocion/{isAll}/{currentDate}/{companyId}")
+    @GET("Articulos/RecuperarArticuloPromocion/{isAll}/{currentDate}/{companyId}/{platform}")
     suspend fun fetchPromotionArticles(
         @Path("isAll") isAll: String,
         @Path("currentDate") currentDate: String,
-        @Path("companyId") companyId: Int
+        @Path("companyId") companyId: Int,
+        @Path("platform") platform: Int
     ): APIPromotionArticleResponse
 
     @GET("Inventario/RecuperarArticuloInventarioPromocion/{currentDate}/{companyId}/{agency}")
@@ -29,17 +30,15 @@ interface ArticleMobileAPIService {
         @Path("agency") agency: String
     ): Call<ResponseBody?>
 
-    @GET("Articulos/RecuperarArticuloClienteFiltro/{date}/{companyId}/{isAll}/{typeId}/{type}")
+    @GET("Articulos/RecuperarArticuloClienteFiltro/{date}/{companyId}/{isAll}/{typeId}/{type}/{platform}")
     suspend fun fetchArticleClientFilter(
         @Path("date") date: String,
         @Path("companyId") companyId: Int,
         @Path("isAll") isAll: String,
         @Path("typeId") typeId: Int,
         @Path("type") type: String,
+        @Path("platform") platform: Int
     ): APIArticleMasterResponse?
-
-    @GET("Articulos/RecuperarArticuloPedido/{orderId}")
-    suspend fun fetchArticlesByOrderId(@Path("orderId") orderId: Int): APIArticleMasterResponse?
 
     @GET("Precios/RecuperarPrecioClienteFiltro/{date}/{companyId}/{isAll}/{typeId}/{type}")
     suspend fun fetchPriceClientFilter(
@@ -60,10 +59,11 @@ interface ArticleMobileAPIService {
         @Path("agency") agency: String,
     ): Call<ResponseBody?>
 
-    @GET("Articulos/RecuperarArticulo/{code}/{companyId}")
+    @GET("Articulos/RecuperarArticulo/{code}/{companyId}/{platform}")
     suspend fun fetchArticleByCode(
         @Path("code") code: String,
-        @Path("companyId") companyId: Int
+        @Path("companyId") companyId: Int,
+        @Path("platform") platform: Int
     ): APIArticleMasterResponse?
 
     @GET("Precios/RecuperarPrecioCodigo/{code}/{companyId}")
@@ -72,10 +72,11 @@ interface ArticleMobileAPIService {
         @Path("companyId") companyId: Int
     ): APIPriceMasterResponse?
 
-    @GET("Articulos/RecuperarArticulo/{code}/{companyId}")
+    @GET("Articulos/RecuperarArticulo/{code}/{companyId}/{platform}")
     suspend fun fetchBannerArticle(
         @Path("code") code: String,
         @Path("companyId") companyId: Int,
+        @Path("platform") platform: Int
     ): APIArticleMasterResponse?
 
     @GET("Precios/RecuperarPrecioCodigo/{code}/{companyId}")
@@ -84,11 +85,12 @@ interface ArticleMobileAPIService {
         @Path("companyId") companyId: Int,
     ): APIPriceMasterResponse?
 
-    @GET("Articulos/RecuperarArticuloClienteBusqueda/{date}/{companyId}/{search}")
+    @GET("Articulos/RecuperarArticuloClienteBusqueda/{date}/{companyId}/{search}/{platform}")
     suspend fun searchArticle(
         @Path("search") search: String,
         @Path("date") date: String,
         @Path("companyId") companyId: Int,
+        @Path("platform") platform: Int
     ): APIArticleMasterResponse?
 
     @GET("Precios/RecuperarPrecioClienteBusqueda/{date}/{companyId}/{search}")
@@ -126,11 +128,12 @@ interface ArticleMobileAPIService {
         @Body apiArticleFavoriteRequest: APIArticleFavoriteRequest
     ): APIPriceMasterResponse?
 
-    @GET("Lineas/{Fecha}/{IdEmpresa}/{EsTodo}")
+    @GET("Lineas/{Fecha}/{IdEmpresa}/{EsTodo}/{platform}")
     fun fetchLineArticles(
         @Path("Fecha") date: String,
         @Path("IdEmpresa") companyId: Int,
-        @Path("EsTodo") isAll: String
+        @Path("EsTodo") isAll: String,
+        @Path("platform") platform: Int
     ): Call<ResponseBody?>
 
     @GET("Categorias/{Fecha}/{IdEmpresa}/{EsTodo}/{IdLinea}")

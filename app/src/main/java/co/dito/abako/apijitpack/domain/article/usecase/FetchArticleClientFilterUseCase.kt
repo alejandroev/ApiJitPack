@@ -1,6 +1,7 @@
 package co.dito.abako.apijitpack.domain.article.usecase
 
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
+import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.domain.article.ArticleRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.*
@@ -16,9 +17,10 @@ class FetchArticleClientFilterUseCase @Inject constructor(
         isAll: Boolean,
         typeId: Int,
         type: String,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?> =
         articleRepository.fetchArticlesClientFilter(
-            date, companyId, isAll, typeId, type, agency
+            date, companyId, isAll, typeId, type, agency, platformType
         )
 }

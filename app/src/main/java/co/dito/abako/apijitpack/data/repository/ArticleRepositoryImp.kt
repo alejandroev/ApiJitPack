@@ -7,6 +7,7 @@ import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRe
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
+import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
@@ -30,13 +31,15 @@ class ArticleRepositoryImp(
         isAll: Boolean,
         currentDate: Date,
         companyId: Int,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIPromotionArticleResponse> {
         return flow {
             val articleResponse = articleMobileAPIService.fetchPromotionArticles(
                 isAll = if (isAll) "S" else "N",
                 currentDate = currentDate.dateFormat(REQUEST_DATE_FORMAT),
-                companyId = companyId
+                companyId = companyId,
+                platform = platformType.value
             )
             val inventoryResponse = articleMobileAPIService.fetchPromotionInventory(
                 currentDate = currentDate.dateFormat(REQUEST_DATE_FORMAT),
@@ -57,7 +60,8 @@ class ArticleRepositoryImp(
         isAll: Boolean,
         typeId: Int,
         type: String,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?> =
         flow {
             val articlesResponse = articleMobileAPIService.fetchArticleClientFilter(
@@ -65,7 +69,8 @@ class ArticleRepositoryImp(
                 companyId,
                 if (isAll) "S" else "N",
                 typeId,
-                type
+                type,
+                platform = platformType.value
             )
             val priceResponse = articleMobileAPIService.fetchPriceClientFilter(
                 date.dateFormat(REQUEST_DATE_FORMAT),
@@ -95,8 +100,12 @@ class ArticleRepositoryImp(
             )
         }
 
-    override suspend fun fetchArticlesByCode(code: String, companyId: Int): Flow<APIArticleMasterResponse?> = flow {
-        val articleResponse = articleMobileAPIService.fetchArticleByCode(code, companyId)
+    override suspend fun fetchArticlesByCode(
+        code: String,
+        companyId: Int,
+        platformType: PlatformType
+    ): Flow<APIArticleMasterResponse?> = flow {
+        val articleResponse = articleMobileAPIService.fetchArticleByCode(code, companyId, platform = platformType.value)
         val priceResponse = articleMobileAPIService.fetchPriceCode(code, companyId)
 
         emit(
@@ -111,15 +120,19 @@ class ArticleRepositoryImp(
     override suspend fun fetchLineArticle(
         date: Date,
         companyId: Int,
-        isAll: Boolean
+        isAll: Boolean,
+        platformType: PlatformType
     ): Flow<List<APILineResponse>> {
         return flow {
             val response = articleMobileAPIService.fetchLineArticles(
                 date = date.dateFormat(REQUEST_DATE_FORMAT),
                 companyId = companyId,
-                isAll = if (isAll) "S" else "N"
+                isAll = if (isAll) "S" else "N",
+                platform = platformType.value
             )
-            val apiLineResponse = response.awaitResponse().extractArray(Array<APILineResponse>::class.java, "lineas")?.toMutableList() ?: mutableListOf()
+            val apiLineResponse =
+                response.awaitResponse().extractArray(Array<APILineResponse>::class.java, "lineas")
+                    ?.toMutableList() ?: mutableListOf()
             apiLineResponse.forEachIndexed { index, line ->
                 val categories = mutableListOf<APICategoryResponse>()
                 line.categoriesList.forEach {
@@ -131,10 +144,25 @@ class ArticleRepositoryImp(
         }
     }
 
-    override suspend fun searchArticle(search: String, date: Date, companyId: Int, agency: String): Flow<APIArticleMasterResponse?> = flow {
+    override suspend fun searchArticle(
+        search: String,
+        date: Date,
+        companyId: Int,
+        agency: String,
+        platformType: PlatformType
+    ): Flow<APIArticleMasterResponse?> = flow {
         val articleResponse =
-            articleMobileAPIService.searchArticle(search = search, date = date.dateFormat(REQUEST_DATE_FORMAT), companyId = companyId)
-        val priceResponse = articleMobileAPIService.searchPrices(search = search, date = date.dateFormat(REQUEST_DATE_FORMAT), companyId = companyId)
+            articleMobileAPIService.searchArticle(
+                search = search,
+                date = date.dateFormat(REQUEST_DATE_FORMAT),
+                companyId = companyId,
+                platform = platformType.value
+            )
+        val priceResponse = articleMobileAPIService.searchPrices(
+            search = search,
+            date = date.dateFormat(REQUEST_DATE_FORMAT),
+            companyId = companyId
+        )
         val inventoryResponse = articleMobileAPIService.searchInventory(
             search = search,
             date = date.dateFormat(REQUEST_DATE_FORMAT),
@@ -169,20 +197,28 @@ class ArticleRepositoryImp(
                 lineId = lineId
             )
             val apiCategoryResponse =
-                response.awaitResponse().extractArray(Array<APICategoryResponse>::class.java, key = "categorias")?.toList() ?: emptyList()
+                response.awaitResponse()
+                    .extractArray(Array<APICategoryResponse>::class.java, key = "categorias")
+                    ?.toList() ?: emptyList()
             emit(apiCategoryResponse)
         }
     }
 
-    override suspend fun getBanner(bannerModelRequest: APIBannerRequest): Flow<APIBannerResponse?> = flow {
-        val response = shoppingCartAPIService.getBanner(bannerModelRequest = bannerModelRequest)
-        emit(response)
-    }
+    override suspend fun getBanner(bannerModelRequest: APIBannerRequest): Flow<APIBannerResponse?> =
+        flow {
+            val response = shoppingCartAPIService.getBanner(bannerModelRequest = bannerModelRequest)
+            emit(response)
+        }
 
-    override suspend fun getBannerArticle(code: String, companyId: Int): Flow<APIArticleMasterResponse?> = flow {
+    override suspend fun getBannerArticle(
+        code: String,
+        companyId: Int,
+        platformType: PlatformType
+    ): Flow<APIArticleMasterResponse?> = flow {
         val articleResponse = articleMobileAPIService.fetchBannerArticle(
             code = code,
-            companyId = companyId
+            companyId = companyId,
+            platform = platformType.value
         )
         val priceResponse = articleMobileAPIService.fetchBannerPrice(
             code = code,
@@ -223,10 +259,12 @@ class ArticleRepositoryImp(
         }
 
         val priceResponse = articleMobileAPIService.recoverPricesByIds(articleRequest)
-        val inventoryResponse = articleMobileAPIService.recoverInventoriesByIds(articleRequest).awaitResponse().extractArray(
-            Array<APIInventoryResponse>::class.java,
-            "inventarios"
-        )?.toList() ?: emptyList()
+        val inventoryResponse =
+            articleMobileAPIService.recoverInventoriesByIds(articleRequest).awaitResponse()
+                .extractArray(
+                    Array<APIInventoryResponse>::class.java,
+                    "inventarios"
+                )?.toList() ?: emptyList()
 
         emit(
             articleResponse.copy(

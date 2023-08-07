@@ -4,6 +4,7 @@ import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
+import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
@@ -18,7 +19,8 @@ interface ArticleRepository {
         isAll: Boolean,
         currentDate: Date,
         companyId: Int,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIPromotionArticleResponse>
 
     suspend fun fetchArticlesClientFilter(
@@ -27,25 +29,29 @@ interface ArticleRepository {
         isAll: Boolean,
         typeId: Int,
         type: String,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?>
 
     suspend fun fetchArticlesByCode(
         code: String,
-        companyId: Int
+        companyId: Int,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?>
 
     suspend fun fetchLineArticle(
         date: Date,
         companyId: Int,
         isAll: Boolean,
+        platformType: PlatformType
     ): Flow<List<APILineResponse>>
 
     suspend fun searchArticle(
         search: String,
         date: Date,
         companyId: Int,
-        agency: String
+        agency: String,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?>
 
     suspend fun fetchCategoryArticle(
@@ -60,6 +66,7 @@ interface ArticleRepository {
     suspend fun getBannerArticle(
         code: String,
         companyId: Int,
+        platformType: PlatformType
     ): Flow<APIArticleMasterResponse?>
 
     suspend fun getSetFavoriteArticles(

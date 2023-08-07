@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.model.request.client.APIClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
+import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
+import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.CreateClientV1UseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
@@ -22,7 +24,8 @@ import java.util.UUID
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val createClientV1UseCase: CreateClientV1UseCase
+    private val createClientV1UseCase: CreateClientV1UseCase,
+    private val fetchLineArticlesUseCase: FetchLineArticlesUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -50,17 +53,11 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
 
-            createClientV1UseCase(
-                clientRequest = APICreateClientRequest(
-                    process = 2,
-                    apiClientRequest = APIClientRequest(
-                        0,
-                        0,0,0,0, "65743059",
-                        1, "prueba", "prueba", "prueba",
-                        "prueba", "emar@f.co", "320920892", 2, "10'04", "",
-                        "", 2, Date(), 0.0, 0.0, UUID.randomUUID().toString()
-                    )
-                )
+            fetchLineArticlesUseCase(
+                date = Date(),
+                companyId = 0,
+                isAll = true,
+                platformType = PlatformType.ABAKO_CLIENT_MOBILE_APPLICATION
             ).catch {exception ->
                 print(exception)
             }.collect {
