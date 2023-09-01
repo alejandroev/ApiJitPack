@@ -9,7 +9,8 @@ import java.util.Date
 data class APIAbakoClientResponse(
     @SerializedName("usuario") val userResponse: List<APIAbakoUserResponse>,
     @SerializedName("comercial") val commercialResponse: List<APIAbakoCommercialResponse>,
-    @SerializedName("estado") val state: List<MessageResponse>
+    @SerializedName("estado") val state: List<MessageResponse>,
+    @SerializedName("notificaciones") val notifications: List<NotificationResponse>
 )
 
 data class APIAbakoUserResponse(
@@ -44,4 +45,11 @@ data class APIAbakoCommercialResponse(
     @JsonAdapter(DateTimeJsonDeserialize::class) @SerializedName("fchltmpg") val dateLastPayment: Date?,
     @SerializedName("ultmpg") val lastPayment: Double
 
+)
+
+data class NotificationResponse(
+    @SerializedName("id") val notificationId: Int,
+    @JsonAdapter(DateTimeJsonDeserialize::class) @SerializedName("fecha") val creationDate: Date,
+    @SerializedName("titulo") val title: String,
+    @SerializedName("mensaje") val message: String,
 )

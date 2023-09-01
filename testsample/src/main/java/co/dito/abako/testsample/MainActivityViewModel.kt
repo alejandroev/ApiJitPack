@@ -9,6 +9,9 @@ import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.CreateClientV1UseCase
+import co.dito.abako.apijitpack.domain.client.usecase.GetClientByIdentificationUseCase
+import co.dito.abako.apijitpack.domain.general.usecase.SetNotificationUseCase
+import co.dito.abako.apijitpack.domain.wompi.usecase.TransactionValidationWompiUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
 import co.dito.abako.apijitpack.utils.backupDocument.BackupRequestData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,14 +21,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import java.util.UUID
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
-    private val createClientV1UseCase: CreateClientV1UseCase,
-    private val fetchLineArticlesUseCase: FetchLineArticlesUseCase
+    private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -51,13 +54,17 @@ class MainActivityViewModel @Inject constructor(
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
-            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
+            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9444/")
 
-            fetchLineArticlesUseCase(
-                date = Date(),
-                companyId = 0,
-                isAll = true,
-                platformType = PlatformType.ABAKO_CLIENT_MOBILE_APPLICATION
+            val current = Calendar.getInstance()
+            current.set(Calendar.HOUR, 0)
+            current.set(Calendar.MINUTE, 0)
+            current.set(Calendar.SECOND, 0)
+            current.set(Calendar.MILLISECOND, 0)
+
+            transactionValidationWompiUseCase(
+                validationReference = "6dab3f6d-b582-4094-9c6d-ab3ca26cb770",
+                date = current.time
             ).catch {exception ->
                 print(exception)
             }.collect {

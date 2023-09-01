@@ -15,12 +15,14 @@ fun String.validateNumber(): Boolean =
 
 fun <T> Response<ResponseBody?>.extractArray(target: Class<T>, key: String): T? {
     val string = this.body()?.string()
-    val responseObject = if (!string.isNullOrEmpty()) {
-        string
-    } else {
+    if (string.isNullOrEmpty()) {
+        throw Exception("Transaction Validation not found")
+    }
+
+    val responseObject = string.ifEmpty {
         "{}"
     }.let {
         JSONObject(it)
     }
-    return Gson().fromJson(responseObject?.getString(key), target)
+    return Gson().fromJson(responseObject.getString(key), target)
 }

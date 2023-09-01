@@ -4,6 +4,7 @@ import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
 import co.dito.abako.apijitpack.data.model.response.general.MasterTypeRequest
+import co.dito.abako.apijitpack.data.model.response.notification.SetNotificationReadResponse
 import co.dito.abako.apijitpack.data.network.GeneralBusinessApiService
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.validResponse
@@ -37,6 +38,16 @@ class GeneralRepositoryImp(
         }
 
         emit(response.masterId)
+    }
+
+    override suspend fun setNotificationRead(notificationId: Int): Flow<Boolean> = flow {
+        val response = generalBusinessApiService.setNotificationRead(notificationId = notificationId)
+
+        if (response.state != "1") {
+            throw Exception(response.message)
+        }
+
+        emit(true)
     }
 }
 

@@ -4,6 +4,7 @@ import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.general.ExchangeRateSyncResponse
 import co.dito.abako.apijitpack.data.model.response.general.MasterIdResponse
+import co.dito.abako.apijitpack.data.model.response.notification.SetNotificationReadResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,4 +20,7 @@ interface GeneralBusinessApiService {
         @Path("type") type: String,
         @Path("master") master: String
     ): MasterIdResponse
+
+    @POST("Notificacion/SetNotificacionMensajeLeida")
+    suspend fun setNotificationRead(@Body notificationId: Int) : SetNotificationReadResponse
 }

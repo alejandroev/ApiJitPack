@@ -6,18 +6,13 @@ import com.google.gson.*
 import java.lang.reflect.Type
 import java.util.*
 
-class DateTimeJsonDeserialize : JsonDeserializer<Date> {
+class DateTimeJsonDeserializeWompi : JsonDeserializer<Date> {
 
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
     ): Date {
-        val format = if (json?.asString?.contains("-") == true) {
-            "yyyy-MM-dd HH:mm"
-        } else {
-            "yyyy/MM/dd HH:mm"
-        }
-        return json?.asString?.dateTimeFormat(format) ?: Date()
+        return json?.asString?.dateTimeFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") ?: Date()
     }
 }
