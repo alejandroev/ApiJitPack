@@ -10,6 +10,6 @@ class TransactionValidationWompiUseCase @Inject constructor(
     private val wompiRepository: WompiRepository
 ) {
 
-    suspend operator fun invoke(validationReference: String, date: Date): Flow<TransactionValidationResponse> =
+    suspend operator fun invoke(validationReference: String, date: Date): Flow<TransactionValidationResponse?> =
         wompiRepository.transactionValidation(validationReference, date)
 }

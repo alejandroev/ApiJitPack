@@ -13,8 +13,7 @@ fun String.validateNumber(): Boolean =
     Pattern.compile("(3)[ -]*([0-9][ -]*){9}").matcher(this).matches() ||
             Pattern.compile("(60)[ -]*([0-9][ -]*){8}").matcher(this).matches()
 
-fun <T> Response<ResponseBody?>.extractArray(target: Class<T>, key: String): T? {
-    val string = this.body()?.string()
+fun <T> Response<ResponseBody?>.extractArray(target: Class<T>, key: String, string: String? = body()?.string()): T? {
     if (string.isNullOrEmpty()) {
         throw Exception("Transaction Validation not found")
     }

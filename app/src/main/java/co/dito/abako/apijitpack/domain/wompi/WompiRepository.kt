@@ -9,7 +9,7 @@ interface WompiRepository {
 
     suspend fun fetchConfigurationWompi(wompiRequest: WompiRequest, redirectUrl: String) : Flow<String>
 
-    suspend fun transactionValidation(validationReference: String, creationDate: Date) : Flow<TransactionValidationResponse>
+    suspend fun transactionValidation(validationReference: String, creationDate: Date) : Flow<TransactionValidationResponse?>
 
     suspend fun transactionValidation(id: String) : Flow<TransactionValidationResponse>
 }

@@ -57,6 +57,7 @@ class MainActivityViewModel @Inject constructor(
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9444/")
 
             val current = Calendar.getInstance()
+            current.set(Calendar.DAY_OF_MONTH, 1)
             current.set(Calendar.HOUR, 0)
             current.set(Calendar.MINUTE, 0)
             current.set(Calendar.SECOND, 0)

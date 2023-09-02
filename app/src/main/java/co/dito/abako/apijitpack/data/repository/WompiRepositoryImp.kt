@@ -18,7 +18,10 @@ class WompiRepositoryImp(
     private val wompiAPIService: WompiAPIService
 ) : WompiRepository {
 
-    override suspend fun fetchConfigurationWompi(wompiRequest: WompiRequest, redirectUrl: String): Flow<String> = flow {
+    override suspend fun fetchConfigurationWompi(
+        wompiRequest: WompiRequest,
+        redirectUrl: String
+    ): Flow<String> = flow {
         val response = wompiAPIService.getWompi(wompiRequest)
 
         if (response.publicKey.isEmpty() || response.publicKey == "0" || response.signatureIntegrity.isEmpty()) {
@@ -56,27 +59,39 @@ class WompiRepositoryImp(
         emit(data)
     }
 
-    override suspend fun transactionValidation(validationReference: String, creationDate: Date): Flow<TransactionValidationResponse> = flow {
+    override suspend fun transactionValidation(
+        validationReference: String,
+        creationDate: Date
+    ): Flow<TransactionValidationResponse?> = flow {
         val response = wompiAPIService.transactionValidation(
             validationReference = validationReference,
             date = creationDate.dateFormat(REQUEST_DATE_FORMAT)
         ).awaitResponse()
-            .extractArray(
+
+        val stringBody = response.body()?.string()
+        if (stringBody.isNullOrEmpty() || stringBody == "{}" || stringBody == "{\"data\":[]}") {
+            emit(null)
+            return@flow
+        }
+
+        emit(
+            response.extractArray(
                 Array<TransactionValidationResponse>::class.java,
-                "data"
+                "data",
+                stringBody
             )?.firstOrNull() ?: throw Exception("Transaction Validation not found")
-
-        emit(response)
+        )
     }
 
-    override suspend fun transactionValidation(id: String): Flow<TransactionValidationResponse> = flow {
-        val response = wompiAPIService.transactionValidationById(
-            id = id
-        ).awaitResponse().extractArray(
-            TransactionValidationResponse::class.java,
-            "data"
-        ) ?: throw Exception("Transaction Validation not found")
+    override suspend fun transactionValidation(id: String): Flow<TransactionValidationResponse> =
+        flow {
+            val response = wompiAPIService.transactionValidationById(
+                id = id
+            ).awaitResponse().extractArray(
+                TransactionValidationResponse::class.java,
+                "data"
+            ) ?: throw Exception("Transaction Validation not found")
 
-        emit(response)
-    }
+            emit(response)
+        }
 }
