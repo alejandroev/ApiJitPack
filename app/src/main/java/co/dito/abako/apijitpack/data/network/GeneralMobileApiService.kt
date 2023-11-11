@@ -1,19 +1,24 @@
 package co.dito.abako.apijitpack.data.network
 
+import co.dito.abako.abako.abako.data.model.CreditNoteRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.general.UserRequest
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.report.ReportResponse
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface GeneralMobileApiService {
 
@@ -35,4 +40,10 @@ interface GeneralMobileApiService {
         @Path("companyId") companyId: Int,
         @Path("isAll") isAll: String
     ): List<APIConfigurationResponse>
+
+
+
+    @POST("NotasCredito/SetNotaCredito")
+    suspend fun setCreditNotes( @Body creditNoteRequest: CreditNoteRequest): CreditModelResponse
+
 }

@@ -49,6 +49,7 @@ dependencies {
 
     //Dagger Hilt
     implementation daggerHilt
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
     kapt kaptDaggerHilt
 
     implementation retrofit

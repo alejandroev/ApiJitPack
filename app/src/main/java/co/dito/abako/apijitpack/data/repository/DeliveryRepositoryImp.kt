@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.data.repository
 
+import co.dito.abako.abako.abako.data.model.CreditNoteRequest
+import co.dito.abako.abako.abako.data.model.DllItemCredit
 import co.dito.abako.apijitpack.data.common.utils.mappingTo
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
@@ -7,6 +9,7 @@ import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryReques
 import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
+import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
@@ -14,6 +17,7 @@ import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliver
 import co.dito.abako.apijitpack.data.model.response.delivery.SetCreditNoteResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import co.dito.abako.apijitpack.data.network.DeliveryOldApiService
+import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.validResponse
 import co.dito.abako.apijitpack.domain.delivery.DeliveryRepository
 import javax.inject.Inject
@@ -22,6 +26,7 @@ import kotlinx.coroutines.flow.flow
 
 class DeliveryRepositoryImp @Inject constructor(
     private val deliveryApiService: DeliveryOldApiService,
+    private val generalMobileApiService: GeneralMobileApiService,
 ) : DeliveryRepository {
 
     override suspend fun getDeliveryResponse(deliveryRequest: DeliveryRequest): Flow<DeliveryResponse> {
@@ -64,6 +69,49 @@ class DeliveryRepositoryImp @Inject constructor(
                     validResponse()
                 }
                 emit(response)
+            }
+        }
+    }
+
+
+    override suspend  fun setCreditNoteDetailRequestApi(setCreditNoteRequest: SetCreditNoteRequest): Flow<CreditModelResponse> {
+
+        val dlllist:MutableList<DllItemCredit> = mutableListOf()
+
+        setCreditNoteRequest.dlls.forEach { dll ->
+            var dllitem= DllItemCredit(
+                idArt=dll.idArticle,
+                cant=dll.quantity.toInt(),
+                prcs="2",
+            )
+            dlllist.add(dllitem)
+        }
+
+
+
+        val creditNoteRequest = CreditNoteRequest(
+            idVnt = setCreditNoteRequest.idSale,
+            idPed = setCreditNoteRequest.idOrder,
+            idMot = setCreditNoteRequest.idReasonReturn,
+            obs = setCreditNoteRequest.observation,
+            fc = setCreditNoteRequest.creationDate,
+            usr = setCreditNoteRequest.idUser,
+            lon = setCreditNoteRequest.longitude,
+            lat = setCreditNoteRequest.latitude,
+            rfv = setCreditNoteRequest.validationReference,
+            dll = dlllist
+        )
+
+
+
+        return flow {
+            generalMobileApiService.setCreditNotes(creditNoteRequest).let {
+
+                it.estado.forEach { state ->
+
+                }
+
+                emit(it)
             }
         }
     }
