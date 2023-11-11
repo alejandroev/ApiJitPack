@@ -37,7 +37,7 @@ interface GeneralMobileApiService {
         @Path("isAll") isAll: String
     ): List<APIConfigurationResponse>
 
-    @POST("NotasCredito/SetNotaCreditoaddasdsd")
+    @POST("NotasCredito/SetNotaCredito")
     suspend fun setCreditNotes( @Body creditNoteRequest: CreditNoteRequest): CreditModelResponse
 
 }
