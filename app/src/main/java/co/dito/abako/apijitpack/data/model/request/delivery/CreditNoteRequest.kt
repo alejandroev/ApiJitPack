@@ -1,5 +1,6 @@
-package co.dito.abako.abako.abako.data.model
+package co.dito.abako.apijitpack.data.model.request.delivery
 
+import co.dito.abako.abako.abako.data.model.DllItemCredit
 import co.dito.abako.apijitpack.data.common.converters.DateTimeJsonSerialize
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName

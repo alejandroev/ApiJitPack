@@ -1,6 +1,6 @@
 package co.dito.abako.apijitpack.data.repository
 
-import co.dito.abako.abako.abako.data.model.CreditNoteRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.CreditNoteRequest
 import co.dito.abako.abako.abako.data.model.DllItemCredit
 import co.dito.abako.apijitpack.data.common.utils.mappingTo
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
@@ -9,6 +9,7 @@ import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryReques
 import co.dito.abako.apijitpack.data.model.request.delivery.ReasonReturnDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.toCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
@@ -75,42 +76,11 @@ class DeliveryRepositoryImp @Inject constructor(
 
 
     override suspend  fun setCreditNoteDetailRequestApi(setCreditNoteRequest: SetCreditNoteRequest): Flow<CreditModelResponse> {
-
-        val dlllist:MutableList<DllItemCredit> = mutableListOf()
-
-        setCreditNoteRequest.dlls.forEach { dll ->
-            var dllitem= DllItemCredit(
-                idArt=dll.idArticle,
-                cant=dll.quantity.toInt(),
-                prcs="2",
-            )
-            dlllist.add(dllitem)
-        }
-
-
-
-        val creditNoteRequest = CreditNoteRequest(
-            idVnt = setCreditNoteRequest.idSale,
-            idPed = setCreditNoteRequest.idOrder,
-            idMot = setCreditNoteRequest.idReasonReturn,
-            obs = setCreditNoteRequest.observation,
-            fc = setCreditNoteRequest.creationDate,
-            usr = setCreditNoteRequest.idUser,
-            lon = setCreditNoteRequest.longitude,
-            lat = setCreditNoteRequest.latitude,
-            rfv = setCreditNoteRequest.validationReference,
-            dll = dlllist
-        )
-
-
-
         return flow {
-            generalMobileApiService.setCreditNotes(creditNoteRequest).let {
-
+            generalMobileApiService.setCreditNotes(setCreditNoteRequest.toCreditNoteRequest()).let {
                 it.estado.forEach { state ->
-
+                    state.validResponse()
                 }
-
                 emit(it)
             }
         }

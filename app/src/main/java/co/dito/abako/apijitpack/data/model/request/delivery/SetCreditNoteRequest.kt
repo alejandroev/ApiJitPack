@@ -1,5 +1,6 @@
 package co.dito.abako.apijitpack.data.model.request.delivery
 
+import co.dito.abako.abako.abako.data.model.DllItemCredit
 import co.dito.abako.apijitpack.data.common.converters.DateTimeJsonSerialize
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
@@ -30,3 +31,27 @@ data class SetCreditNoteRequest(
     @SerializedName("Rfv") val validationReference: String,
     @SerializedName("Dll") val dlls: List<SetCreditNoteDetailRequest>,
 )
+
+fun SetCreditNoteRequest.toCreditNoteRequest(): CreditNoteRequest {
+    return CreditNoteRequest(
+        key = "",
+        idVnt = this.idSale,
+        idPed = this.idOrder,
+        idMot = this.idReasonReturn,
+        obs = this.observation,
+        fc = this.creationDate,
+        usr = this.idUser,
+        lon = this.longitude,
+        lat = this.latitude,
+        rfv = this.validationReference,
+        dll = this.dlls.map { it.toDllItemCredit() }
+    )
+}
+
+fun SetCreditNoteDetailRequest.toDllItemCredit(): DllItemCredit {
+    return DllItemCredit(
+        idArt = this.idArticle,
+        cant = this.quantity.toInt(),
+        prcs = this.prcs
+    )
+}

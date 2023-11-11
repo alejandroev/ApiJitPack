@@ -9,5 +9,6 @@ import com.google.gson.annotations.SerializedName
 
 data class SetCreditNoteDetailRequest(
     @SerializedName("IdArt") val idArticle: Int,
-    @SerializedName("Cant") val quantity: Double
+    @SerializedName("Cant") val quantity: Double,
+    @SerializedName("prcs") val prcs: String = "0"
 )
