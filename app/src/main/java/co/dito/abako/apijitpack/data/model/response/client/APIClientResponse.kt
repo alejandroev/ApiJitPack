@@ -27,7 +27,9 @@ data class APIAbakoUserResponse(
     @SerializedName("idAgc") var agencyId: String?,
     @SerializedName("agc") var agencyName: String?,
     @SerializedName("nmb") var firstNames: String,
-    @SerializedName("apll") var lastNames: String
+    @SerializedName("apll") var lastNames: String,
+    @SerializedName("idAsr") var idAsr: String,
+    @SerializedName("assr") var assr: String,
 )
 
 data class APIAbakoCommercialResponse(
