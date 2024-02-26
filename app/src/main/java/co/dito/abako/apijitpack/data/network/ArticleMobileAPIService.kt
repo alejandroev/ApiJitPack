@@ -4,6 +4,7 @@ import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRe
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
+import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
 import okhttp3.ResponseBody
@@ -143,4 +144,10 @@ interface ArticleMobileAPIService {
         @Path("EsTodo") isAll: String,
         @Path("IdLinea") lineId: Int
     ): Call<ResponseBody?>
+
+
+    @GET("PermisosAsesorMarca/{idEmpresa}")
+    suspend fun permisosAsesorMarca(
+        @Path("idEmpresa") idEmpresa: Int,
+    ):  ArrayList<PermisosAsesorMarca>
 }

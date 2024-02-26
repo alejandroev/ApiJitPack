@@ -5,6 +5,7 @@ import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
+import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
@@ -80,4 +81,8 @@ interface ArticleRepository {
         agency: String,
         articles: List<APIDetailFavoriteRequestResponse>
     ): Flow<APIArticleMasterResponse?>
+
+    suspend fun permisosAsesorMarca(
+        idEmpresa: Int
+    ): ArrayList<PermisosAsesorMarca>
 }

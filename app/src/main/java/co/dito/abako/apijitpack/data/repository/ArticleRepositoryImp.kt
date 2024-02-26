@@ -8,6 +8,7 @@ import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
+import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
@@ -105,7 +106,11 @@ class ArticleRepositoryImp(
         companyId: Int,
         platformType: PlatformType
     ): Flow<APIArticleMasterResponse?> = flow {
-        val articleResponse = articleMobileAPIService.fetchArticleByCode(code, companyId, platform = platformType.value)
+        val articleResponse = articleMobileAPIService.fetchArticleByCode(
+            code,
+            companyId,
+            platform = platformType.value
+        )
         val priceResponse = articleMobileAPIService.fetchPriceCode(code, companyId)
 
         emit(
@@ -237,6 +242,10 @@ class ArticleRepositoryImp(
     override suspend fun getSetFavoriteArticles(apiFavoriteRequest: APIFavoriteRequest): APIFavoriteResponse =
         articleMobileAPIService.setDelFavorites(apiFavoriteRequest = apiFavoriteRequest)
 
+    override suspend fun permisosAsesorMarca(idEmpresa: Int): ArrayList<PermisosAsesorMarca> =
+        articleMobileAPIService.permisosAsesorMarca(idEmpresa)
+
+
     override suspend fun getFavorites(
         date: Date,
         personId: Int,
@@ -274,5 +283,6 @@ class ArticleRepositoryImp(
             )
         )
     }
+
 
 }

@@ -1,1 +1,1 @@
-/Users/imac/StudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/AndroidConstants.class:/Users/imac/StudioProjects/ApiJitPack/buildSrc/build/classes/kotlin/main/LibraryConstants.class
+/Users/imac/Desktop/liberiaabakoodl/buildSrc/build/classes/kotlin/main/AndroidConstants.class:/Users/imac/Desktop/liberiaabakoodl/buildSrc/build/classes/kotlin/main/LibraryConstants.class
