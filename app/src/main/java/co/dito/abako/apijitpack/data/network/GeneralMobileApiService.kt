@@ -7,6 +7,7 @@ import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponseApi
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
@@ -39,5 +40,12 @@ interface GeneralMobileApiService {
 
     @POST("NotasCredito/SetNotaCredito")
     suspend fun setCreditNotes( @Body creditNoteRequest: CreditNoteRequest): CreditModelResponse
+
+    @GET("Entregas/GetEntregaDetalle/{fecha}/{factura}/{usuario}")
+    suspend fun getEntregaDetalle(
+        @Path("fecha") fecha: String,
+        @Path("factura") factura: String,
+        @Path("usuario") usuario: String
+    ): DeliveryDetailResponseApi
 
 }

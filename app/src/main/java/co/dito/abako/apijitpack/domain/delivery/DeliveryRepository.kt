@@ -8,6 +8,7 @@ import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponseApi
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
@@ -30,5 +31,9 @@ interface DeliveryRepository {
     suspend fun setSettlementDeliveryRequest(settlementDeliveryRequest: SettlementDeliveryRequest): Flow<SettlementDeliveryResponse>
 
     suspend fun setCreditNoteDetailRequestApi(setCreditNoteRequest: SetCreditNoteRequest): Flow<CreditModelResponse>
+
+    suspend fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi>
+
+
 
 }

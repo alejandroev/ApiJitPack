@@ -12,6 +12,7 @@ import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRe
 import co.dito.abako.apijitpack.data.model.request.delivery.toCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponseApi
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
@@ -81,6 +82,14 @@ class DeliveryRepositoryImp @Inject constructor(
                 it.estado.forEach { state ->
                     state.validResponse()
                 }
+                emit(it)
+            }
+        }
+    }
+
+    override suspend  fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi> {
+        return flow {
+            generalMobileApiService.getEntregaDetalle(fecha,factura,usuario).let {
                 emit(it)
             }
         }
