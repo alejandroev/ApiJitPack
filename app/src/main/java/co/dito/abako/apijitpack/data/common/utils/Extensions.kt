@@ -8,6 +8,14 @@ fun String?.stringToTimeOld(): Long {
     return this?.replace("/", "")?.replace("Date(", "")?.replace(")", "")?.toLong() ?: 0
 }
 
+fun String.toDateOrNow(): Date {
+    return try {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        dateFormat.parse(this) ?: Date() // Si la conversión falla, devolver la fecha y hora actual
+    } catch (e: java.text.ParseException) {
+        Date() // En caso de error, devolver la fecha y hora actual
+    }
+}
 fun Date.dateTimeFormat(): String = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).format(this)
 
 fun String.dateTimeFormat(format: String = "yyyy/MM/dd HH:mm"): Date =
