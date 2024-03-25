@@ -11,6 +11,7 @@ import java.util.Date
  * @param deliveryDetail = List of deliveries
  */
 
+
 data class DeliveryDetailResponse(
     @SerializedName("EntregaDetalle") val deliveryDetail: DeliveryDetailSyncResponse
 ) : MessageResponseOld()
@@ -36,7 +37,7 @@ data class OrderItem(
     @SerializedName("idPed") val orderId: Int,
     @SerializedName("idVnt") val saleId: Int,
     @SerializedName("fctr") val factor: Int,
-    @SerializedName("fc") val fc: Date,
+    @SerializedName("fc") val date: String,
     @SerializedName("idEmp") val employeeId: Int,
     @SerializedName("idAssr") val assessorId: Int,
     @SerializedName("fp") val paymentMethod: Int,
@@ -45,31 +46,32 @@ data class OrderItem(
     @SerializedName("cant") val quantity: Int,
     @SerializedName("precio") val price: Double,
     @SerializedName("subtotal") val subtotal: Double,
-    @SerializedName("orden") val order: Double
+    @SerializedName("orden") val order: Int
 )
 
 data class Client(
     @SerializedName("idEmp") val idEmp: Int,
-    @SerializedName("rzScl") val rzScl: String,
-    @SerializedName("nmbCmn") val nmbCmn: String,
-    @SerializedName("idnt") val idNt: String,
-    @SerializedName("cod") val cod: String,
-    @SerializedName("idCnl") val idCnl: Int,
-    @SerializedName("idSeg") val idSeg: Int,
-    @SerializedName("idZn") val idZn: Int,
-    @SerializedName("idLP") val idLp: Int,
-    @SerializedName("lon") val lon: Double,
-    @SerializedName("lat") val lat: Double,
-    @SerializedName("fp") val fp: Int,
-    @SerializedName("cp") val cp: Double,
-    @SerializedName("vncmnt") val vncmnt: Int,
-    @SerializedName("frc") val frc: Int,
-    @SerializedName("ini") val ini: Int,
-    @JsonAdapter(DateJsonDeserializeOldApi::class) @SerializedName("fcIni") val fcIni: Date,
-    @JsonAdapter(DateJsonDeserializeOldApi::class) @SerializedName("ultVt") val ultVt: Date,
-    @JsonAdapter(DateJsonDeserializeOldApi::class) @SerializedName("fchltmpg") val fchltmpg: Date,
-    @SerializedName("ultmpg") val ultmpg: Double,
-    @SerializedName("prcs") val prcs: String,
+    @SerializedName("rzScl") val businessName: String,
+    @SerializedName("nmbCmn") val commonName: String,
+    @SerializedName("idnt") val identification: String,
+    @SerializedName("cod") val code: String,
+    @SerializedName("idCnl") val channelId: Int,
+    @SerializedName("idSeg") val segmentId: Int,
+    @SerializedName("idZn") val zoneId: Int,
+    @SerializedName("idLP") val idPriceList: Int,
+    @SerializedName("lon") val longitude: Double,
+    @SerializedName("lat") val latitude: Double,
+    @SerializedName("fp") val paymentMethod: Int,
+    @SerializedName("cp") val quota: Long,
+    @SerializedName("vncmnt") val dueDays: Int,
+    @SerializedName("frc") val frequency: Int,
+    @SerializedName("ini") val initialization: Int,
+    @SerializedName("fcIni") val initializationDate: String,
+    @SerializedName("ultVt") val lastVisit: String,
+    @SerializedName("fchltmpg") val lastCampaignDate: String,
+    @SerializedName("ultmpg") val lastPayment: Int,
+    @SerializedName("abkClnt") val abandonedClient: Boolean,
+    @SerializedName("prcs") val process: String
 )
 
 data class Contact(
