@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.domain.delivery
 
+import co.dito.abako.apijitpack.data.model.request.DocumentDayRequest
+import co.dito.abako.apijitpack.data.model.request.DocumentDayResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
@@ -33,6 +35,7 @@ interface DeliveryRepository {
     suspend fun setCreditNoteDetailRequestApi(setCreditNoteRequest: SetCreditNoteRequest): Flow<CreditModelResponse>
 
     suspend fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi>
+    suspend fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse>
 
 
 

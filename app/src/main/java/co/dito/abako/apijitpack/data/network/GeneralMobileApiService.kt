@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.data.network
 
+import co.dito.abako.apijitpack.data.model.request.DocumentDayRequest
+import co.dito.abako.apijitpack.data.model.request.DocumentDayResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.CreditNoteRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.general.UserRequest
@@ -12,10 +14,12 @@ import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.report.ReportResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 interface GeneralMobileApiService {
 
@@ -47,5 +51,10 @@ interface GeneralMobileApiService {
         @Path("factura") factura: String,
         @Path("usuario") usuario: String
     ): DeliveryDetailResponseApi
+
+
+    @POST("Informes/GetDocumentosDiaActual")
+    suspend fun getDocumentosDiaActual(@Body documentDayRequest: DocumentDayRequest): DocumentDayResponse
+
 
 }

@@ -3,6 +3,8 @@ package co.dito.abako.apijitpack.data.repository
 import co.dito.abako.apijitpack.data.model.request.delivery.CreditNoteRequest
 import co.dito.abako.abako.abako.data.model.DllItemCredit
 import co.dito.abako.apijitpack.data.common.utils.mappingTo
+import co.dito.abako.apijitpack.data.model.request.DocumentDayRequest
+import co.dito.abako.apijitpack.data.model.request.DocumentDayResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryDetailRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.MasterDeliveryRequest
@@ -82,6 +84,14 @@ class DeliveryRepositoryImp @Inject constructor(
                 it.estado.forEach { state ->
                     state.validResponse()
                 }
+                emit(it)
+            }
+        }
+    }
+
+    override suspend  fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse> {
+        return flow {
+            generalMobileApiService.getDocumentosDiaActual(documentDayRequest).let {
                 emit(it)
             }
         }

@@ -1,5 +1,7 @@
 package co.dito.abako.apijitpack.domain.delivery.usecase
 
+import co.dito.abako.apijitpack.data.model.request.DocumentDayRequest
+import co.dito.abako.apijitpack.data.model.request.DocumentDayResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.SetCreditNoteRequest
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponseApi
@@ -18,5 +20,8 @@ class InsertCreditNoteRequestUseCase @Inject constructor(private val deliveryRep
 
     suspend fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi> =
         deliveryRepository.getEntregaDetalle(fecha,factura,usuario)
+
+    suspend fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse> =
+        deliveryRepository.getDocumentosDiaActual(documentDayRequest)
 
 }
