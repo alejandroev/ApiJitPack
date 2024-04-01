@@ -31,7 +31,7 @@ data class DetallePedido(
     val idArt: Int,
     val cant: Int,
     val um: String,
-    val descu: Int
+    val descu: Double
 )
 
 data class DocumentDayResponse(
