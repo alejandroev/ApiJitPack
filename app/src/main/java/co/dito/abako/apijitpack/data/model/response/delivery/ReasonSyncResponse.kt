@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class ReasonSyncResponse(
-    @SerializedName("IdMot") val idReasonReturn: Int,
-    @SerializedName("Mot") val reasonReturn: String,
+    @SerializedName("idMot") val idReasonReturn: Int,
+    @SerializedName("mot") val reasonReturn: String,
 )

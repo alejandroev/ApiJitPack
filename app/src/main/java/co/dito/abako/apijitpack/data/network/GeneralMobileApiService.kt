@@ -15,6 +15,7 @@ import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailRespo
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
@@ -64,6 +65,13 @@ interface GeneralMobileApiService {
         @Path("factura") factura: String,
         @Path("usuario") usuario: String
     ): DeliveryDetailResponse
+
+    @GET("NotasCredito/GetMotivosDevolucion/{esTodo}/{fecha}/{idPersona}")
+    suspend fun getReasonReturnDeliveryResponse(
+        @Path("esTodo") esTodo: String,
+        @Path("fecha") fecha: String,
+        @Path("idPersona") idPersona: Int
+    ): ReasonReturnDeliveryResponse
 
 
 

@@ -71,11 +71,12 @@ class DeliveryRepositoryImp @Inject constructor(
 
     override suspend fun getReasonReturnDeliveryResponse(reasonReturnDeliveryRequest: ReasonReturnDeliveryRequest): Flow<ReasonReturnDeliveryResponse> {
         return flow {
-            deliveryApiService.getReasonReturnDeliveryResponse(reasonReturnDeliveryRequest).let {
-                val response = it.mappingTo(ReasonReturnDeliveryResponse::class.java).apply {
-                    validResponse()
-                }
-                emit(response)
+            generalMobileApiService.getReasonReturnDeliveryResponse(
+                fecha = "2022-01-01",
+                idPersona = reasonReturnDeliveryRequest.idPerson,
+                esTodo = reasonReturnDeliveryRequest.isAll
+            ).let {
+                emit(it)
             }
         }
     }
