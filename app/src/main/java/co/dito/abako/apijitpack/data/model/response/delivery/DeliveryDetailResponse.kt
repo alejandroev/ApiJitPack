@@ -2,6 +2,7 @@ package co.dito.abako.apijitpack.data.model.response.delivery
 
 import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserializeOld
 import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserializeOldApi
+import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponseOld
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
@@ -14,7 +15,7 @@ import java.util.Date
 
 data class DeliveryDetailResponse(
     @SerializedName("entregaDetalle") val deliveryDetail: DeliveryDetailSyncResponse
-) : MessageResponseOld()
+) : MessageResponse()
 
 
 data class DeliveryDetailResponseApi(

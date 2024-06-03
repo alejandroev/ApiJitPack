@@ -10,9 +10,11 @@ import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponseApi
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
@@ -56,6 +58,15 @@ interface GeneralMobileApiService {
     ): DeliveryDetailResponseApi
 
 
+    @GET("Entregas/GetEntregaDetalle/{fecha}/{factura}/{usuario}")
+    suspend fun getDeliveryDetailResponse(
+        @Path("fecha") fecha: String,
+        @Path("factura") factura: String,
+        @Path("usuario") usuario: String
+    ): DeliveryDetailResponse
+
+
+
     @POST("Informes/GetDocumentosDiaActual")
     suspend fun getDocumentosDiaActual(@Body documentDayRequest: DocumentDayRequest): DocumentDayResponse
 
@@ -63,6 +74,11 @@ interface GeneralMobileApiService {
     @GET("Entregas/GetEntregas/{fecha}/{idPersona}")
     suspend fun getDeliveryResponse( @Path("fecha") fecha: String,
                                       @Path("idPersona") idPersona: Int): DeliveryResponse
+
+    @GET("Entregas/GetEntregasMaestros/{fecha}/{idPersona}/{esTodo}")
+    suspend fun getMasterDeliveryResponse( @Path("fecha") fecha: String,
+                                          @Path("idPersona") idPersona: Int,
+                                           @Path("esTodo") esTodo: String,): MasterDeliveryResponse
 
 
 }

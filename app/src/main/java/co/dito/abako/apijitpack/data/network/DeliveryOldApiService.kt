@@ -13,19 +13,6 @@ import retrofit2.http.POST
 interface DeliveryOldApiService {
 
 
-    /**
-     * @param deliveryDetailRequest Body of request
-     * @return [JsonCompress]
-     */
-    @POST("GetEntregaDetalle")
-    suspend fun getDeliveryDetailResponse(@Body deliveryDetailRequest: DeliveryDetailRequest): JsonCompress
-
-    /**
-     * @param masterDeliveryRequest Body of request
-     * @return [JsonCompress]
-     */
-    @POST("GetEntregasMaestros")
-    suspend fun getMasterDeliveryResponse(@Body masterDeliveryRequest: MasterDeliveryRequest): JsonCompress
 
     /**
      * @param reasonReturnDeliveryRequest Body of request

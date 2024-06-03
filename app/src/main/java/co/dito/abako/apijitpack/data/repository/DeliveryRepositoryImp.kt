@@ -35,7 +35,10 @@ class DeliveryRepositoryImp @Inject constructor(
 
     override suspend fun getDeliveryResponse(deliveryRequest: DeliveryRequest): Flow<DeliveryResponse> {
         return flow {
-            generalMobileApiService.getDeliveryResponse(fecha = "2022-01-01", idPersona = deliveryRequest.idPerson).let {
+            generalMobileApiService.getDeliveryResponse(
+                fecha = "2022-01-01",
+                idPersona = deliveryRequest.idPerson
+            ).let {
                 emit(it)
             }
         }
@@ -43,22 +46,25 @@ class DeliveryRepositoryImp @Inject constructor(
 
     override suspend fun getDeliveryDetailResponse(deliveryDetailRequest: DeliveryDetailRequest): Flow<DeliveryDetailResponse> {
         return flow {
-            deliveryApiService.getDeliveryDetailResponse(deliveryDetailRequest).let {
-                val response = it.mappingTo(DeliveryDetailResponse::class.java).apply {
-                    validResponse()
-                }
-                emit(response)
+            generalMobileApiService.getDeliveryDetailResponse(
+                fecha = "2022-01-01",
+                deliveryDetailRequest.idDelivery.toString(),
+                usuario = deliveryDetailRequest.idPerson.toString()
+            ).let {
+                emit(it)
             }
         }
     }
 
     override suspend fun getMasterDeliveryResponse(masterDeliveryRequest: MasterDeliveryRequest): Flow<MasterDeliveryResponse> {
         return flow {
-            deliveryApiService.getMasterDeliveryResponse(masterDeliveryRequest).let {
-                val response = it.mappingTo(MasterDeliveryResponse::class.java).apply {
-                    validResponse()
-                }
-                emit(response)
+
+            generalMobileApiService.getMasterDeliveryResponse(
+                fecha = "2022-01-01",
+                idPersona = masterDeliveryRequest.idPerson,
+                esTodo = masterDeliveryRequest.isAll
+            ).let {
+                emit(it)
             }
         }
     }
@@ -75,7 +81,7 @@ class DeliveryRepositoryImp @Inject constructor(
     }
 
 
-    override suspend  fun setCreditNoteDetailRequestApi(setCreditNoteRequest: SetCreditNoteRequest): Flow<CreditModelResponse> {
+    override suspend fun setCreditNoteDetailRequestApi(setCreditNoteRequest: SetCreditNoteRequest): Flow<CreditModelResponse> {
         return flow {
             generalMobileApiService.setCreditNotes(setCreditNoteRequest.toCreditNoteRequest()).let {
                 it.estado.forEach { state ->
@@ -86,7 +92,7 @@ class DeliveryRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend  fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse> {
+    override suspend fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse> {
         return flow {
             generalMobileApiService.getDocumentosDiaActual(documentDayRequest).let {
                 emit(it)
@@ -94,9 +100,13 @@ class DeliveryRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend  fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi> {
+    override suspend fun getEntregaDetalle(
+        fecha: String,
+        factura: String,
+        usuario: String
+    ): Flow<DeliveryDetailResponseApi> {
         return flow {
-            generalMobileApiService.getEntregaDetalle(fecha,factura,usuario).let {
+            generalMobileApiService.getEntregaDetalle(fecha, factura, usuario).let {
                 emit(it)
             }
         }
