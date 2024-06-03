@@ -17,15 +17,15 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class ContactSyncResponse(
-    @SerializedName("IdCnto") val idCnto: Int,
-    @SerializedName("IdEmp") val idEmp: Int,
-    @SerializedName("Nmbr") val nmbr: String,
-    @SerializedName("Dir") val dir: String,
-    @SerializedName("IdCdd") val idCdd: Int,
-    @SerializedName("IdDir") val idDir: Int,
-    @SerializedName("Tel") val tel: String,
+    @SerializedName("idCnto") val idCnto: Int,
+    @SerializedName("idEmp") val idEmp: Int,
+    @SerializedName("nmbr") val nmbr: String,
+    @SerializedName("dir") val dir: String,
+    @SerializedName("idCdd") val idCdd: Int,
+    @SerializedName("idDir") val idDir: Int,
+    @SerializedName("tel") val tel: String,
     @SerializedName("mail") val mail: String,
-    @SerializedName("Pdt") val pdt: Int,
-    @SerializedName("Tipo") val type: String,
-    @SerializedName("Prcs") val prcs: String,
+    @SerializedName("pdt") val pdt: Int,
+    @SerializedName("tipo") val type: String,
+    @SerializedName("prcs") val prcs: String,
 )

@@ -3,6 +3,7 @@ package co.dito.abako.apijitpack.data.network
 import co.dito.abako.apijitpack.data.model.request.DocumentDayRequest
 import co.dito.abako.apijitpack.data.model.request.DocumentDayResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.CreditNoteRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.general.UserRequest
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
@@ -10,7 +11,9 @@ import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.CreditModelResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryDetailResponseApi
+import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
+import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
 import co.dito.abako.apijitpack.data.model.response.report.ReportResponse
@@ -55,6 +58,11 @@ interface GeneralMobileApiService {
 
     @POST("Informes/GetDocumentosDiaActual")
     suspend fun getDocumentosDiaActual(@Body documentDayRequest: DocumentDayRequest): DocumentDayResponse
+
+
+    @GET("Entregas/GetEntregas/{fecha}/{idPersona}")
+    suspend fun getDeliveryResponse( @Path("fecha") fecha: String,
+                                      @Path("idPersona") idPersona: Int): DeliveryResponse
 
 
 }

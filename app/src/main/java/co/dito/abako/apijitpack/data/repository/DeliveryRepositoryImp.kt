@@ -35,11 +35,8 @@ class DeliveryRepositoryImp @Inject constructor(
 
     override suspend fun getDeliveryResponse(deliveryRequest: DeliveryRequest): Flow<DeliveryResponse> {
         return flow {
-            deliveryApiService.getDeliveryResponse(deliveryRequest).let {
-                val response = it.mappingTo(DeliveryResponse::class.java).apply {
-                    validResponse()
-                }
-                emit(response)
+            generalMobileApiService.getDeliveryResponse(fecha = "2022-01-01", idPersona = deliveryRequest.idPerson).let {
+                emit(it)
             }
         }
     }

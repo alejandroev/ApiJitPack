@@ -13,7 +13,7 @@ import java.util.Date
 
 
 data class DeliveryDetailResponse(
-    @SerializedName("EntregaDetalle") val deliveryDetail: DeliveryDetailSyncResponse
+    @SerializedName("entregaDetalle") val deliveryDetail: DeliveryDetailSyncResponse
 ) : MessageResponseOld()
 
 
