@@ -7,14 +7,29 @@ import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleR
 import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
+import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
+import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 interface ArticleMobileAPIService {
+
+    @GET("Servicios/GetProgramacion/{IdPersona}")
+    suspend fun fetchProgramacion(
+        @Path("IdPersona") IdPersona: String,
+    ): ProgrammingResponse
+
+    @GET("Servicios/GetProgramacionDetalle/{Id}")
+    suspend fun fetchProgrammingDetail(
+        @Path("IdPersona") IdPersona: String,
+    ): ProgrammingDetailResponse
+
 
     @GET("Articulos/RecuperarArticuloPromocion/{isAll}/{currentDate}/{companyId}/{platform}")
     suspend fun fetchPromotionArticles(
@@ -149,5 +164,5 @@ interface ArticleMobileAPIService {
     @GET("PermisosAsesorMarca/{idEmpresa}")
     suspend fun permisosAsesorMarca(
         @Path("idEmpresa") idEmpresa: Int,
-    ):  ArrayList<PermisosAsesorMarca>
+    ): ArrayList<PermisosAsesorMarca>
 }

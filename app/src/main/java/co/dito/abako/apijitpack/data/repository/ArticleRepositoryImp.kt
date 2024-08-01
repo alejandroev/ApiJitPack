@@ -15,6 +15,8 @@ import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRe
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.inventory.APIInventoryResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
+import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
+import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
 import co.dito.abako.apijitpack.data.network.ArticleMobileAPIService
 import co.dito.abako.apijitpack.data.network.BannerShoppingCartAPIService
 import co.dito.abako.apijitpack.domain.article.ArticleRepository
@@ -28,6 +30,24 @@ class ArticleRepositoryImp(
     private val articleMobileAPIService: ArticleMobileAPIService,
     private val shoppingCartAPIService: BannerShoppingCartAPIService
 ) : ArticleRepository {
+    override suspend fun fetchProgramacion(IdPersona: String): Flow<ProgrammingResponse> {
+        return flow {
+            val articleResponse = articleMobileAPIService.fetchProgramacion(
+                IdPersona
+            )
+            emit(articleResponse)
+        }
+    }
+
+    override suspend fun fetchProgramacionDetail(id: String): Flow<ProgrammingDetailResponse> {
+        return flow {
+            val articleResponse = articleMobileAPIService.fetchProgrammingDetail(
+                id
+            )
+            emit(articleResponse)
+        }
+    }
+
     override suspend fun fetchPromotionArticles(
         isAll: Boolean,
         currentDate: Date,
