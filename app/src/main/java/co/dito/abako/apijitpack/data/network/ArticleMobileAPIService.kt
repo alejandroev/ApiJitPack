@@ -27,7 +27,7 @@ interface ArticleMobileAPIService {
 
     @GET("Servicios/GetProgramacionDetalle/{Id}")
     suspend fun fetchProgrammingDetail(
-        @Path("IdPersona") IdPersona: String,
+        @Path("Id") Id: String,
     ): ProgrammingDetailResponse
 
 
