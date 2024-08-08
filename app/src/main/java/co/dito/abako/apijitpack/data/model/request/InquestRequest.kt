@@ -1,6 +1,5 @@
 package co.dito.abako.apijitpack.data.model.request
 
-import co.dito.abako.abako.abako.data.model.InquestDll
 import com.google.gson.annotations.SerializedName
 
 data class InquestRequest (
