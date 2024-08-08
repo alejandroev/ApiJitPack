@@ -1,7 +1,11 @@
 package co.dito.abako.apijitpack.data.network
 
+import co.dito.abako.apijitpack.data.model.request.InquestRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
+import co.dito.abako.apijitpack.data.model.response.CargarImagenesModelResponse
+import co.dito.abako.apijitpack.data.model.response.ImagenesRequest
+import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
@@ -19,6 +23,12 @@ import retrofit2.http.Path
 import retrofit2.http.Url
 
 interface ArticleMobileAPIService {
+
+    @POST("Encuestas/GetSetEncuesta")
+    suspend fun inquest(
+        @Body inquestRequest: InquestRequest
+    ): InquestModelResponse
+
 
     @GET("Servicios/GetProgramacion/{IdPersona}")
     suspend fun fetchProgramacion(

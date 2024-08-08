@@ -1,7 +1,9 @@
 package co.dito.abako.apijitpack.domain.article
 
+import co.dito.abako.apijitpack.data.model.request.InquestRequest
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
+import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
@@ -18,6 +20,10 @@ import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 interface ArticleRepository {
+
+    suspend fun fetchInquest(
+        inquestRequest: InquestRequest,
+    ): Flow<InquestModelResponse>
 
     suspend fun fetchProgramacion(
         IdPersona: String,

@@ -9,7 +9,6 @@ import javax.inject.Inject
 class FetchProgramacionUseCase @Inject constructor(
     private val articleRepository: ArticleRepository
 ) {
-
     suspend operator fun invoke(
         idPersona: String
     ): Flow<ProgrammingResponse> =

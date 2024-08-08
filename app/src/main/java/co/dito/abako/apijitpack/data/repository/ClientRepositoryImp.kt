@@ -4,6 +4,8 @@ import co.dito.abako.apijitpack.data.common.utils.ApiAbakoException
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientV2Request
 import co.dito.abako.apijitpack.data.model.request.client.SetAbakoClientRequest
+import co.dito.abako.apijitpack.data.model.response.CargarImagenesModelResponse
+import co.dito.abako.apijitpack.data.model.response.ImagenesRequest
 import co.dito.abako.apijitpack.data.model.response.client.APIAbakoClientResponse
 import co.dito.abako.apijitpack.data.model.response.client.APICreateClientResponse
 import co.dito.abako.apijitpack.data.model.response.client.APICreateClientV2Response
@@ -21,6 +23,14 @@ class ClientRepositoryImp(
     private val clientMobileApiService: ClientMobileApiService,
     private val clientAdministrationAPIService: ClientAdministrationAPIService
 ) : ClientRepository {
+    override suspend fun fetchImagen(imagenesRequest: ImagenesRequest): Flow<CargarImagenesModelResponse> {
+        return flow {
+            val cargarImagen = clientAdministrationAPIService.cargarImagen(
+                imagenesRequest
+            )
+            emit(cargarImagen)
+        }
+    }
 
     override suspend fun verifyClientExist(identification: String): Flow<String> = flow {
         val responseBody = clientBusinessApiService.verifyClientExist(identification)
@@ -69,7 +79,7 @@ class ClientRepositoryImp(
     override suspend fun validateClientState(clientId: Int): Flow<ClientState> = flow {
         val response = clientAdministrationAPIService.validateClientState(clientId)
         emit(
-            when(response.active) {
+            when (response.active) {
                 "1" -> ClientState.PENDING
                 "2" -> ClientState.APPROVED
                 else -> ClientState.DENIED
@@ -77,10 +87,12 @@ class ClientRepositoryImp(
         )
     }
 
-    override suspend fun setAbakoClient(setAbakoClientRequest: SetAbakoClientRequest): Flow<Boolean> = flow {
-        val response = clientMobileApiService.setAbakoClient(setAbakoClientRequest = setAbakoClientRequest)
-        response.validResponse()
+    override suspend fun setAbakoClient(setAbakoClientRequest: SetAbakoClientRequest): Flow<Boolean> =
+        flow {
+            val response =
+                clientMobileApiService.setAbakoClient(setAbakoClientRequest = setAbakoClientRequest)
+            response.validResponse()
 
-        emit(response.msgId == 1)
-    }
+            emit(response.msgId == 1)
+        }
 }

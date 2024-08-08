@@ -2,9 +2,11 @@ package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
+import co.dito.abako.apijitpack.data.model.request.InquestRequest
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
+import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
@@ -30,6 +32,15 @@ class ArticleRepositoryImp(
     private val articleMobileAPIService: ArticleMobileAPIService,
     private val shoppingCartAPIService: BannerShoppingCartAPIService
 ) : ArticleRepository {
+    override suspend fun fetchInquest(inquestRequest: InquestRequest): Flow<InquestModelResponse> {
+        return flow {
+            val articleResponse = articleMobileAPIService.inquest(
+                inquestRequest
+            )
+            emit(articleResponse)
+        }
+    }
+
     override suspend fun fetchProgramacion(IdPersona: String): Flow<ProgrammingResponse> {
         return flow {
             val articleResponse = articleMobileAPIService.fetchProgramacion(
