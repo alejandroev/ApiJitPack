@@ -1,5 +1,6 @@
 package co.dito.abako.apijitpack.data.model.response.delivery
 
+import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserialize
 import co.dito.abako.apijitpack.data.common.converters.DateJsonDeserializeOld
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
@@ -24,19 +25,19 @@ import java.util.*
  */
 
 data class DeliverySyncResponse(
-    @SerializedName("Id") val id: Int,
-    @SerializedName("Doc") val doc: String,
-    @SerializedName("Obs") val obs: String,
-    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("FcEnt") val fcEnt: Date,
-    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("FcCre") val fcCre: Date,
-    @SerializedName("Facts") val facts: Int,
-    @SerializedName("Ctd") val ctd: Double,
-    @SerializedName("Crdt") val crdt: Double,
-    @SerializedName("Rms") val rms: Double,
-    @SerializedName("Ttl") val ttl: Double,
-    @SerializedName("Nts") val nts: Double,
-    @SerializedName("OtCb") val otCb: Double,
-    @SerializedName("TtLq") val ttLq: Double,
-    @SerializedName("Liq") val liq: Double,
-    @SerializedName("Des") val des: Double,
+    @SerializedName("id") val id: Int,
+    @SerializedName("doc") val doc: String,
+    @SerializedName("obs") val obs: String,
+    @JsonAdapter(DateJsonDeserialize::class) @SerializedName("fcEnt") val fcEnt: Date,
+    @JsonAdapter(DateJsonDeserialize::class) @SerializedName("fcCre") val fcCre: Date,
+    @SerializedName("facts") val facts: Int,
+    @SerializedName("ctd") val ctd: Double,
+    @SerializedName("crdt") val crdt: Double,
+    @SerializedName("rms") val rms: Double,
+    @SerializedName("ttl") val ttl: Double,
+    @SerializedName("nts") val nts: Double,
+    @SerializedName("otCb") val otCb: Double,
+    @SerializedName("ttLq") val ttLq: Double,
+    @SerializedName("liq") val liq: Double,
+    @SerializedName("des") val des: Double,
 )

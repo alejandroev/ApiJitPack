@@ -12,4 +12,6 @@ class FetchCategoryArticlesUseCase @Inject constructor(
 
     suspend operator fun invoke(date: Date, companyId: Int, isAll: Boolean, lineId: Int): Flow<List<APICategoryResponse>> =
         articleRepository.fetchCategoryArticle(date = date, companyId = companyId, isAll = isAll, lineId = lineId)
+
+
 }

@@ -22,8 +22,8 @@ data class Customer(
     @SerializedName("dirDet") val dirDet: String,
     @SerializedName("dirIdBarr") val dirIdBarr: Int,
     @SerializedName("fc") val fc: String,
-    @SerializedName("lon") val lon: Int,
-    @SerializedName("lat") val lat: Int,
+    @SerializedName("lon") val lon: Double,
+    @SerializedName("lat") val lat: Double,
     @SerializedName("rfv") val rfv: String,
     @SerializedName("rut") val rut: List<Rut>
 )

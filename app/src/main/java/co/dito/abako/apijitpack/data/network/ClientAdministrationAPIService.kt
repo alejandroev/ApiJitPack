@@ -2,6 +2,8 @@ package co.dito.abako.apijitpack.data.network
 
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientV2Request
+import co.dito.abako.apijitpack.data.model.response.CargarImagenesModelResponse
+import co.dito.abako.apijitpack.data.model.response.ImagenesRequest
 import co.dito.abako.apijitpack.data.model.response.general.MasterResponse
 import co.dito.abako.apijitpack.data.model.response.client.APICreateClientResponse
 import co.dito.abako.apijitpack.data.model.response.client.APICreateClientV2Response
@@ -9,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 interface ClientAdministrationAPIService {
 
@@ -22,4 +25,9 @@ interface ClientAdministrationAPIService {
     suspend fun validateClientState(
         @Path("clientId") clientId: Int
     ): MasterResponse
+
+    @POST("Imagenes/CargarImagenes")
+    suspend fun cargarImagen(
+        @Body inquestRequest: ImagenesRequest
+    ): CargarImagenesModelResponse
 }

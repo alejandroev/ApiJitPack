@@ -20,16 +20,17 @@ import java.util.Date
  * @param subtotal = subtotal
  */
 data class InvoiceSyncResponse(
-    @SerializedName("IdPed") val idPed: Int,
-    @SerializedName("IdVnt") val idVnt: Int,
-    @SerializedName("Fctr") val fctr: Int,
-    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("Fc") val fc: Date,
-    @SerializedName("IdEmp") val idEmp: Int,
-    @SerializedName("IdAssr") val idAssr: Int,
-    @SerializedName("FP") val fp: Int,
-    @SerializedName("OtrosValores") val otrosValores: Double,
-    @SerializedName("IdArt") val idArt: Int,
-    @SerializedName("Cant") val cant: Double,
-    @SerializedName("Precio") val price: Double,
-    @SerializedName("Subtotal") val subtotal: Double
+    @SerializedName("idPed") val idPed: Int,
+    @SerializedName("idVnt") val idVnt: Int,
+    @SerializedName("fctr") val fctr: Int,
+    @JsonAdapter(DateJsonDeserializeOld::class) @SerializedName("fc") val fc: Date,
+    @SerializedName("idEmp") val idEmp: Int,
+    @SerializedName("idAssr") val idAssr: Int,
+    @SerializedName("fp") val fp: Int,
+    @SerializedName("otrosValores") val otrosValores: Double,
+    @SerializedName("idArt") val idArt: Int,
+    @SerializedName("cant") val cant: Double,
+    @SerializedName("precio") val price: Double,
+    @SerializedName("subtotal") val subtotal: Double,
+    @SerializedName("orden") val orden: Double,
 )

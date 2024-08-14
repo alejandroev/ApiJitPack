@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class OtherChargesSyncResponse(
-    @SerializedName("IdOC") val idOtherChange: Int,
-    @SerializedName("Oc") val otherChange: String,
+    @SerializedName("idOC") val idOtherChange: Int,
+    @SerializedName("oc") val otherChange: String,
 )

@@ -27,7 +27,9 @@ data class APIAbakoUserResponse(
     @SerializedName("idAgc") var agencyId: String?,
     @SerializedName("agc") var agencyName: String?,
     @SerializedName("nmb") var firstNames: String,
-    @SerializedName("apll") var lastNames: String
+    @SerializedName("apll") var lastNames: String,
+    @SerializedName("idAsr") var idAsr: String,
+    @SerializedName("assr") var assr: String,
 )
 
 data class APIAbakoCommercialResponse(
@@ -36,8 +38,8 @@ data class APIAbakoCommercialResponse(
     @SerializedName("zn") val zoneName: String,
     @SerializedName("idLP") val priceListId: Int,
     @SerializedName("lp") val priceListName: String,
-    @SerializedName("lon") val longitude: Int,
-    @SerializedName("lat") val latitude: Int,
+    @SerializedName("lon") val longitude: Double,
+    @SerializedName("lat") val latitude: Double,
     @SerializedName("fp") val wayToPay: String,
     @SerializedName("cp") val quota: Double,
     @SerializedName("vncmnt") val expirationDays: Int,

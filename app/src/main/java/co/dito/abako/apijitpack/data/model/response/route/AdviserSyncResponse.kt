@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class AdviserSyncResponse(
-    @SerializedName("IdAssr") val idAssr: Int,
-    @SerializedName("Assr") val assr: String,
-    @SerializedName("TlAssr") val tlAssr: String
+    @SerializedName("idAssr") val idAssr: Int,
+    @SerializedName("assr") val assr: String,
+    @SerializedName("tlAssr") val tlAssr: String
 )

@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class ChannelSyncResponse(
-    @SerializedName("IdCnl") val idCnl: Int,
-    @SerializedName("Cnl") val cnl: String,
+    @SerializedName("idCnl") val idCnl: Int,
+    @SerializedName("cnl") val cnl: String,
 )

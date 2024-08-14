@@ -2,18 +2,23 @@ package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
+import co.dito.abako.apijitpack.data.model.request.InquestRequest
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
+import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
+import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
 import co.dito.abako.apijitpack.data.model.response.banner.APIBannerResponse
 import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.inventory.APIInventoryResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
+import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
+import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
 import co.dito.abako.apijitpack.data.network.ArticleMobileAPIService
 import co.dito.abako.apijitpack.data.network.BannerShoppingCartAPIService
 import co.dito.abako.apijitpack.domain.article.ArticleRepository
@@ -27,6 +32,33 @@ class ArticleRepositoryImp(
     private val articleMobileAPIService: ArticleMobileAPIService,
     private val shoppingCartAPIService: BannerShoppingCartAPIService
 ) : ArticleRepository {
+    override suspend fun fetchInquest(inquestRequest: InquestRequest): Flow<InquestModelResponse> {
+        return flow {
+            val articleResponse = articleMobileAPIService.inquest(
+                inquestRequest
+            )
+            emit(articleResponse)
+        }
+    }
+
+    override suspend fun fetchProgramacion(IdPersona: String): Flow<ProgrammingResponse> {
+        return flow {
+            val articleResponse = articleMobileAPIService.fetchProgramacion(
+                IdPersona
+            )
+            emit(articleResponse)
+        }
+    }
+
+    override suspend fun fetchProgramacionDetail(id: String): Flow<ProgrammingDetailResponse> {
+        return flow {
+            val articleResponse = articleMobileAPIService.fetchProgrammingDetail(
+                id
+            )
+            emit(articleResponse)
+        }
+    }
+
     override suspend fun fetchPromotionArticles(
         isAll: Boolean,
         currentDate: Date,
@@ -105,7 +137,11 @@ class ArticleRepositoryImp(
         companyId: Int,
         platformType: PlatformType
     ): Flow<APIArticleMasterResponse?> = flow {
-        val articleResponse = articleMobileAPIService.fetchArticleByCode(code, companyId, platform = platformType.value)
+        val articleResponse = articleMobileAPIService.fetchArticleByCode(
+            code,
+            companyId,
+            platform = platformType.value
+        )
         val priceResponse = articleMobileAPIService.fetchPriceCode(code, companyId)
 
         emit(
@@ -237,6 +273,10 @@ class ArticleRepositoryImp(
     override suspend fun getSetFavoriteArticles(apiFavoriteRequest: APIFavoriteRequest): APIFavoriteResponse =
         articleMobileAPIService.setDelFavorites(apiFavoriteRequest = apiFavoriteRequest)
 
+    override suspend fun permisosAsesorMarca(idEmpresa: Int): ArrayList<PermisosAsesorMarca> =
+        articleMobileAPIService.permisosAsesorMarca(idEmpresa)
+
+
     override suspend fun getFavorites(
         date: Date,
         personId: Int,
@@ -274,5 +314,6 @@ class ArticleRepositoryImp(
             )
         )
     }
+
 
 }

@@ -17,9 +17,10 @@ class ConfigurationPropertiesEmail : Authenticator() {
         props["mail.smtp.password"] = PASSWORD_EMAIL_TRANSMITTER
         props["mail.smtp.auth"] = "true"
         props["mail.smtp.starttls.enable"] = "true"
-        props["mail.smtp.host"] = "smtp.gmail.com"
+        props["mail.smtp.host"] = "smtp.office365.com"
         props["mail.smtp.port"] = "587"
-
+        props["mail.smtp.ssl.enable"] = "true"
+        props["mail.smtp.ssl.protocols"] = "TLSv1.2"
         Security.addProvider(JSSEProvider())
         val session = Session.getInstance(props, this)
         val message = MimeMessage(session).apply {
@@ -35,5 +36,5 @@ class ConfigurationPropertiesEmail : Authenticator() {
 }
 
 private const val EMAIL_TRANSMITTER = "notificaciones@abakosoluciones.com"
-private const val PASSWORD_EMAIL_TRANSMITTER = "Abako123"
+private const val PASSWORD_EMAIL_TRANSMITTER = "4bak0S0L2023*"
 private const val EMAIL_RECEIVER = "soporte@abakosoluciones.com"

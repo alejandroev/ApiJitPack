@@ -7,6 +7,6 @@ import com.google.gson.annotations.SerializedName
  * @param zn = Description of zone
  */
 data class ZoneSyncResponse(
-    @SerializedName("IdZn") val idZn: Int,
-    @SerializedName("Zn") val zn: String,
+    @SerializedName("idZn") val idZn: Int,
+    @SerializedName("zn") val zn: String,
 )

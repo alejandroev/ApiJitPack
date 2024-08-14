@@ -10,8 +10,8 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class SettlementTypeSyncResponse(
-    @SerializedName("IdTv") val idTv: Int,
-    @SerializedName("Denm") val denm: String,
-    @SerializedName("Tp") val tp: String,
-    @SerializedName("Vr") val vr: Int,
+    @SerializedName("idTv") val idTv: Int,
+    @SerializedName("denm") val denm: String,
+    @SerializedName("tp") val tp: String,
+    @SerializedName("vr") val vr: Int,
 )
