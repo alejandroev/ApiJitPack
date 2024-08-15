@@ -17,4 +17,5 @@ enum class GPSType(val value: String) {
     DELIVERED("EN"),
     ROUTE("RE"),
     CHECK_IN("IN"),
+    CHECK_OUT("OUT"),
 }
