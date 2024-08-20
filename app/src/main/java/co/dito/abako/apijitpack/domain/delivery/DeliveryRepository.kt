@@ -17,6 +17,7 @@ import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliver
 import co.dito.abako.apijitpack.data.model.response.delivery.SetCreditNoteResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import kotlinx.coroutines.flow.Flow
+import retrofit2.http.Body
 
 interface DeliveryRepository {
 
@@ -36,7 +37,5 @@ interface DeliveryRepository {
 
     suspend fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi>
     suspend fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse>
-
-
 
 }

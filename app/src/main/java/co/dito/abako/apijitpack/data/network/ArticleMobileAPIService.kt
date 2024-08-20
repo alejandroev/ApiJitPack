@@ -1,6 +1,7 @@
 package co.dito.abako.apijitpack.data.network
 
 import co.dito.abako.apijitpack.data.model.request.InquestRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.CargarImagenesModelResponse
@@ -9,7 +10,9 @@ import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
+import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
+import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
@@ -175,4 +178,8 @@ interface ArticleMobileAPIService {
     suspend fun permisosAsesorMarca(
         @Path("idEmpresa") idEmpresa: Int,
     ): ArrayList<PermisosAsesorMarca>
+
+
+
+
 }
