@@ -5,5 +5,5 @@ import co.dito.abako.apijitpack.data.model.response.general.MessageResponseOld
 import com.google.gson.annotations.SerializedName
 
 data class SettlementDeliveryResponse(
-    @SerializedName("setado") val state: List<MessageResponse>,
-) 
+    @SerializedName("estado") val state: List<MessageResponse>,
+)
