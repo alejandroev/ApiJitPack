@@ -9,7 +9,7 @@ data class InquestModelResponse(
     @SerializedName("empresas") var empresas: List<InquestCompany> = emptyList(),
     @SerializedName("detalle") var detalle: List<InquestModelDell> = emptyList(),
 
-)
+    )
 
 data class InquestCompany(
     @SerializedName("id") val id: Double,
@@ -20,10 +20,10 @@ data class InquestModelDell(
     @SerializedName("id") val id: Int,
     @SerializedName("etiqueta") val etiqueta: String = "",
     @SerializedName("orden") val orden: Double = 0.0,
-    @SerializedName("metadato") val metadato:String = "",
-    @SerializedName("fuente") val fuente:String = "",
+    @SerializedName("metadato") val metadato: String = "",
+    @SerializedName("fuente") val fuente: String = "",
     @SerializedName("title") var title: String? = "Foto",
-    @SerializedName("obligatoria") val obligatoria:Boolean = true,
+    @SerializedName("obligatoria") val obligatoria: Boolean = true,
 )
 
 
@@ -34,16 +34,18 @@ data class CargarImagenesModelResponse(
 )
 
 data class MessageModel(
-    @SerializedName("msgId") val msgId: Int  = -2,
-    @SerializedName("msgStr") val msgStr: String="Error al cunsumir servicio",
+    @SerializedName("msgId") val msgId: Int = -2,
+    @SerializedName("msgStr") val msgStr: String = "Error al cunsumir servicio",
 )
 
 data class InquestModel(
-    var id: Int=0,
-    var documento: Int= 0,
-    var descripcion: String= "",
-    var observacion: String= "",
-    var obligatoria: Boolean=false,
+    var id: Int = 0,
+    var documento: Int = 0,
+    var descripcion: String = "",
+    var observacion: String = "",
+    var irAOrden: String? = "",
+    var iraOpcion: String? = "",
+    var obligatoria: Boolean = false,
 )
 
 data class ImagenesRequest(
