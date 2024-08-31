@@ -24,6 +24,8 @@ data class InquestModelDell(
     @SerializedName("fuente") val fuente: String = "",
     @SerializedName("title") var title: String? = "Foto",
     @SerializedName("obligatoria") val obligatoria: Boolean = true,
+    @SerializedName("irAOrden")  var irAOrden: String? = "",
+    @SerializedName("iraOpcion") var iraOpcion: String? = "",
 )
 
 
