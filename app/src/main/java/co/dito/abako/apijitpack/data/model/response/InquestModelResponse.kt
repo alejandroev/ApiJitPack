@@ -26,7 +26,7 @@ data class InquestModelDell(
     @SerializedName("obligatoria") val obligatoria: Boolean = true,
     @SerializedName("irAOrden")  var irAOrden: String? = "",
     @SerializedName("iraOpcion") var iraOpcion: String? = "",
-    @SerializedName("disponible") val disponible: Boolean? = true,
+    @SerializedName("disponible") var disponible: Boolean? = true,
 )
 
 
