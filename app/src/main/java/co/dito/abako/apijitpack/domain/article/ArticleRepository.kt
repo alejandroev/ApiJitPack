@@ -13,6 +13,7 @@ import co.dito.abako.apijitpack.data.model.response.category.APICategoryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRequestResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
+import co.dito.abako.apijitpack.data.model.response.novelty.NoveltyModelResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingModel
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
@@ -20,6 +21,11 @@ import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 interface ArticleRepository {
+
+    suspend fun getNovelty(
+        fecha: String,
+        esTodo: String,
+    ): Flow<NoveltyModelResponse>
 
     suspend fun fetchInquest(
         inquestRequest: InquestRequest,

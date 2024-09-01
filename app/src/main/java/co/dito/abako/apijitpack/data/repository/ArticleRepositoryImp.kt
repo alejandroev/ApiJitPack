@@ -17,6 +17,7 @@ import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRe
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.inventory.APIInventoryResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
+import co.dito.abako.apijitpack.data.model.response.novelty.NoveltyModelResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
 import co.dito.abako.apijitpack.data.network.ArticleMobileAPIService
@@ -32,6 +33,13 @@ class ArticleRepositoryImp(
     private val articleMobileAPIService: ArticleMobileAPIService,
     private val shoppingCartAPIService: BannerShoppingCartAPIService
 ) : ArticleRepository {
+    override suspend fun getNovelty(fecha: String, esTodo: String): Flow<NoveltyModelResponse> {
+        return flow {
+            val noveltyModelResponse = articleMobileAPIService.getNovelty(fecha,esTodo)
+            emit(noveltyModelResponse)
+        }
+    }
+
     override suspend fun fetchInquest(inquestRequest: InquestRequest): Flow<InquestModelResponse> {
         return flow {
             val articleResponse = articleMobileAPIService.inquest(

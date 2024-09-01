@@ -13,6 +13,7 @@ import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
 import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
+import co.dito.abako.apijitpack.data.model.response.novelty.NoveltyModelResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
@@ -26,6 +27,13 @@ import retrofit2.http.Path
 import retrofit2.http.Url
 
 interface ArticleMobileAPIService {
+
+
+    @GET("Novedades/GetNovedades/{Fecha}/{EsTodo}")
+    suspend fun getNovelty(
+        @Path("Fecha") fecha: String,
+        @Path("EsTodo") esTodo: String,
+    ): NoveltyModelResponse
 
     @POST("Encuestas/GetSetEncuesta")
     suspend fun inquest(
