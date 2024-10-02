@@ -1,6 +1,8 @@
 package co.dito.abako.apijitpack.domain.article
 
 import co.dito.abako.apijitpack.data.model.request.InquestRequest
+import co.dito.abako.apijitpack.data.model.request.MessageServiceResponse
+import co.dito.abako.apijitpack.data.model.request.ServiciosRequest
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
@@ -30,6 +32,10 @@ interface ArticleRepository {
     suspend fun fetchInquest(
         inquestRequest: InquestRequest,
     ): Flow<InquestModelResponse>
+
+    suspend fun actualizarDetalleProgramacion(
+        serviciosRequest: ServiciosRequest,
+    ): Flow<MessageServiceResponse>
 
     suspend fun fetchProgramacion(
         IdPersona: String,

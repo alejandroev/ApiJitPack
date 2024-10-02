@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.model.request.client.APIClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
+import co.dito.abako.apijitpack.data.model.request.firebase.LoginBusinessRequest
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.CreateClientV1UseCase
 import co.dito.abako.apijitpack.domain.client.usecase.GetClientByIdentificationUseCase
+import co.dito.abako.apijitpack.domain.firebase.usecase.LoginBusinessUseCase
 import co.dito.abako.apijitpack.domain.general.usecase.SetNotificationUseCase
 import co.dito.abako.apijitpack.domain.wompi.usecase.TransactionValidationWompiUseCase
 import co.dito.abako.apijitpack.utils.ApiSharedPreference
@@ -28,6 +30,7 @@ import java.util.UUID
 class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
+    private val loginBusinessUseCase: LoginBusinessUseCase,
     private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase
 ) : ViewModel() {
 
@@ -51,9 +54,26 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun ping() {
+
+
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
+            kotlin.runCatching {
+                loginBusinessUseCase(
+                    LoginBusinessRequest(
+                        business = "elite",
+                        password = "123456"
+                    )
+                ).catch {exception ->
+                    print(exception)
+                }.collect {
+                    print(it)
+                }
+            }.onFailure {
+                it.message
+            }
+
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9444/")
 
             val current = Calendar.getInstance()

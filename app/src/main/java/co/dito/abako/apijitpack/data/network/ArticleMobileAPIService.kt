@@ -1,6 +1,8 @@
 package co.dito.abako.apijitpack.data.network
 
 import co.dito.abako.apijitpack.data.model.request.InquestRequest
+import co.dito.abako.apijitpack.data.model.request.MessageServiceResponse
+import co.dito.abako.apijitpack.data.model.request.ServiciosRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
@@ -35,11 +37,15 @@ interface ArticleMobileAPIService {
         @Path("EsTodo") esTodo: String,
     ): NoveltyModelResponse
 
+    @POST("Servicios/ActualizarDetalleProgramacion")
+    suspend fun actualizarDetalleProgramacion(
+        @Body serviciosRequest: ServiciosRequest
+    ): MessageServiceResponse
+
     @POST("Encuestas/GetSetEncuesta")
     suspend fun inquest(
         @Body inquestRequest: InquestRequest
     ): InquestModelResponse
-
 
     @GET("Servicios/GetProgramacion/{IdPersona}")
     suspend fun fetchProgramacion(

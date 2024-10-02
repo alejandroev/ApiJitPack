@@ -3,6 +3,8 @@ package co.dito.abako.apijitpack.data.repository
 import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
 import co.dito.abako.apijitpack.data.model.request.InquestRequest
+import co.dito.abako.apijitpack.data.model.request.MessageServiceResponse
+import co.dito.abako.apijitpack.data.model.request.ServiciosRequest
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
@@ -35,7 +37,7 @@ class ArticleRepositoryImp(
 ) : ArticleRepository {
     override suspend fun getNovelty(fecha: String, esTodo: String): Flow<NoveltyModelResponse> {
         return flow {
-            val noveltyModelResponse = articleMobileAPIService.getNovelty(fecha,esTodo)
+            val noveltyModelResponse = articleMobileAPIService.getNovelty(fecha, esTodo)
             emit(noveltyModelResponse)
         }
     }
@@ -46,6 +48,15 @@ class ArticleRepositoryImp(
                 inquestRequest
             )
             emit(articleResponse)
+        }
+    }
+
+    override suspend fun actualizarDetalleProgramacion(serviciosRequest: ServiciosRequest): Flow<MessageServiceResponse> {
+        return flow {
+            val response = articleMobileAPIService.actualizarDetalleProgramacion(
+                serviciosRequest
+            )
+            emit(response)
         }
     }
 
