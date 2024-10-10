@@ -16,7 +16,8 @@ data class OfferResponse(
     @SerializedName("tipoOtorga") val grantType: String,
     @SerializedName("otorga") val otorga: Int,
     @SerializedName("cantidadOtorga") val grantQuantity: Double,
-    @SerializedName("ofertasGanadas") val ofertasGanadas: Double
+    @SerializedName("ofertasGanadas") val ofertasGanadas: Double,
+    @SerializedName("valorOtorgaArticulo") val valorOtorgaArticulo: Double
 )
 
 data class ArticleOfferResponse(
