@@ -37,7 +37,7 @@ data class Cliente(
     @SerializedName("dir") val dir: String,
     @SerializedName("tel") val tel: String,
     @SerializedName("ultServ") val ultServ: String,
-    @SerializedName("mail") val mail: String,
+    @SerializedName("mail") val mail: String?,
     @SerializedName("cnto") val cnto: String,
     @SerializedName("idCnl") val idCnl: Int,
     @SerializedName("idSeg") val idSeg: Int,
