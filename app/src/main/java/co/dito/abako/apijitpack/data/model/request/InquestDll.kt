@@ -5,4 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class InquestDll (
     @SerializedName("etiqueta") val etiqueta: String = "",
     @SerializedName("respuesta") var respuesta: String = "",
+    @SerializedName("orden") var orden: Int? = 0,
 )
