@@ -18,6 +18,7 @@ data class DetailModel(
 )
 
 data class Servicio(
+    @SerializedName("idProgramacion") val idProgramacion: Int,
     @SerializedName("idEmpresa") val idEmpresa: Int,
     @SerializedName("idAssr") val idAssr: Int,
     @SerializedName("fecha") val fecha: String,
