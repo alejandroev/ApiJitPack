@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ProgrammingModel(
     @SerializedName("id") val id: Int,
     @SerializedName("fecha") val fecha: String,
-    @SerializedName("documento") val documento: Int
+    @SerializedName("documento") val documento: Int,
+    @SerializedName("servicios") val servicios: Int
 )
 
 data class ProgrammingResponse(

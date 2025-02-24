@@ -13,6 +13,7 @@ data class ServiciosRequest(
 data class DllItem(
     @SerializedName("idTipoProgramacion") val idTipoProgramacion: Int,
     @SerializedName("novedad") val novedad: String,
+    @SerializedName("cantidad") val cantidad: String
 )
 
 
