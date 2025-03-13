@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ServiciosRequest(
     @SerializedName("id") val id: Int,
+    @SerializedName("programacion") val programacion: Int,
     @SerializedName("idUsuario") val idUsuario: Int,
     @SerializedName("correoNotificar") val correoNotificar: String,
     @SerializedName("dll") val dll: List<DllItem>
