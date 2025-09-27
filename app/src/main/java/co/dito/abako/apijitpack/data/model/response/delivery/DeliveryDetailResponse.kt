@@ -44,7 +44,7 @@ data class OrderItem(
     @SerializedName("fp") val paymentMethod: Int,
     @SerializedName("otrosValores") val otherValues: Double,
     @SerializedName("idArt") val articleId: Int,
-    @SerializedName("cant") val quantity: Int,
+    @SerializedName("cant") val quantity: Double,
     @SerializedName("precio") val price: Double,
     @SerializedName("subtotal") val subtotal: Double,
     @SerializedName("orden") val order: Double

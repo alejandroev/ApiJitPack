@@ -11,5 +11,6 @@ data class InquestRequest (
     @SerializedName("logitud") val logitud: Double = 0.0,
     @SerializedName("latitud") val latitud: Double = 0.0,
     @SerializedName("idEncuesta") val idEncuesta: Int = 0,
+    @SerializedName("idFuente") val idFuente: Int = 0,
     @SerializedName("dll") val dll: List<InquestDll>? = arrayListOf(),
 )

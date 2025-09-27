@@ -51,7 +51,7 @@ fun SetCreditNoteRequest.toCreditNoteRequest(): CreditNoteRequest {
 fun SetCreditNoteDetailRequest.toDllItemCredit(): DllItemCredit {
     return DllItemCredit(
         idArt = this.idArticle,
-        cant = this.quantity.toInt(),
+        cant = this.quantity,
         prcs = this.prcs
     )
 }

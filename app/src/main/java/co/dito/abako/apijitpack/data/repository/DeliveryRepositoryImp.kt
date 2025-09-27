@@ -129,15 +129,14 @@ class DeliveryRepositoryImp @Inject constructor(
 
     override suspend fun setSettlementDeliveryRequest(settlementDeliveryRequest: SettlementDeliveryRequest): Flow<SettlementDeliveryResponse> {
         return flow {
-            deliveryApiService.setSettlementDeliveryResponse(settlementDeliveryRequest).let {
-                val response = it.mappingTo(SettlementDeliveryResponse::class.java).apply {
-                    validResponse()
+            generalMobileApiService.setSettlementDeliveryResponse(settlementDeliveryRequest)
+                .let { response ->
+
+                    response.state.forEach { state ->
+                        state.validResponse()
+                    }
+                    emit(response)
                 }
-                response.state.forEach { state ->
-                    state.validResponse()
-                }
-                emit(response)
-            }
         }
     }
 }

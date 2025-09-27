@@ -4,6 +4,7 @@ import co.dito.abako.apijitpack.data.model.request.DocumentDayRequest
 import co.dito.abako.apijitpack.data.model.request.DocumentDayResponse
 import co.dito.abako.apijitpack.data.model.request.delivery.CreditNoteRequest
 import co.dito.abako.apijitpack.data.model.request.delivery.DeliveryRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.general.GpsTourRequest
 import co.dito.abako.apijitpack.data.model.request.general.UserRequest
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
@@ -16,6 +17,7 @@ import co.dito.abako.apijitpack.data.model.response.delivery.DeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.GpsTourResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.MasterDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.delivery.ReasonReturnDeliveryResponse
+import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
 import co.dito.abako.apijitpack.data.model.response.general.UserResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
@@ -28,6 +30,10 @@ import retrofit2.http.Path
 import retrofit2.http.Url
 
 interface GeneralMobileApiService {
+
+    @POST("Entregas/SetLiquidacionEntrega")
+    suspend fun setSettlementDeliveryResponse(@Body requestSettlement: SettlementDeliveryRequest): SettlementDeliveryResponse
+
 
     @POST("Usuario")
     suspend fun loginUser(@Body userRequest: UserRequest): UserResponse

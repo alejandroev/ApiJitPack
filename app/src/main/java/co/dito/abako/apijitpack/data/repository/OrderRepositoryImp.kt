@@ -5,6 +5,7 @@ import co.dito.abako.apijitpack.data.model.request.general.CancelDocumentRequest
 import co.dito.abako.apijitpack.data.model.request.offer.VirtualOfferRequest
 import co.dito.abako.apijitpack.data.model.request.order.APIOrderRequest
 import co.dito.abako.apijitpack.data.model.request.order.FollowUpOrderRequest
+import co.dito.abako.apijitpack.data.model.request.report.APIReportAtributeRequest
 import co.dito.abako.apijitpack.data.model.request.report.DocumentReportRequest
 import co.dito.abako.apijitpack.data.model.response.general.MessageResponse
 import co.dito.abako.apijitpack.data.model.response.offer.VirtualOfferResponse
@@ -13,6 +14,7 @@ import co.dito.abako.apijitpack.data.model.response.order.FollowUpOrderResponse
 import co.dito.abako.apijitpack.data.model.response.report.APIHistoryDetailMasterResponse
 import co.dito.abako.apijitpack.data.model.response.report.APIHistoryHeaderMasterResponse
 import co.dito.abako.apijitpack.data.model.response.report.APIHistoryReportResponse
+import co.dito.abako.apijitpack.data.model.response.report.APIReportAtributeResponse
 import co.dito.abako.apijitpack.data.model.response.report.mapper
 import co.dito.abako.apijitpack.data.network.OrderMobileApiService
 import co.dito.abako.apijitpack.data.network.validResponse
@@ -23,6 +25,7 @@ import javax.inject.Inject
 
 class OrderRepositoryImp @Inject constructor(
     private val orderMobileApiService: OrderMobileApiService
+
 ) : OrderRepository {
 
     override suspend fun virtualOfferValid(virtualOfferRequest: VirtualOfferRequest): Flow<VirtualOfferResponse> {
@@ -73,6 +76,18 @@ class OrderRepositoryImp @Inject constructor(
                 header = header.header,
                 details = detail.details
             )
+        )
+    }
+
+    override suspend fun fetchReporAtribute(APIReportAtributeRequest: APIReportAtributeRequest): Flow<APIReportAtributeResponse?> = flow {
+        val response = orderMobileApiService.getInformesAtributos(APIReportAtributeRequest)
+
+        if (response.resultado.isEmpty()) {
+            emit(null)
+            return@flow
+        }
+        emit(
+            response
         )
     }
 

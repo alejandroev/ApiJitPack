@@ -3,9 +3,9 @@ package co.dito.abako.apijitpack.data.model.request.delivery
 import com.google.gson.annotations.SerializedName
 
 data class OtherChargesDetail(
-    @SerializedName("IdOC") val idOtherCharges: Double,
-    @SerializedName("Cant") val quantity: Int,
-    @SerializedName("Vr") val value: Double,
-    @SerializedName("OP") val operation: Double,
-    @SerializedName("OBS") val observation: String
+    @SerializedName("idOC") val idOtherCharges: Double,
+    @SerializedName("cant") val quantity: Int,
+    @SerializedName("vr") val value: Double,
+    @SerializedName("op") val operation: Double,
+    @SerializedName("obs") val observation: String
 )

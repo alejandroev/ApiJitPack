@@ -32,6 +32,5 @@ interface DeliveryOldApiService {
      * @param requestSettlement Body of request
      * @return [JsonCompress]
      */
-    @POST("SetLiquidacionEntrega")
-    suspend fun setSettlementDeliveryResponse(@Body requestSettlement: SettlementDeliveryRequest): JsonCompress
+
 }

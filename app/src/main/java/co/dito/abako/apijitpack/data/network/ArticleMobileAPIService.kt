@@ -1,6 +1,9 @@
 package co.dito.abako.apijitpack.data.network
 
 import co.dito.abako.apijitpack.data.model.request.InquestRequest
+import co.dito.abako.apijitpack.data.model.request.MessageServiceResponse
+import co.dito.abako.apijitpack.data.model.request.ServiciosRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.SettlementDeliveryRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
 import co.dito.abako.apijitpack.data.model.response.CargarImagenesModelResponse
@@ -9,7 +12,10 @@ import co.dito.abako.apijitpack.data.model.response.InquestModelResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIArticleMasterResponse
 import co.dito.abako.apijitpack.data.model.response.article.APIPromotionArticleResponse
 import co.dito.abako.apijitpack.data.model.response.asesor.PermisosAsesorMarca
+import co.dito.abako.apijitpack.data.model.response.delivery.SettlementDeliveryResponse
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
+import co.dito.abako.apijitpack.data.model.response.general.JsonCompress
+import co.dito.abako.apijitpack.data.model.response.novelty.NoveltyModelResponse
 import co.dito.abako.apijitpack.data.model.response.price.APIPriceMasterResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
@@ -24,11 +30,22 @@ import retrofit2.http.Url
 
 interface ArticleMobileAPIService {
 
+
+    @GET("Novedades/GetNovedades/{Fecha}/{EsTodo}")
+    suspend fun getNovelty(
+        @Path("Fecha") fecha: String,
+        @Path("EsTodo") esTodo: String,
+    ): NoveltyModelResponse
+
+    @POST("Servicios/ActualizarDetalleProgramacion")
+    suspend fun actualizarDetalleProgramacion(
+        @Body serviciosRequest: ServiciosRequest
+    ): MessageServiceResponse
+
     @POST("Encuestas/GetSetEncuesta")
     suspend fun inquest(
         @Body inquestRequest: InquestRequest
     ): InquestModelResponse
-
 
     @GET("Servicios/GetProgramacion/{IdPersona}")
     suspend fun fetchProgramacion(
@@ -175,4 +192,8 @@ interface ArticleMobileAPIService {
     suspend fun permisosAsesorMarca(
         @Path("idEmpresa") idEmpresa: Int,
     ): ArrayList<PermisosAsesorMarca>
+
+
+
+
 }

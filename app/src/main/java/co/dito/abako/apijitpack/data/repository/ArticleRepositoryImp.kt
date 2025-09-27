@@ -3,6 +3,8 @@ package co.dito.abako.apijitpack.data.repository
 import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
 import co.dito.abako.apijitpack.data.model.request.InquestRequest
+import co.dito.abako.apijitpack.data.model.request.MessageServiceResponse
+import co.dito.abako.apijitpack.data.model.request.ServiciosRequest
 import co.dito.abako.apijitpack.data.model.request.banner.APIBannerRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIArticleFavoriteRequest
 import co.dito.abako.apijitpack.data.model.request.favorite.APIFavoriteRequest
@@ -17,6 +19,7 @@ import co.dito.abako.apijitpack.data.model.response.favorite.APIDetailFavoriteRe
 import co.dito.abako.apijitpack.data.model.response.favorite.APIFavoriteResponse
 import co.dito.abako.apijitpack.data.model.response.inventory.APIInventoryResponse
 import co.dito.abako.apijitpack.data.model.response.line.APILineResponse
+import co.dito.abako.apijitpack.data.model.response.novelty.NoveltyModelResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingDetailResponse
 import co.dito.abako.apijitpack.data.model.response.service.ProgrammingResponse
 import co.dito.abako.apijitpack.data.network.ArticleMobileAPIService
@@ -32,12 +35,28 @@ class ArticleRepositoryImp(
     private val articleMobileAPIService: ArticleMobileAPIService,
     private val shoppingCartAPIService: BannerShoppingCartAPIService
 ) : ArticleRepository {
+    override suspend fun getNovelty(fecha: String, esTodo: String): Flow<NoveltyModelResponse> {
+        return flow {
+            val noveltyModelResponse = articleMobileAPIService.getNovelty(fecha, esTodo)
+            emit(noveltyModelResponse)
+        }
+    }
+
     override suspend fun fetchInquest(inquestRequest: InquestRequest): Flow<InquestModelResponse> {
         return flow {
             val articleResponse = articleMobileAPIService.inquest(
                 inquestRequest
             )
             emit(articleResponse)
+        }
+    }
+
+    override suspend fun actualizarDetalleProgramacion(serviciosRequest: ServiciosRequest): Flow<MessageServiceResponse> {
+        return flow {
+            val response = articleMobileAPIService.actualizarDetalleProgramacion(
+                serviciosRequest
+            )
+            emit(response)
         }
     }
 

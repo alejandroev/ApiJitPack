@@ -18,10 +18,11 @@ data class DetailModel(
 )
 
 data class Servicio(
+    @SerializedName("idProgramacion") val idProgramacion: Int,
     @SerializedName("idEmpresa") val idEmpresa: Int,
     @SerializedName("idAssr") val idAssr: Int,
     @SerializedName("fecha") val fecha: String,
-    @SerializedName("observacion") val observacion: String,
+    @SerializedName("observacion") val observacion: String?,
     @SerializedName("idTipo") val idTipo: Int,
     @SerializedName("cantidad") val cantidad: Int,
     @SerializedName("tiempo") val tiempo: Int,
@@ -35,8 +36,9 @@ data class Cliente(
     @SerializedName("idnt") val idnt: String,
     @SerializedName("cod") val cod: String,
     @SerializedName("dir") val dir: String,
-    @SerializedName("tel") val tel: String,
+    @SerializedName("tel") val tel: String?,
     @SerializedName("ultServ") val ultServ: String,
+    @SerializedName("mail") val mail: String?,
     @SerializedName("cnto") val cnto: String,
     @SerializedName("idCnl") val idCnl: Int,
     @SerializedName("idSeg") val idSeg: Int,
