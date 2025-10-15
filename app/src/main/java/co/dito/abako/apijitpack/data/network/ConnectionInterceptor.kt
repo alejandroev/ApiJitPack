@@ -21,6 +21,13 @@ class ConnectionInterceptor(
         val originalRequest = chain.request()
         return if (networkHelper.isInternetAvailable()) {
             val response = chain.proceed(originalRequest)
+
+            // 👇 Agregar log útil
+            android.util.Log.e(
+                "API_TEST",
+                "URL: ${originalRequest.url} | Method: ${originalRequest.method} | Code: ${response.code}"
+            )
+
             when (response.code) {
                 HttpURLConnection.HTTP_NOT_FOUND ->
                     throw NotFound(getErrorFromResponse(response.body?.string()))

@@ -26,6 +26,7 @@ data class DeliveryDetailResponseApi(
 
 data class DeliveryDetail(
     @SerializedName("facturas") val order: List<OrderItem> = emptyList(),
+    @SerializedName("pedidos") val orders: List<OrderItem> = emptyList(),
     @SerializedName("clientes") val client: List<Client> = emptyList(),
     @SerializedName("contactos") val contact: List<Contact> = emptyList(),
     @SerializedName("canales") val chanel: List<Channel> = emptyList(),

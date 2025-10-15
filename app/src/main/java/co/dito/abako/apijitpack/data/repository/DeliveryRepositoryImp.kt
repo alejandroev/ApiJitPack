@@ -113,6 +113,18 @@ class DeliveryRepositoryImp @Inject constructor(
         }
     }
 
+    //sea grego este metodo para pedidos
+    override suspend fun getPendingOrdersDetail(
+        idEntrega: Int,
+        idPersona: Int
+    ): Flow<DeliveryDetailResponseApi> {
+        return flow {
+            generalMobileApiService.getPendingOrdersDetail(idEntrega, idPersona).let {
+                emit(it)
+            }
+        }
+    }
+
     override suspend fun setCreditNoteDetailRequest(setCreditNoteRequest: SetCreditNoteRequest): Flow<SetCreditNoteResponse> {
         return flow {
             deliveryApiService.setCreditNoteResponse(setCreditNoteRequest).let {
@@ -139,4 +151,5 @@ class DeliveryRepositoryImp @Inject constructor(
                 }
         }
     }
+
 }

@@ -89,6 +89,12 @@ interface GeneralMobileApiService {
     suspend fun getDeliveryResponse( @Path("fecha") fecha: String,
                                       @Path("idPersona") idPersona: Int): DeliveryResponse
 
+    @GET("Entregas/GetEntregaDetallePedidosPendientes/{IdEntrega}/{IdPersona}")
+    suspend fun getPendingOrdersDetail(
+        @Path("IdEntrega") idEntrega: Int,
+        @Path("IdPersona") idPersona: Int
+    ): DeliveryDetailResponseApi
+
     @GET("Entregas/GetEntregasMaestros/{fecha}/{idPersona}/{esTodo}")
     suspend fun getMasterDeliveryResponse( @Path("fecha") fecha: String,
                                           @Path("idPersona") idPersona: Int,

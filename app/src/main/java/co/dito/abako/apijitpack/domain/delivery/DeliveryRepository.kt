@@ -38,4 +38,7 @@ interface DeliveryRepository {
     suspend fun getEntregaDetalle(fecha:String, factura: String, usuario:String): Flow<DeliveryDetailResponseApi>
     suspend fun getDocumentosDiaActual(documentDayRequest: DocumentDayRequest): Flow<DocumentDayResponse>
 
+    // 👇 NUEVO MÉTODO
+    suspend fun getPendingOrdersDetail(idEntrega: Int, idPersona: Int): Flow<DeliveryDetailResponseApi>
+
 }

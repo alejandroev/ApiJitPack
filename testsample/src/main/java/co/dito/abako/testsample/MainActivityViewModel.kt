@@ -7,6 +7,7 @@ import co.dito.abako.apijitpack.data.model.request.client.APIClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
 import co.dito.abako.apijitpack.data.model.request.firebase.LoginBusinessRequest
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
+import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
 import co.dito.abako.apijitpack.domain.client.usecase.CreateClientV1UseCase
@@ -31,7 +32,8 @@ class MainActivityViewModel @Inject constructor(
     private val apiSharedPreference: ApiSharedPreference,
     private val hostChangeInterceptor: HostChangeInterceptor,
     private val loginBusinessUseCase: LoginBusinessUseCase,
-    private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase
+    private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase,
+    private val generalMobileApiService: GeneralMobileApiService
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -48,6 +50,7 @@ class MainActivityViewModel @Inject constructor(
     private fun showToast(message: String) {
         state.value = MainActivityState.ShowToast(message)
     }
+
 
     init {
         ping()
@@ -93,6 +96,23 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
+
+    fun fetchPendingOrders(idEntrega: Int, idPersona: Int) {
+        viewModelScope.launch {
+            setLoading()
+            try {
+                val response = generalMobileApiService.getPendingOrdersDetail(idEntrega, idPersona)
+                state.value = MainActivityState.SuccessMain(response)
+            } catch (e: Exception) {
+                // usar tu ErrorMain genérico
+                state.value = MainActivityState.ShowToast("Error: ${e.message}")
+            } finally {
+                hideLoading()
+            }
+        }
+    }
+
+
 }
 
 sealed class MainActivityState {

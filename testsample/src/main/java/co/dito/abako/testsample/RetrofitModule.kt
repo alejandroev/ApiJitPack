@@ -66,6 +66,8 @@ object RetrofitModule {
                 ).build()
                 return@Interceptor it.proceed(request)
             }).build()
+
+
 }
 
 private const val URL_EXAMPLE_OLD = "http://abako.ditosas.com/ServicioMovilDITO/ServicioMovilDITO.svc/"
