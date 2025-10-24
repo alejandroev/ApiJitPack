@@ -30,4 +30,9 @@ interface ClientAdministrationAPIService {
     suspend fun cargarImagen(
         @Body inquestRequest: ImagenesRequest
     ): CargarImagenesModelResponse
+
+    @POST("Facturacion/AprobarPedidoF000")
+    suspend fun approveOrderF000(
+        @Body request: co.dito.abako.apijitpack.data.model.request.delivery.ApproveOrderF000Request
+    ): co.dito.abako.apijitpack.data.model.response.delivery.ApproveOrderF000Response
 }

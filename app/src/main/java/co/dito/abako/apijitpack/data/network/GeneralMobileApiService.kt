@@ -100,5 +100,4 @@ interface GeneralMobileApiService {
                                           @Path("idPersona") idPersona: Int,
                                            @Path("esTodo") esTodo: String,): MasterDeliveryResponse
 
-
 }

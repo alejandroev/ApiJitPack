@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
 import co.dito.abako.apijitpack.data.model.request.client.APIClientRequest
 import co.dito.abako.apijitpack.data.model.request.client.APICreateClientRequest
+import co.dito.abako.apijitpack.data.model.request.delivery.ApproveOrderF000Request
 import co.dito.abako.apijitpack.data.model.request.firebase.LoginBusinessRequest
 import co.dito.abako.apijitpack.data.model.response.article.PlatformType
+import co.dito.abako.apijitpack.data.network.ClientAdministrationAPIService
 import co.dito.abako.apijitpack.data.network.GeneralMobileApiService
 import co.dito.abako.apijitpack.data.network.HostChangeInterceptor
 import co.dito.abako.apijitpack.domain.article.usecase.FetchLineArticlesUseCase
@@ -33,7 +35,8 @@ class MainActivityViewModel @Inject constructor(
     private val hostChangeInterceptor: HostChangeInterceptor,
     private val loginBusinessUseCase: LoginBusinessUseCase,
     private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase,
-    private val generalMobileApiService: GeneralMobileApiService
+    private val generalMobileApiService: GeneralMobileApiService,
+    private val clientAdministrationAPIService: ClientAdministrationAPIService
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -78,6 +81,7 @@ class MainActivityViewModel @Inject constructor(
             }
 
             hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9444/")
+            apiSharedPreference.putURLAdministration("https://clouderp.abakoerp.com:9480/ApiAdministracion/api/")
 
             val current = Calendar.getInstance()
             current.set(Calendar.DAY_OF_MONTH, 1)
@@ -111,6 +115,26 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
+
+    fun approveOrder(idPedido: Int, idUsuario: Int) {
+        viewModelScope.launch {
+            setLoading()
+            try {
+                val request = ApproveOrderF000Request(idPedido, idUsuario)
+                val response = clientAdministrationAPIService.approveOrderF000(request)
+
+                println("✅ Facturación exitosa: $response")
+                state.value = MainActivityState.SuccessMain(response)
+            } catch (e: Exception) {
+                println("❌ Error facturando pedido: ${e.message}")
+                state.value = MainActivityState.ShowToast("Error: ${e.message}")
+            } finally {
+                hideLoading()
+            }
+        }
+    }
+
+
 
 
 }
