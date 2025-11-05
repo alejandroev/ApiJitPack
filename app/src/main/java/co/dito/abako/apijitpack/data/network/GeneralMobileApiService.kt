@@ -95,6 +95,11 @@ interface GeneralMobileApiService {
         @Path("IdPersona") idPersona: Int
     ): DeliveryDetailResponseApi
 
+    @POST("Pedidos/EditarPedidoF000")
+    suspend fun editPedido(
+        @Body editPedidoRequest: co.dito.abako.apijitpack.data.model.request.delivery.EditPedidoRequest
+    ): co.dito.abako.apijitpack.data.model.response.delivery.EditPedidoResponse
+
     @GET("Entregas/GetEntregasMaestros/{fecha}/{idPersona}/{esTodo}")
     suspend fun getMasterDeliveryResponse( @Path("fecha") fecha: String,
                                           @Path("idPersona") idPersona: Int,

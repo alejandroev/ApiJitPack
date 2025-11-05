@@ -1,5 +1,6 @@
 package co.dito.abako.testsample
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.dito.abako.apijitpack.data.common.WrappedResponse
@@ -36,7 +37,8 @@ class MainActivityViewModel @Inject constructor(
     private val loginBusinessUseCase: LoginBusinessUseCase,
     private val transactionValidationWompiUseCase: TransactionValidationWompiUseCase,
     private val generalMobileApiService: GeneralMobileApiService,
-    private val clientAdministrationAPIService: ClientAdministrationAPIService
+    private val clientAdministrationAPIService: ClientAdministrationAPIService,
+    private val editOrderUseCase: co.dito.abako.apijitpack.domain.delivery.usecase.EditOrderUseCase
 ) : ViewModel() {
 
     private val state = MutableStateFlow<MainActivityState>(MainActivityState.Init)
@@ -60,8 +62,6 @@ class MainActivityViewModel @Inject constructor(
     }
 
     private fun ping() {
-
-
         apiSharedPreference.putCodeCODI("1732")
 
         viewModelScope.launch {
@@ -71,7 +71,7 @@ class MainActivityViewModel @Inject constructor(
                         business = "elite",
                         password = "123456"
                     )
-                ).catch {exception ->
+                ).catch { exception ->
                     print(exception)
                 }.collect {
                     print(it)
@@ -80,8 +80,15 @@ class MainActivityViewModel @Inject constructor(
                 it.message
             }
 
-            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9444/")
-            apiSharedPreference.putURLAdministration("https://clouderp.abakoerp.com:9480/ApiAdministracion/api/")
+            hostChangeInterceptor.setHost("https://clouderp.abakoerp.com:9480/")
+
+            apiSharedPreference.putURLAdministration(
+                "https://clouderp.abakoerp.com:9480/ApiAdministracion/api/"
+            )
+
+            apiSharedPreference.putURLMobile(
+                "https://clouderp.abakoerp.com:9480/ApiMovil/api/"
+            )
 
             val current = Calendar.getInstance()
             current.set(Calendar.DAY_OF_MONTH, 1)
@@ -93,13 +100,14 @@ class MainActivityViewModel @Inject constructor(
             transactionValidationWompiUseCase(
                 validationReference = "6dab3f6d-b582-4094-9c6d-ab3ca26cb770",
                 date = current.time
-            ).catch {exception ->
+            ).catch { exception ->
                 print(exception)
             }.collect {
                 print(it)
             }
         }
     }
+
 
     fun fetchPendingOrders(idEntrega: Int, idPersona: Int) {
         viewModelScope.launch {
@@ -133,6 +141,48 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
+
+    fun editOrder() {
+        viewModelScope.launch {
+            setLoading()
+            try {
+                // 🟢 1. Armamos el request
+                val request = co.dito.abako.apijitpack.data.model.request.delivery.EditPedidoRequest(
+                    idPed = 180809,  // 👉 Id del pedido que quieres editar
+                    idEmp = 27457,     // 👉 Id empresa o sucursal (ajústalo)
+                    obs = "Actualización de cantidad desde prueba",
+                    agn = "1",
+                    usr = 37501,    // 👉 Id del usuario
+                    fnt = 19,        // 👉 Fuente (1 = móvil)
+                    dll = listOf(
+                        co.dito.abako.apijitpack.data.model.request.delivery.DetallePedido(
+                            idArt = 5818,
+                            cant = 6.3,
+                            um = "UN",
+                            desc = 0.05,
+                            dct = 0.05,
+                            vr = 38235.0
+                        )
+                    ),
+                    dllCmb = emptyList()
+                )
+
+                editOrderUseCase(request).collect { response ->
+                    val mensaje = response.estado.firstOrNull()?.msgStr ?: "Sin mensaje"
+                    Log.d("API_TEST", "✅ Pedido editado: $mensaje")
+                    state.value = MainActivityState.SuccessMain(response)
+                }
+
+            } catch (e: Exception) {
+                Log.e("API_TEST", "❌ Error al editar pedido: ${e.message}")
+                state.value = MainActivityState.ShowToast("Error: ${e.message}")
+            } finally {
+                hideLoading()
+            }
+        }
+    }
+
+
 
 
 
