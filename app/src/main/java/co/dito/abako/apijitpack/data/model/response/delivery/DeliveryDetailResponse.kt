@@ -48,7 +48,9 @@ data class OrderItem(
     @SerializedName("cant") val quantity: Double,
     @SerializedName("precio") val price: Double,
     @SerializedName("subtotal") val subtotal: Double,
-    @SerializedName("orden") val order: Double
+    @SerializedName("orden") val order: Double,
+    @SerializedName("um") val um: String? = null,
+    @SerializedName("desc") val discount: Double? = null
 )
 
 data class Client(
