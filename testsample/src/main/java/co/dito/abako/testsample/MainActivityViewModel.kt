@@ -142,7 +142,7 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    fun editOrder() {
+    /*fun editOrder() {
         viewModelScope.launch {
             setLoading()
             try {
@@ -180,7 +180,7 @@ class MainActivityViewModel @Inject constructor(
                 hideLoading()
             }
         }
-    }
+    }*/
 
 
 
