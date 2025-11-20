@@ -6,6 +6,6 @@ data class OtherChargesDetail(
     @SerializedName("idOC") val idOtherCharges: Double,
     @SerializedName("cant") val quantity: Int,
     @SerializedName("vr") val value: Double,
-    @SerializedName("op") val operation: Double,
+    @SerializedName("op") val operation: Int,
     @SerializedName("obs") val observation: String
 )
