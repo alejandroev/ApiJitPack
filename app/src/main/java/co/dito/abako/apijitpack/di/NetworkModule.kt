@@ -30,9 +30,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -82,7 +87,7 @@ object NetworkModule {
         apiSharedPreference: ApiSharedPreference,
         hostChangeInterceptor: HostChangeInterceptor,
     ): OkHttpClient {
-        return if (BuildConfig.DEBUG) {
+        val builder = if (BuildConfig.DEBUG) {
             OkHttpClient().newBuilder()
                 .cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
                 .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
@@ -94,7 +99,6 @@ object NetworkModule {
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .build()
         } else {
             OkHttpClient().newBuilder()
                 .connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS)
@@ -106,7 +110,30 @@ object NetworkModule {
                 .addInterceptor(ConnectionInterceptor(networkHelper))
                 .addInterceptor(LoggerInterceptor(sendSupportResponseUseCase, apiSharedPreference))
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .build()
+        }
+        return builder.applyTrustAllCertificates().build()
+    }
+
+    /**
+     * Permite TLS contra servidores con cadena incompleta / cert no confiable para el store del dispositivo.
+     * Afecta a [RETROFIT_URL_MOBILE_API] y demás Retrofit que usan [RETROFIT_OK_HTTP_CLIENT].
+     */
+    @Suppress("CustomX509TrustManager", "TrustAllX509TrustManager")
+    private fun OkHttpClient.Builder.applyTrustAllCertificates(): OkHttpClient.Builder {
+        return try {
+            val trustAllCerts = arrayOf<TrustManager>(
+                object : X509TrustManager {
+                    override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+                    override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+                    override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
+                },
+            )
+            val sslContext = SSLContext.getInstance("TLS")
+            sslContext.init(null, trustAllCerts, SecureRandom())
+            sslSocketFactory(sslContext.socketFactory, trustAllCerts[0] as X509TrustManager)
+                .hostnameVerifier { _, _ -> true }
+        } catch (_: Exception) {
+            this
         }
     }
 
