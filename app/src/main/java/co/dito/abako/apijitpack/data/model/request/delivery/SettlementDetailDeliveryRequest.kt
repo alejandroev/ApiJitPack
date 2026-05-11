@@ -7,4 +7,9 @@ data class SettlementDetailDeliveryRequest(
     @SerializedName("vc") val valueQuantity: Int,
     @SerializedName("idCri") val idCri: Long? = null,
     @SerializedName("idBnc") val idBnc: Long? = null,
+    /** Texto del maestro (evita que el ERP muestre solo el id en columnas como «Cuenta»). */
+    @SerializedName("desCri") val descripcionCriterio: String? = null,
+    @SerializedName("desBnc") val descripcionBanco: String? = null,
+    /** Código del maestro BANCOS, si aplica (p. ej. número de cuenta contable). */
+    @SerializedName("cdBnc") val codigoBanco: String? = null,
 )
