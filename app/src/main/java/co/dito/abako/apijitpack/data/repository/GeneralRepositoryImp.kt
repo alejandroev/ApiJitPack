@@ -2,7 +2,9 @@ package co.dito.abako.apijitpack.data.repository
 
 import co.dito.abako.apijitpack.data.common.utils.REQUEST_DATE_FORMAT
 import co.dito.abako.apijitpack.data.common.utils.dateFormat
+import co.dito.abako.apijitpack.data.model.request.general.MaestroRecuperarRequest
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
+import co.dito.abako.apijitpack.data.model.response.general.MaestroRecuperarItem
 import co.dito.abako.apijitpack.data.model.response.general.MasterTypeRequest
 import co.dito.abako.apijitpack.data.model.response.notification.SetNotificationReadResponse
 import co.dito.abako.apijitpack.data.network.GeneralBusinessApiService
@@ -49,6 +51,9 @@ class GeneralRepositoryImp(
 
         emit(true)
     }
+
+    override suspend fun recuperarMaestros(request: MaestroRecuperarRequest): List<MaestroRecuperarItem> =
+        generalBusinessApiService.recuperarMaestros(request)
 }
 
 sealed class MasterException(text: String = "") : Exception(text) {

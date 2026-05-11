@@ -1,6 +1,8 @@
 package co.dito.abako.apijitpack.domain.general
 
+import co.dito.abako.apijitpack.data.model.request.general.MaestroRecuperarRequest
 import co.dito.abako.apijitpack.data.model.response.configuration.APIConfigurationResponse
+import co.dito.abako.apijitpack.data.model.response.general.MaestroRecuperarItem
 import co.dito.abako.apijitpack.data.model.response.general.MasterIdResponse
 import co.dito.abako.apijitpack.data.model.response.general.MasterTypeRequest
 import co.dito.abako.apijitpack.data.model.response.notification.SetNotificationReadResponse
@@ -23,4 +25,7 @@ interface GeneralRepository {
     suspend fun setNotificationRead(
         notificationId: Int
     ): Flow<Boolean>
+
+    /** Maestros vía ApiNegocio (`Maestros/Recuperar` sobre la URL de negocio). */
+    suspend fun recuperarMaestros(request: MaestroRecuperarRequest): List<MaestroRecuperarItem>
 }
